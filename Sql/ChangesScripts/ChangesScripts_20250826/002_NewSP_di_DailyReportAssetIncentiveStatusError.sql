@@ -1,4 +1,10 @@
 -- SQL Server Instance:  smg-sql01
+IF (@@SERVERNAME != 'smg-sql01')
+BEGIN
+PRINT 'Invalid SQL Server Connection'
+RETURN
+END
+
 USE [Utilities];
 IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('sl.di_DailyReportAssetIncentiveStatusError'))
    DROP PROC [sl].[di_DailyReportAssetIncentiveStatusError]

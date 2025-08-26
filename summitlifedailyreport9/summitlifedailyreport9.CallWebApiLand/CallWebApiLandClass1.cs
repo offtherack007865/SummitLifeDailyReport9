@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Newtonsoft.Json;
 using summitlifedailyreport9.Data;
 using summitlifedailyreport9.Data.Models;
+using System;
+using System.Threading.Tasks;
 
 namespace summitlifedailyreport9.CallWebApiLand
 {
@@ -19,6 +21,53 @@ namespace summitlifedailyreport9.CallWebApiLand
                 MyBaseWebApiUrl = inputBaseWebApiUrl;
             }
             public string MyBaseWebApiUrl { get; set; }
+
+        // GET /api/Ops/di_DailyReportAssetIncentiveStatusError
+        public di_DailyReportAssetIncentiveStatusErrorOutput
+                        di_DailyReportAssetIncentiveStatusError
+                        ()
+        {
+            di_DailyReportAssetIncentiveStatusErrorOutput
+                returnOutput =
+                        di_DailyReportAssetIncentiveStatusErrorAsync()
+                        .Result;
+
+            return returnOutput;
+        }
+        public async Task<di_DailyReportAssetIncentiveStatusErrorOutput>
+                        di_DailyReportAssetIncentiveStatusErrorAsync()
+        {
+            di_DailyReportAssetIncentiveStatusErrorOutput
+                returnOutput =
+                        new di_DailyReportAssetIncentiveStatusErrorOutput();
+
+            string myCompleteUrl = $"{MyBaseWebApiUrl}/api/Ops/di_DailyReportAssetIncentiveStatusError";
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromHours(1);
+
+                    var result = await client.GetAsync(myCompleteUrl);
+                    var response = await result.Content.ReadAsStringAsync();
+                    returnOutput = JsonConvert.DeserializeObject<di_DailyReportAssetIncentiveStatusErrorOutput>(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                returnOutput.IsOk = false;
+                string myErrorMessage = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    myErrorMessage = $"{myErrorMessage}.  Inner Exception:  {ex.InnerException.Message}";
+                }
+                return returnOutput;
+            }
+
+            return returnOutput;
+        }
+
+
 
         // GET /api/Ops/di_PopulateDailyReportDupEmpNbrSsnCombos
         public di_PopulateDailyReportDupEmpNbrSsnCombosOutput
@@ -577,6 +626,50 @@ namespace summitlifedailyreport9.CallWebApiLand
 
 
 
+        // GET /api/Ops/qy_GetDailyReportAssetIncentiveStatusError
+        public qy_GetDailyReportAssetIncentiveStatusErrorOutput
+                        qy_GetDailyReportAssetIncentiveStatusError
+                        ()
+        {
+            qy_GetDailyReportAssetIncentiveStatusErrorOutput
+                returnOutput =
+                        qy_GetDailyReportAssetIncentiveStatusErrorAsync()
+                        .Result;
+
+            return returnOutput;
+        }
+        public async Task<qy_GetDailyReportAssetIncentiveStatusErrorOutput>
+                        qy_GetDailyReportAssetIncentiveStatusErrorAsync()
+        {
+            qy_GetDailyReportAssetIncentiveStatusErrorOutput
+                returnOutput =
+                        new qy_GetDailyReportAssetIncentiveStatusErrorOutput();
+
+            string myCompleteUrl = $"{MyBaseWebApiUrl}/api/Ops/qy_GetDailyReportAssetIncentiveStatusError";
+            try
+            {
+                using (var client = new HttpClient())
+                {
+                    client.Timeout = TimeSpan.FromHours(1);
+
+                    var result = await client.GetAsync(myCompleteUrl);
+                    var response = await result.Content.ReadAsStringAsync();
+                    returnOutput = JsonConvert.DeserializeObject<qy_GetDailyReportAssetIncentiveStatusErrorOutput>(response);
+                }
+            }
+            catch (Exception ex)
+            {
+                returnOutput.IsOk = false;
+                string myErrorMessage = ex.Message;
+                if (ex.InnerException != null)
+                {
+                    myErrorMessage = $"{myErrorMessage}.  Inner Exception:  {ex.InnerException.Message}";
+                }
+                return returnOutput;
+            }
+
+            return returnOutput;
+        }
 
 
 
