@@ -1,0 +1,55 @@
+-- SQL Instance Name:  appdb01
+USE [DS_SummitLife];
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DailyReportMissingPatientIDsInLabs' AND TABLE_SCHEMA = 'dbo')
+   DROP TABLE [dbo].[DailyReportMissingPatientIDsInLabs];
+GO
+/* -----------------------------------------------------------------------------------------------------------
+   Table Name  :  dbo.DailyReportMissingPatientIDsInLabs
+   Business Analyis:
+   Project/Process :   
+   Description     :  Daily Report:   Missing Patient IDs in Employee Labs.
+                        
+   Author          :   Philip Morrison
+   Create Date     :   05/05/2025 
+
+   ***********************************************************************************************************
+   **         Change History                                                                                **
+   ***********************************************************************************************************
+
+   Date       Version    Author             Description
+   --------   --------   -----------        ------------
+   05/05/2025 1.01.001   Philip Morrison    Created
+*/ -----------------------------------------------------------------------------------------------------------                                   
+
+
+CREATE TABLE [dbo].[DailyReportMissingPatientIDsInLabs](
+	[DailyReportMissingPatientIDsInLabsID] [int] IDENTITY(1,1) NOT NULL,
+	[LastHireDate] [nvarchar](20) NOT NULL,
+	[SSN] [nvarchar](20) NOT NULL,
+	[EmployeeNumber] [nvarchar](20) NOT NULL,
+	[EmployeeEmail] [nvarchar](100) NOT NULL,
+	[LastName] [nvarchar](100) NOT NULL,
+	[FirstName] [nvarchar](100) NOT NULL,
+	[BirthDate] [nvarchar](20) NOT NULL,
+	[Gender] [nvarchar](20) NOT NULL,
+	[EmploymentStatus] [nvarchar](20) NOT NULL,
+	[FullPartTime] [nvarchar](20) NOT NULL,
+	[Location] [nvarchar](100) NOT NULL,
+	[WellnessEnrolled] [nvarchar](20) NOT NULL,
+	[LabDate] [nvarchar](20) NOT NULL,
+	[Chol] [nvarchar](20) NOT NULL,
+	[HDL] [nvarchar](20) NOT NULL,
+	[TCOverHDL] [nvarchar](20) NOT NULL,
+	[LDL] [nvarchar](20) NOT NULL,
+	[LDLCholesterolCOrD] [nvarchar](20) NOT NULL,
+	[Triglycerides] [nvarchar](20) NOT NULL,
+	[FastingBloodGlucoseMGOverDL] [nvarchar](20) NOT NULL,
+	[GGTIUOverL] [nvarchar](20) NOT NULL,
+	[HemoglobinA1C] [nvarchar](20) NOT NULL,
+	[Status] [nvarchar](100) NOT NULL,
+	[DataGatheredOnTimestamp] [datetime] NOT NULL,
+ CONSTRAINT [pk_dboDailyReportMissingPatientIDsInLabs] PRIMARY KEY CLUSTERED 
+(
+	[DailyReportMissingPatientIDsInLabsID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]

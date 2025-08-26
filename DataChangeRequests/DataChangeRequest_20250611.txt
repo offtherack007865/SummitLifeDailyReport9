@@ -1,0 +1,24 @@
+-- SQL Server Instance: smg-sql01
+USE [DS_SummitLife];
+
+-- Delete Duplicate Form Submission for KAREN HAYNES
+DELETE [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission]
+WHERE [Pk] = 5084;
+
+-- UPDATE SSN for KAREN HAYNES to '412-27-3003' and EmployeeId to '000004786'
+UPDATE [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission]
+SET [Ssn] = '412-27-3003'
+    ,[EmployeeId] = '000004786'
+WHERE [Pk] = 5871;
+
+-- Delete Duplicate Form Submission for ANTHONY	MORTON
+DELETE [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission]
+WHERE [Pk] = 5453;
+
+-- Delete Duplicate Form Submission for SARAH BROWN
+DELETE [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission]
+WHERE [Pk] = 5388;
+
+-- Delete Duplicate Form Submission for ERRIKA DOANE
+DELETE [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission]
+WHERE [Pk] = 4981;

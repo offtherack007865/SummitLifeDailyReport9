@@ -1,0 +1,256 @@
+-- SQL Server Instance:  smg-sql01
+USE [Utilities];
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('sl.di_PopulateDailyReportSsnNameDobDifferences'))
+   DROP PROC [sl].[di_PopulateDailyReportSsnNameDobDifferences]
+GO
+CREATE PROCEDURE [sl].[di_PopulateDailyReportSsnNameDobDifferences]
+/* -----------------------------------------------------------------------------------------------------------
+   Procedure Name  :  sl.di_PopulateDailyReportSsnNameDobDifferences
+   Business Analyis:
+   Project/Process :   
+   Description     :  Populate the DailyReportSsnNameDobDifferences table.
+	  
+   Author          :  Philip Morrison 
+   Create Date     :  06/3/2025
+
+   ***********************************************************************************************************
+   **         Change History                                                                                **
+   ***********************************************************************************************************
+
+   Date       Version    Author             Description
+   --------   --------   -----------        ------------
+   6/3/2025   1.01.001   Philip Morrison    Created
+
+*/ -----------------------------------------------------------------------------------------------------------                                   
+
+AS
+BEGIN
+
+-- This Instance Declarations
+DECLARE @CurrentYear           [int] = 0
+SET @CurrentYear = DATEPART(year, getdate());
+
+-- Template Declarations
+DECLARE @Application            varchar(128) = 'Summit Life' 
+DECLARE @Version                varchar(25)  = '1.00.001'
+
+DECLARE @ProcessID              int          = 212
+DECLARE @Process                varchar(128) = 'DailyReports'
+
+DECLARE @BatchOutID             int
+DECLARE @BatchDescription       varchar(1000) = @@ServerName + '  - ' + @Version
+DECLARE @BatchDetailDescription varchar(1000)
+DECLARE @BatchMessage           varchar(MAX)
+DECLARE @User                   varchar(128) = SUSER_NAME()
+
+DECLARE @AnticipatedRecordCount int 
+DECLARE @ActualRecordCount      int
+
+
+SET NOCOUNT ON
+
+BEGIN TRY
+
+--  Initialize Batch
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  NULL, 'BatchStart', @BatchDescription, @ProcessID, @Process
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    SET @BatchDetailDescription = '010/020:  Truncate DailyReportSsnNameDobDifferences'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+	  SELECT @AnticipatedRecordCount = COUNT(*)
+	                                   FROM [DS_SummitLife].[dbo].[DailyReportSsnNameDobDifferences];
+	  
+      -- Truncate DailyReportSsnNameDobDifferences
+      TRUNCATE TABLE [DS_SummitLife].[dbo].[DailyReportSsnNameDobDifferences];
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    SET @BatchDetailDescription = '020/020:  Insert into DailyReportSsnNameDobDifferences'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SELECT @AnticipatedRecordCount = COUNT(*)
+FROM
+(
+   SELECT UPPER(myFormNonDup.[LastName]) AS [LastName]
+         ,UPPER(myFormNonDup.[FirstName]) AS [FirstName]
+         ,myFormNonDup.[SSN] AS [SSN]
+         ,myFormNonDup.[BirthDate]
+		 ,myFormNonDup.[EmployeeId]
+    FROM
+    (
+       SELECT myForm.[LastName]
+              ,myForm.[FirstName]
+              ,myForm.[SSN] AS [SSN]
+              ,myForm.[DOB] AS [BirthDate] 
+			  ,myForm.[EmployeeId] AS [EmployeeId]
+         FROM [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission] myForm
+	    WHERE EXISTS
+	          (
+		         SELECT myAllSsn.[SSN]
+                   FROM [DS_SummitLife].[dbo].[SL_AllEmployees] myAllSsn
+                  WHERE myAllSsn.[SSN] = myForm.[SSN]
+               )
+         GROUP BY 
+              myForm.[LastName]
+              ,myForm.[FirstName]
+              ,myForm.[SSN]
+              ,myForm.[DOB]
+			  ,myForm.[EmployeeId]
+    ) AS myFormNonDup
+) AS myFinalForm
+
+
+LEFT OUTER JOIN
+(
+  SELECT 
+         UPPER(myAll.[LastName]) AS [LastName]
+         ,UPPER(myAll.[FirstName]) AS [FirstName]
+         ,myAll.[SSN]
+         ,myAll.[BirthDate]
+		 ,convert(int, isnull(myAll.[EmployeeNumber],'000000000')) AS [EmployeeId]
+    FROM [DS_SummitLife].[dbo].[SL_AllEmployees] myAll
+   WHERE [EmploymentStatus] = 'Active'
+     AND [Full/PartTime] = 'Full Time'
+   GROUP BY 
+          myAll.[LastName]
+         ,myAll.[FirstName]
+         ,myAll.[SSN]
+         ,myAll.[BirthDate]
+		 ,CONVERT(int, ISNULL(myAll.[EmployeeNumber],'000000000'))
+
+) AS myFinalAll
+ON myFinalForm.[SSN] = myFinalAll.[SSN]
+WHERE (myFinalForm.[LastName] <> myFinalAll.[LastName] 
+       OR myFinalForm.[FirstName] <> myFinalAll.[FirstName] 
+	   OR myFinalForm.[BirthDate] <> myFinalAll.[BirthDate]
+	   OR myFinalForm.[EmployeeId] <> myFinalAll.[EmployeeId]);
+
+	  
+    -- Insert into Insert into DailyReportSsnNameDobDifferences 
+    INSERT INTO [DS_SummitLife].[dbo].[DailyReportSsnNameDobDifferences]
+	                                                                                  (
+                                                                                        [FormLastName]
+                                                                                        ,[FormFirstName]
+                                                                                        ,[FormSSN]
+                                                                                        ,[FormBirthDate]
+                                                                                        ,[FormEmployeeId]
+                                                                                        ,[AllEmployeesLastName]
+                                                                                        ,[AllEmployeesFirstName]
+                                                                                        ,[AllEmployeesSSN]
+                                                                                        ,[AllEmployeesBirthDate]
+                                                                                        ,[AllEmployeesEmployeeId]
+                                                                                        ,[DataGatheredOnTimestamp]
+                                                                                      ) 				
+                                                                                      
+-- Get the records in the web biometric forms whose SSN IS
+-- in the All Employees list but whose first name, last name or
+-- DOB field value differs from that of the All Employees list.
+
+SELECT myFinalForm.[LastName] AS [FormLastName]
+	   ,myFinalForm.[FirstName] AS [FormFirstName]
+	   ,myFinalForm.[SSN] AS [FormSSN]
+	   ,myFinalForm.[BirthDate] AS [FormBirthDate]
+	   ,myFinalForm.[EmployeeId] AS [FormEmployeeId]
+	   ,myFinalAll.[LastName] AS [AllEmployeesLastName]
+	   ,myFinalAll.[FirstName] AS [AllEmployeesFirstName]
+	   ,myFinalAll.[SSN] AS [AllEmployeesSSN]
+	   ,myFinalAll.[BirthDate] AS [AllEmployeesBirthDate]
+	   ,myFinalAll.[EmployeeId] AS [AllEmployeesEmployeeId]
+       ,CONVERT([nvarchar] (50), getdate(), 121) AS [DataGatheredOnTimestamp]
+FROM
+(
+   SELECT UPPER(myFormNonDup.[LastName]) AS [LastName]
+         ,UPPER(myFormNonDup.[FirstName]) AS [FirstName]
+         ,myFormNonDup.[SSN] AS [SSN]
+         ,myFormNonDup.[BirthDate]
+		 ,myFormNonDup.[EmployeeId]
+    FROM
+    (
+       SELECT myForm.[LastName]
+              ,myForm.[FirstName]
+              ,myForm.[SSN] AS [SSN]
+              ,myForm.[DOB] AS [BirthDate] 
+			  ,myForm.[EmployeeId] AS [EmployeeId]
+         FROM [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission] myForm
+	    WHERE EXISTS
+	          (
+		         SELECT myAllSsn.[SSN]
+                   FROM [DS_SummitLife].[dbo].[SL_AllEmployees] myAllSsn
+                  WHERE myAllSsn.[SSN] = myForm.[SSN]
+               )
+         GROUP BY 
+              myForm.[LastName]
+              ,myForm.[FirstName]
+              ,myForm.[SSN]
+              ,myForm.[DOB]
+			  ,myForm.[EmployeeId]
+    ) AS myFormNonDup
+) AS myFinalForm
+
+
+LEFT OUTER JOIN
+(
+  SELECT 
+         UPPER(myAll.[LastName]) AS [LastName]
+         ,UPPER(myAll.[FirstName]) AS [FirstName]
+         ,myAll.[SSN]
+         ,myAll.[BirthDate]
+		 ,convert(int, isnull(myAll.[EmployeeNumber],'000000000')) AS [EmployeeId]
+    FROM [DS_SummitLife].[dbo].[SL_AllEmployees] myAll
+   WHERE [EmploymentStatus] = 'Active'
+     AND [Full/PartTime] = 'Full Time'
+   GROUP BY 
+          myAll.[LastName]
+         ,myAll.[FirstName]
+         ,myAll.[SSN]
+         ,myAll.[BirthDate]
+		 ,CONVERT(int, ISNULL(myAll.[EmployeeNumber],'000000000'))
+
+) AS myFinalAll
+ON myFinalForm.[SSN] = myFinalAll.[SSN]
+WHERE (myFinalForm.[LastName] <> myFinalAll.[LastName] 
+       OR myFinalForm.[FirstName] <> myFinalAll.[FirstName] 
+	   OR myFinalForm.[BirthDate] <> myFinalAll.[BirthDate]
+	   OR myFinalForm.[EmployeeId] <> myFinalAll.[EmployeeId]);
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--  Close batch
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd'
+END TRY
+
+BEGIN CATCH
+DECLARE @Err              int
+     ,  @ErrorMessage     varchar(Max)
+     ,  @ErrorLine        varchar(128)
+     ,  @Workstation      varchar(128) = @Application
+     ,  @Procedure        VARCHAR(500)
+
+    IF ERROR_NUMBER() IS NULL 
+      SET @Err =0;
+    ELSE
+      SET @Err = ERROR_NUMBER();
+
+    SET @ErrorMessage = ERROR_MESSAGE()
+    SET @ErrorLine    = 'SP Line Number: ' + CAST(ERROR_LINE() as varchar(10)) 
+    
+	SET @Workstation  = HOST_NAME()
+	
+    SET @Procedure    = @@SERVERNAME + '.' + DB_NAME() + '.' + OBJECT_SCHEMA_NAME(@@ProcID) + '.' + OBJECT_NAME(@@ProcID) + ' - ' + @ErrorLine + ' - ' + LEFT(@BatchDetailDescription, 7)
+    EXEC Admin.Utilities.administration.di_ErrorLog  @Application ,@Process, @Version ,0, @ErrorMessage, @Procedure,  @User , @Workstation
+
+    SET @BatchMessage = 'Process Failed:  ' +  @ErrorMessage
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd', @BatchMessage
+	
+    RAISERROR(@ErrorMessage, 16,1)
+
+END CATCH
+
+
+END

@@ -1,0 +1,193 @@
+-- SQL Server Instance:  smg-sql01
+USE [Utilities];
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('sl.di_PopulateDailyReportEmployeesInAssetFilesThisYear'))
+   DROP PROC [sl].[di_PopulateDailyReportEmployeesInAssetFilesThisYear]
+GO
+CREATE PROCEDURE [sl].[di_PopulateDailyReportEmployeesInAssetFilesThisYear]
+/* -----------------------------------------------------------------------------------------------------------
+   Procedure Name  :  sl.di_PopulateDailyReportEmployeesInAssetFilesThisYear
+   Business Analyis:
+   Project/Process :   
+   Description     :  Populate the DailyReportEmployeesInAssetFilesThisYear table.
+	  
+   Author          :  Philip Morrison 
+   Create Date     :  6/4/2025
+
+   ***********************************************************************************************************
+   **         Change History                                                                                **
+   ***********************************************************************************************************
+
+   Date       Version    Author             Description
+   --------   --------   -----------        ------------
+   6/4/2025 1.01.001   Philip Morrison    Created
+
+*/ -----------------------------------------------------------------------------------------------------------                                   
+
+AS
+BEGIN
+
+-- This Instance Declarations
+DECLARE @CurrentYear           [int] = 0
+SET @CurrentYear = DATEPART(year, getdate());
+
+-- Template Declarations
+DECLARE @Application            varchar(128) = 'Summit Life' 
+DECLARE @Version                varchar(25)  = '1.00.001'
+
+DECLARE @ProcessID              int          = 212
+DECLARE @Process                varchar(128) = 'DailyReports'
+
+DECLARE @BatchOutID             int
+DECLARE @BatchDescription       varchar(1000) = @@ServerName + '  - ' + @Version
+DECLARE @BatchDetailDescription varchar(1000)
+DECLARE @BatchMessage           varchar(MAX)
+DECLARE @User                   varchar(128) = SUSER_NAME()
+
+DECLARE @AnticipatedRecordCount int 
+DECLARE @ActualRecordCount      int
+
+
+SET NOCOUNT ON
+
+BEGIN TRY
+
+--  Initialize Batch
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  NULL, 'BatchStart', @BatchDescription, @ProcessID, @Process
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    SET @BatchDetailDescription = '010/020:  Truncate DailyReportEmployeesInAssetFilesThisYear'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+	  SELECT @AnticipatedRecordCount = COUNT(*)
+	                                   FROM [DS_SummitLife].[dbo].[DailyReportEmployeesInAssetFilesThisYear];
+	  
+      -- Truncate DailyReportEmployeesInAssetFilesThisYear
+      TRUNCATE TABLE [DS_SummitLife].[dbo].[DailyReportEmployeesInAssetFilesThisYear];
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    SET @BatchDetailDescription = '020/020:  Insert into DailyReportEmployeesInAssetFilesThisYear'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SELECT @AnticipatedRecordCount = COUNT(*)
+                                     FROM 
+                                      (SELECT unqEmployeeId.[EmployeeId], MAX(unqEmployeeId.[Pk]) AS [MaxPk]
+                                       FROM [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster] unqEmployeeId
+                                       WHERE unqEmployeeId.[DateOfHealthScreen] > '4/30/' + CONVERT([nvarchar] (4), @CurrentYear)
+                                       AND unqEmployeeId.[LabDrawDate] > '4/30/' + CONVERT([nvarchar] (4), @CurrentYear)
+                                       GROUP BY unqEmployeeId.[EmployeeId]) as unqEmpAndPk
+                                     JOIN [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster] AS allFds
+                                     ON  allFds.[EmployeeId] = unqEmpAndPk.[EmployeeId]
+                                         AND allFds.[Pk] = unqEmpAndPk.[MaxPk];
+ 
+	  
+    -- Insert into DailyReportEmployeesInAssetFilesThisYear 
+    INSERT INTO [DS_SummitLife].[dbo].[DailyReportEmployeesInAssetFilesThisYear]
+	                                                                              (
+                                                                                        [EmployeeNumber]
+                                                                                        ,[LastName]
+	                                                                                    ,[FirstName]
+	                                                                                    ,[BirthDate]
+	                                                                                    ,[Gender]
+	                                                                                    ,[SystolicBP]
+                                                                                        ,[DiastolicBP]
+                                                                                        ,[HeightInches]
+                                                                                        ,[Weight]
+                                                                                        ,[BMI]
+                                                                                        ,[WaistInches]
+                                                                                        ,[AroundWrist]
+                                                                                        ,[HipsInches]
+	                                                                                    ,[BiometricScreenDate]
+                                                                                        ,[LabDate]
+	                                                                                    ,[Chol]
+	                                                                                    ,[HDL]
+	                                                                                    ,[TCOverHDL]
+	                                                                                    ,[LDL]
+	                                                                                    ,[LDLCholesterolCOrD]
+	                                                                                    ,[Triglycerides]
+	                                                                                    ,[FastingBloodGlucoseMGOverDL]
+	                                                                                    ,[GGTIUOverL]
+	                                                                                    ,[HemoglobinA1C]
+	                                                                                    ,[CreatedDate]
+	                                                                                    ,[DataGatheredOnTimestamp]
+                                                                                      ) 				
+
+      SELECT 
+	    allfds.[EmployeeId] AS [EmployeeNumber]
+	    , allfds.[LastName]
+	    , allfds.[FirstName]
+	    , CONVERT([varchar] (10), allfds.[Dob], 101) AS [BirthDate]
+	    , allfds.[Gender]
+		, allfds.[SystolicBloodPressure] AS [SystolicBP]
+        , allfds.[DiastolicBloodPressure] AS [DiastolicBP]
+        , allfds.[HeightInches]
+        , allfds.[Weight]
+        , allfds.[BMI]
+        , allfds.[WaistInches]
+        , allfds.[WristInches] AS [AroundWrist]
+        , allfds.[HipsInches]
+	    ,CONVERT([varchar] (10), allfds.[DateOfHealthScreen], 101)   AS [BiometricScreenDate]
+        ,CONVERT([varchar] (10), allfds.[LabDrawDate], 101)  AS [LabDate]
+		,allfds.[TotalCholesterol] AS [Chol]
+		,allfds.[HDL]
+		,allfds.[TCOverHDL]
+		,allfds.[LDL]
+		,allfds.[LDLCholesterolCDashD] AS [LDLCholesterolCOrD]
+		,allfds.[Triglycerides]
+		,allfds.[FastingBloodGlucose] AS [FastingBloodGlucoseMGOverDL]
+		,allfds.[GGT] AS [GGTIUOverL]
+		,allfds.[HemoglobinA1C]
+		,CONVERT([varchar] (10), allfds.[CreatedDate], 101)   AS [CreatedDate]
+		,CONVERT([nvarchar] (50), GETDATE(), 121) AS [DataGatheredOnTimestamp]
+	  FROM 
+         (SELECT unqEmployeeId.[EmployeeId], MAX(unqEmployeeId.[Pk]) AS [MaxPk]
+          FROM [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster] unqEmployeeId
+          WHERE unqEmployeeId.[DateOfHealthScreen] > '4/30/' + CONVERT([nvarchar] (4), @CurrentYear)
+          AND unqEmployeeId.[LabDrawDate] > '4/30/' + CONVERT([nvarchar] (4), @CurrentYear)
+          GROUP BY unqEmployeeId.[EmployeeId]) as unqEmpAndPk
+      JOIN [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster] AS allFds
+      ON  allFds.[EmployeeId] = unqEmpAndPk.[EmployeeId]
+	      AND allFds.[Pk] = unqEmpAndPk.[MaxPk];
+
+    
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--  Close batch
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd'
+END TRY
+
+BEGIN CATCH
+DECLARE @Err              int
+     ,  @ErrorMessage     varchar(Max)
+     ,  @ErrorLine        varchar(128)
+     ,  @Workstation      varchar(128) = @Application
+     ,  @Procedure        VARCHAR(500)
+
+    IF ERROR_NUMBER() IS NULL 
+      SET @Err =0;
+    ELSE
+      SET @Err = ERROR_NUMBER();
+
+    SET @ErrorMessage = ERROR_MESSAGE()
+    SET @ErrorLine    = 'SP Line Number: ' + CAST(ERROR_LINE() as varchar(10)) 
+    
+	SET @Workstation  = HOST_NAME()
+	
+    SET @Procedure    = @@SERVERNAME + '.' + DB_NAME() + '.' + OBJECT_SCHEMA_NAME(@@ProcID) + '.' + OBJECT_NAME(@@ProcID) + ' - ' + @ErrorLine + ' - ' + LEFT(@BatchDetailDescription, 7)
+    EXEC Admin.Utilities.administration.di_ErrorLog  @Application ,@Process, @Version ,0, @ErrorMessage, @Procedure,  @User , @Workstation
+
+    SET @BatchMessage = 'Process Failed:  ' +  @ErrorMessage
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd', @BatchMessage
+	
+    RAISERROR(@ErrorMessage, 16,1)
+
+END CATCH
+
+
+END

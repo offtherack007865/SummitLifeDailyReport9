@@ -1,0 +1,57 @@
+-- Get the records in the web biometric forms whose SSN is not
+-- in the All Employees list.
+SELECT myOtherColumns.[FirstName]
+      ,myOtherColumns.[LastName]
+      ,myOtherColumns.[Dob]
+      ,myOtherColumns.[Ssn]
+      ,myOtherColumns.[Gender]
+      ,myOtherColumns.[Height]
+      ,myOtherColumns.[HeightInches]
+      ,myOtherColumns.[Weight]
+      ,myOtherColumns.[Bmi]
+      ,myOtherColumns.[WristInches]
+      ,myOtherColumns.[WaistInches]
+      ,myOtherColumns.[HipsInches]
+      ,myOtherColumns.[BloodPressure]
+      ,myOtherColumns.[SystolicBloodPressure]
+      ,myOtherColumns.[DiastolicBloodPressure]
+      ,myOtherColumns.[RepeatBloodPressure]
+      ,myOtherColumns.[RepeatSystolicBloodPressure]
+      ,myOtherColumns.[RepeatDiastolicBloodPressure]
+      ,myOtherColumns.[NameOfExaminer]
+      ,myOtherColumns.[DateOfHealthScreen]
+      ,myOtherColumns.[ParticipantInitials]
+      ,myOtherColumns.[EmployeeId]
+      ,myOtherColumns.[SubmissionDate]
+      ,myOtherColumns.[IsPregnant]
+      ,myOtherColumns.[EmailAddress]
+FROM 
+(SELECT upper(myFormNonDup.[LastName]) AS [LastName]
+         ,upper(myFormNonDup.[FirstName]) AS [FirstName]
+         ,myFormNonDup.[SSN] AS [SSN]
+         ,myFormNonDup.[BirthDate]
+    FROM
+    (
+       SELECT myForm.[LastName]
+              ,myForm.[FirstName]
+              ,myForm.[SSN] AS [SSN]
+              ,myForm.[DOB] AS [BirthDate] 
+         FROM [dbo].[SummitLifeBiometricScreeningFormSubmission] myForm
+	    WHERE NOT EXISTS
+	          (
+		         SELECT myAllSsn.[SSN]
+                   FROM [dbo].[SL_AllEmployees] myAllSsn
+                  WHERE myAllSsn.[SSN] = myForm.[SSN]
+               )
+         GROUP BY 
+              myForm.[LastName]
+              ,myForm.[FirstName]
+              ,myForm.[SSN]
+              ,myForm.[DOB]
+    ) AS myFormNonDup
+) AS mySsnsNotInAllEmployees
+JOIN [dbo].[SummitLifeBiometricScreeningFormSubmission] myOtherColumns
+  ON UPPER(myOtherColumns.[LastName]) = UPPER(mySsnsNotInAllEmployees.[LastName])
+     and UPPER(myOtherColumns.[FirstName]) = UPPER(mySsnsNotInAllEmployees.[FirstName])
+     and myOtherColumns.[SSN] = mySsnsNotInAllEmployees.[SSN]
+	 and myOtherColumns.[DOB] = mySsnsNotInAllEmployees.[BirthDate]

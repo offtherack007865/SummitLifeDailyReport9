@@ -1,0 +1,56 @@
+-- SQL Instance Name:  appdb01
+USE [DS_SummitLife];
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DailyReportPastApptScheduleEntriesWithNoLabs' AND TABLE_SCHEMA = 'dbo')
+   DROP TABLE [dbo].[DailyReportPastApptScheduleEntriesWithNoLabs];
+GO
+/* -----------------------------------------------------------------------------------------------------------
+   Table Name  :  dbo.DailyReportPastApptScheduleEntriesWithNoLabs
+   Business Analyis:
+   Project/Process :   
+   Description     :  Daily Report:   Employees with Appt scheduled but not having biometrics as yet.
+                        
+   Author          :   Philip Morrison
+   Create Date     :   04/27/2025 
+
+   ***********************************************************************************************************
+   **         Change History                                                                                **
+   ***********************************************************************************************************
+
+   Date       Version    Author             Description
+   --------   --------   -----------        ------------
+   04/27/2025 1.01.001   Philip Morrison    Created
+*/ -----------------------------------------------------------------------------------------------------------                                   
+
+
+CREATE TABLE [dbo].[DailyReportPastApptScheduleEntriesWithNoLabs](
+	[DailyReportPastApptScheduleEntriesWithNoLabsID] [int] IDENTITY(1,1) NOT NULL,
+	[EventLocation] [nvarchar](200) NOT NULL,
+	[EventTimestamp] [datetime] NOT NULL,
+	[AppointmentStartTimestamp] [datetime] NOT NULL,
+	[AppointmentEndTimestamp] [datetime] NOT NULL,
+	[FirstName] [nvarchar](200) NOT NULL,
+	[LastName] [nvarchar](200) NOT NULL,
+	[Email] [nvarchar](200) NOT NULL,
+	[EmployeeID] [nvarchar](200) NOT NULL,
+	[SSN] [varchar](11) NOT NULL,
+	[DOB] [datetime] NOT NULL,
+	[Location] [nvarchar](200) NOT NULL,
+	[Department] [nvarchar](200) NOT NULL,
+    [PatientID] [nvarchar](20) NULL, 
+    [SystolicBP] [nvarchar](20) NOT NULL,
+	[DiastolicBP] [nvarchar](20) NOT NULL,
+	[HeightInches] [nvarchar](20) NOT NULL,
+	[Weight] [nvarchar](20) NOT NULL,
+	[BMI] [nvarchar](20) NOT NULL,
+	[WaistInches] [nvarchar](20) NOT NULL,
+	[AroundWrist] [nvarchar](20) NOT NULL,
+	[HipsInches] [nvarchar](20) NOT NULL,
+	[IsPregnant] [nvarchar](20) NOT NULL,
+	[BiometricScreenDate] [nvarchar](20) NOT NULL,
+	[Status] [nvarchar](100) NOT NULL,
+	[DataGatheredOnTimestamp] [datetime] NOT NULL,
+CONSTRAINT [pk_dboDailyReportPastApptScheduleEntriesWithNoLabs] PRIMARY KEY CLUSTERED 
+(
+	[DailyReportPastApptScheduleEntriesWithNoLabsID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]

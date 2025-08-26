@@ -1,0 +1,218 @@
+-- SQL Server Instance:  smg-sql01
+USE [Utilities];
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('sl.di_PopulateDailyReportMissingLabs'))
+   DROP PROC [sl].[di_PopulateDailyReportMissingLabs]
+GO
+CREATE PROCEDURE [sl].[di_PopulateDailyReportMissingLabs]
+/* -----------------------------------------------------------------------------------------------------------
+   Procedure Name  :  sl.di_PopulateDailyReportMissingLabs
+   Business Analyis:
+   Project/Process :   
+   Description     :  Populate the DailyReportMissingLabs table.
+	  
+   Author          :  Philip Morrison 
+   Create Date     :  04/29/2025
+
+   ***********************************************************************************************************
+   **         Change History                                                                                **
+   ***********************************************************************************************************
+
+   Date       Version    Author             Description
+   --------   --------   -----------        ------------
+   04/29/2025 1.01.001   Philip Morrison    Created
+   6/9/2025   1.01.002   Philip Morrison    Standards Corrections
+
+*/ -----------------------------------------------------------------------------------------------------------                                   
+
+AS
+BEGIN
+
+-- This Instance Declarations
+DECLARE @CurrentYear           [int] = 0
+SET @CurrentYear = DATEPART(year, getdate());
+
+-- Template Declarations
+DECLARE @Application            varchar(128) = 'Summit Life' 
+DECLARE @Version                varchar(25)  = '1.00.002'
+
+DECLARE @ProcessID              int          = 212
+DECLARE @Process                varchar(128) = 'DailyReports'
+
+DECLARE @BatchOutID             int
+DECLARE @BatchDescription       varchar(1000) = @@ServerName + '  - ' + @Version
+DECLARE @BatchDetailDescription varchar(1000)
+DECLARE @BatchMessage           varchar(MAX)
+DECLARE @User                   varchar(128) = SUSER_NAME()
+
+DECLARE @AnticipatedRecordCount int 
+DECLARE @ActualRecordCount      int
+
+
+SET NOCOUNT ON
+
+BEGIN TRY
+
+--  Initialize Batch
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  NULL, 'BatchStart', @BatchDescription, @ProcessID, @Process
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    SET @BatchDetailDescription = '010/020:  Truncate DailyReportMissingLabs'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+	  SELECT @AnticipatedRecordCount = COUNT(*)
+	                                   FROM [DS_SummitLife].[dbo].[DailyReportMissingLabs];
+	  
+      -- Truncate DailyReportMissingLabs
+      TRUNCATE TABLE [DS_SummitLife].[dbo].[DailyReportMissingLabs];
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    SET @BatchDetailDescription = '020/020:  Insert into DailyReportMissingLabs'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SELECT @AnticipatedRecordCount = COUNT(*)
+                                     FROM [DS_SummitLife].[dbo].[CombineLabAndBiometrics] b
+	                                 JOIN [DS_SummitLife].[dbo].[SL_AllEmployees] e
+	                                 ON e.[EmployeeNumber] = b.[EmployeeNumber]
+                                     LEFT OUTER JOIN [DS_SummitLife].[dbo].[SummitLifePhysicianLabsAndBiometricsMaster] p	  
+	                                 ON p.[EmployeeID] = b.[EmployeeNumber] AND DATEPART(year, CONVERT([datetime], b.[BiometricScreenDate], 101)) = @CurrentYear
+                                     WHERE (p.[EmployeeID] IS NULL
+	                                 AND DATEPART(year, CONVERT([datetime],b.[BiometricScreenDate], 101)) = @CurrentYear
+                                     AND LEN(b.[SystolicBP]) > 0
+                                     AND LEN(b.[DiastolicBP]) > 0
+                                     AND LEN(b.[HeightInches]) > 0
+                                     AND LEN(b.[Weight]) > 0
+                                     AND LEN(b.[BMI]) > 0
+                                     AND LEN(b.[WaistInches]) > 0
+                                     AND LEN(b.[AroundWrist]) > 0
+                                     AND LEN(b.[HipsInches]) > 0
+                                     AND LEN (b.[LabDate]) = 0
+                                     AND (LEN(b.[Chol]) = 0
+                                          OR LEN(b.[HDL]) = 0
+                                          OR LEN(b.[TCOverHDL]) = 0
+                                          OR LEN(b.[LDL]) = 0
+                                          OR LEN(b.[Triglycerides]) = 0
+                                          OR LEN(b.[FastingBloodGlucoseMGOverDL]) = 0
+                                          OR LEN(b.[GGTIUOverL]) = 0
+                                          OR LEN(b.[HemoglobinA1C]) = 0));
+	  
+    -- Insert into DailyReportMissingLabs 
+    INSERT INTO [DS_SummitLife].[dbo].[DailyReportMissingLabs]
+	                                                             (
+                                                                   [LastHireDate]
+                                                                   ,[SSN]
+                                                                   ,[EmployeeNumber]
+                                                                   ,[EmployeeEmail]
+                                                                   ,[LastName]
+                                                                   ,[FirstName]
+                                                                   ,[BirthDate]
+                                                                   ,[Gender]
+                                                                   ,[EmploymentStatus]
+                                                                   ,[FullPartTime]
+                                                                   ,[Location]
+                                                                   ,[WellnessEnrolled]
+		                                                           ,[PatientID]
+                                                                   ,[SystolicBP]
+                                                                   ,[DiastolicBP]
+                                                                   ,[HeightInches]
+                                                                   ,[Weight]
+                                                                   ,[BMI]
+                                                                   ,[WaistInches]
+                                                                   ,[AroundWrist]
+                                                                   ,[HipsInches]
+                                                                   ,[BiometricScreenDate]
+                                                                   ,[Status]
+                                                                   ,[PhysicianFormFilledOut]
+                                                                   ,[DataGatheredOnTimestamp]
+                                                                 ) 				
+	SELECT
+	    CONVERT([varchar] (10), e.[LastHireDate], 101) AS [LastHireDate]
+		,e.[Ssn] AS [SSN]
+		,e.[EmployeeNumber] AS [EmployeeNumber]
+		,e.[EmployeeEmail] AS [EmployeeEmail]
+	    ,e.[LastName] AS [LastName]
+	    ,e.[FirstName] AS [FirstName]
+	    ,CONVERT([varchar] (10), e.[BirthDate], 101) AS [BirthDate]
+	    ,e.[Gender] AS [Gender]
+		,e.[EmploymentStatus] AS [EmploymentStatus]
+		,e.[Full/PartTime] AS [FullPartTime]
+		,e.[Location] AS [Location]
+		,e.[WellnessEnrolled] AS [WellnessEnrolled]
+		,b.[PatientID] AS [PatientID]
+        , b.[SystolicBP] AS [SystolicBP]
+        , b.[DiastolicBP] AS [DiastolicBP]
+        , b.[HeightInches] AS [HeightInches]
+        , b.[Weight] AS [Weight]
+        , b.[BMI] AS [BMI]
+        , b.[WaistInches] AS [WaistInches]
+        , b.[AroundWrist] AS [AroundWrist]
+        , b.[HipsInches] AS [HipsInches]
+        , b.[BiometricScreenDate] AS [BiometricScreenDate]
+        , 'Missing Labs' AS [Status]
+        , '' AS [PhysicianFormFilledOut]
+		,CONVERT([nvarchar] (50), GETDATE(),121) AS [DataGatheredOnTimestamp]
+      FROM [DS_SummitLife].[dbo].[CombineLabAndBiometrics] b
+	       JOIN [DS_SummitLife].[dbo].[SL_AllEmployees] e
+	         ON e.[EmployeeNumber] = b.[EmployeeNumber]
+                LEFT OUTER JOIN [DS_SummitLife].[dbo].[SummitLifePhysicianLabsAndBiometricsMaster] p	  
+	              ON p.[EmployeeID] = b.[EmployeeNumber] AND DATEPART(year, CONVERT([datetime], b.[BiometricScreenDate], 101)) = @CurrentYear
+     WHERE (p.[EmployeeID] IS NULL
+	   AND DATEPART(year, CONVERT([datetime],b.[BiometricScreenDate], 101)) = @CurrentYear
+       AND LEN(b.[SystolicBP]) > 0
+       AND LEN(b.[DiastolicBP]) > 0
+       AND LEN(b.[HeightInches]) > 0
+       AND LEN(b.[Weight]) > 0
+       AND LEN(b.[BMI]) > 0
+       AND LEN(b.[WaistInches]) > 0
+       AND LEN(b.[AroundWrist]) > 0
+       AND LEN(b.[HipsInches]) > 0
+       AND LEN (b.[LabDate]) = 0
+       AND (LEN(b.[Chol]) = 0
+            OR LEN(b.[HDL]) = 0
+            OR LEN(b.[TCOverHDL]) = 0
+            OR LEN(b.[LDL]) = 0
+            OR LEN(b.[Triglycerides]) = 0
+            OR LEN(b.[FastingBloodGlucoseMGOverDL]) = 0
+            OR LEN(b.[GGTIUOverL]) = 0
+            OR LEN(b.[HemoglobinA1C]) = 0));
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--  Close batch
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd'
+END TRY
+
+BEGIN CATCH
+DECLARE @Err              int
+     ,  @ErrorMessage     varchar(Max)
+     ,  @ErrorLine        varchar(128)
+     ,  @Workstation      varchar(128) = @Application
+     ,  @Procedure        VARCHAR(500)
+
+    IF ERROR_NUMBER() IS NULL 
+      SET @Err =0;
+    ELSE
+      SET @Err = ERROR_NUMBER();
+
+    SET @ErrorMessage = ERROR_MESSAGE()
+    SET @ErrorLine    = 'SP Line Number: ' + CAST(ERROR_LINE() as varchar(10)) 
+    
+	SET @Workstation  = HOST_NAME()
+	
+    SET @Procedure    = @@SERVERNAME + '.' + DB_NAME() + '.' + OBJECT_SCHEMA_NAME(@@ProcID) + '.' + OBJECT_NAME(@@ProcID) + ' - ' + @ErrorLine + ' - ' + LEFT(@BatchDetailDescription, 7)
+    EXEC Admin.Utilities.administration.di_ErrorLog  @Application ,@Process, @Version ,0, @ErrorMessage, @Procedure,  @User , @Workstation
+
+    SET @BatchMessage = 'Process Failed:  ' +  @ErrorMessage
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd', @BatchMessage
+	
+    RAISERROR(@ErrorMessage, 16,1)
+
+END CATCH
+
+
+END

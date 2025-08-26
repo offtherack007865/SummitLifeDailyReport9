@@ -1,0 +1,42 @@
+-- SQL Instance Name:  smg-sql01
+USE [DS_SummitLife];
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DailyReportSsnNameDobDifferences' AND TABLE_SCHEMA = 'dbo')
+   DROP TABLE [dbo].[DailyReportSsnNameDobDifferences];
+GO
+/* -----------------------------------------------------------------------------------------------------------
+   Table Name  :  dbo.DailyReportSsnNameDobDifferences
+   Business Analyis:
+   Project/Process :   
+   Description     :  Daily Report:   SSN, Name, DOB Differences between FormSubmission Vs AllEmployees
+                        
+   Author          :   Philip Morrison
+   Create Date     :   6/3/2025 
+
+   ***********************************************************************************************************
+   **         Change History                                                                                **
+   ***********************************************************************************************************
+
+   Date       Version    Author             Description
+   --------   --------   -----------        ------------
+   6/3/2025   1.01.001   Philip Morrison    Created
+*/ -----------------------------------------------------------------------------------------------------------                                   
+
+
+CREATE TABLE [dbo].[DailyReportSsnNameDobDifferences](
+	[DailyReportSsnNameDobDifferencesID] [int] IDENTITY(1,1) NOT NULL,
+    [FormLastName] [nvarchar](100) NOT NULL,
+    [FormFirstName] [nvarchar](100) NOT NULL,
+    [FormSSN] [nvarchar](20) NOT NULL,
+    [FormBirthDate] [nvarchar](20) NOT NULL,
+    [FormEmployeeId] [nvarchar](20) NOT NULL,
+    [AllEmployeesLastName] [nvarchar](100) NOT NULL,
+    [AllEmployeesFirstName] [nvarchar](100) NOT NULL,
+    [AllEmployeesSSN] [nvarchar](20) NOT NULL,
+    [AllEmployeesBirthDate] [nvarchar](20) NOT NULL,
+    [AllEmployeesEmployeeId] [nvarchar](20) NOT NULL,
+    [DataGatheredOnTimestamp] [nvarchar](100) NOT NULL
+ CONSTRAINT [pk_dboDailyReportSsnNameDobDifferences] PRIMARY KEY CLUSTERED 
+(
+	[DailyReportSsnNameDobDifferencesID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]

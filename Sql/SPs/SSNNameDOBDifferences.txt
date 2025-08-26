@@ -1,0 +1,69 @@
+-- Get the records in the web biometric forms whose SSN IS
+-- in the All Employees list but whose first name, last name or
+-- DOB field value differs from that of the All Employees list.
+
+select myFinalForm.[LastName] as [FormLastName]
+	   ,myFinalForm.[FirstName] as [FormFirstName]
+	   ,myFinalForm.[SSN] as [FormSSN]
+	   ,myFinalForm.[BirthDate] as [FormBirthDate]
+	   ,myFinalForm.[EmployeeId] as [FormEmployeeId]
+	   ,myFinalAll.[LastName] as [AllEmployeesLastName]
+	   ,myFinalAll.[FirstName] as [AllEmployeesFirstName]
+	   ,myFinalAll.[SSN] as [AllEmployeesSSN]
+	   ,myFinalAll.[BirthDate] as [AllEmployeesBirthDate]
+	   ,myFinalAll.[EmployeeId] as [AllEmployeesEmployeeId]
+from
+(
+   select upper(myFormNonDup.[LastName]) as [LastName]
+         ,upper(myFormNonDup.[FirstName]) as [FirstName]
+         ,myFormNonDup.[SSN] as [SSN]
+         ,myFormNonDup.[BirthDate]
+		 ,myFormNonDup.[EmployeeId]
+    from
+    (
+       select myForm.[LastName]
+              ,myForm.[FirstName]
+              ,myForm.[SSN] as [SSN]
+              ,myForm.[DOB] as [BirthDate] 
+			  ,myForm.[EmployeeId] as [EmployeeId]
+         from [dbo].[SummitLifeBiometricScreeningFormSubmission] myForm
+	    where Exists
+	          (
+		         select myAllSsn.[SSN]
+                   from [dbo].[SL_AllEmployees] myAllSsn
+                  where myAllSsn.[SSN] = myForm.[SSN]
+               )
+         group by 
+              myForm.[LastName]
+              ,myForm.[FirstName]
+              ,myForm.[SSN]
+              ,myForm.[DOB]
+			  ,myForm.[EmployeeId]
+    ) as myFormNonDup
+) as myFinalForm
+
+
+left outer join
+(
+  select 
+         upper(myAll.[LastName]) as [LastName]
+         ,upper(myAll.[FirstName]) as [FirstName]
+         ,myAll.[SSN]
+         ,myAll.[BirthDate]
+		 ,convert(int, isnull(myAll.[EmployeeNumber],'000000000')) as [EmployeeId]
+    from [dbo].[SL_AllEmployees] myAll
+   where [EmploymentStatus] = 'Active'
+     and [Full/PartTime] = 'Full Time'
+   group by 
+          myAll.[LastName]
+         ,myAll.[FirstName]
+         ,myAll.[SSN]
+         ,myAll.[BirthDate]
+		 ,convert(int, isnull(myAll.[EmployeeNumber],'000000000'))
+
+) as myFinalAll
+on myFinalForm.[SSN] = myFinalAll.[SSN]
+where (myFinalForm.[LastName] <> myFinalAll.[LastName] 
+       or myFinalForm.[FirstName] <> myFinalAll.[FirstName] 
+	   or myFinalForm.[BirthDate] <> myFinalAll.[BirthDate]
+	   or myFinalForm.[EmployeeId] <> myFinalAll.[EmployeeId])

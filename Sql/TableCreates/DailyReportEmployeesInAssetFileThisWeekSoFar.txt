@@ -1,0 +1,60 @@
+-- SQL Instance Name:  smg-sql01
+USE [DS_SummitLife];
+IF EXISTS(SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_NAME = 'DailyReportEmployeesInAssetFileThisWeekSoFar' AND TABLE_SCHEMA = 'dbo')
+   DROP TABLE [dbo].[DailyReportEmployeesInAssetFileThisWeekSoFar];
+GO
+/* -----------------------------------------------------------------------------------------------------------
+   Table Name  :  dbo.DailyReportEmployeesInAssetFileThisWeekSoFar
+   Business Analyis:
+   Project/Process :   
+   Description     :  Daily Report:   Employees who will be sent to Asset at the end of the week.
+                        
+   Author          :   Philip Morrison
+   Create Date     :   05/15/2025 
+
+   ***********************************************************************************************************
+   **         Change History                                                                                **
+   ***********************************************************************************************************
+
+   Date       Version    Author             Description
+   --------   --------   -----------        ------------
+   05/15/2025 1.01.001   Philip Morrison    Created
+*/ -----------------------------------------------------------------------------------------------------------                                   
+
+
+CREATE TABLE [dbo].[DailyReportEmployeesInAssetFileThisWeekSoFar](
+	[DailyReportEmployeesInAssetFileThisWeekSoFarID] [int] IDENTITY(1,1) NOT NULL
+    ,[EmployeeNumber] [nvarchar] (20) NOT NULL
+    ,[LastName] [nvarchar] (100) NOT NULL
+	,[FirstName] [nvarchar] (100) NOT NULL
+	,[BirthDate] [nvarchar] (100) NOT NULL
+	,[Gender] [nvarchar] (20) NOT NULL
+	,[SystolicBP] [nvarchar] (20) NOT NULL
+    ,[DiastolicBP] [nvarchar] (20) NOT NULL
+    ,[HeightInches] [nvarchar] (20) NOT NULL
+    ,[Weight] [nvarchar] (20) NOT NULL
+    ,[BMI] [nvarchar] (20) NOT NULL
+    ,[WaistInches] [nvarchar] (20) NOT NULL
+    ,[AroundWrist] [nvarchar] (20) NOT NULL
+    ,[HipsInches] [nvarchar] (20) NOT NULL
+	,[BiometricScreenDate] [nvarchar] (20) NOT NULL
+    ,[LabDate] [nvarchar] (20) NOT NULL
+	,[Chol] [nvarchar] (20) NOT NULL
+	,[HDL] [nvarchar] (20) NOT NULL
+	,[TCOverHDL] [nvarchar] (20) NOT NULL
+	,[LDL] [nvarchar] (20) NOT NULL
+	,[LDLCholesterolCOrD] [nvarchar] (20) NOT NULL
+	,[Triglycerides] [nvarchar] (20) NOT NULL
+	,[FastingBloodGlucoseMGOverDL] [nvarchar] (20) NOT NULL
+	,[GGTIUOverL] [nvarchar] (20) NOT NULL
+	,[HemoglobinA1C] [nvarchar] (20) NOT NULL
+	,[CreatedDate] [nvarchar] (20) NOT NULL
+	,[DataGatheredOnTimestamp] [nvarchar] (100) NOT NULL
+CONSTRAINT [pk_dboDailyReportEmployeesInAssetFileThisWeekSoFar] PRIMARY KEY CLUSTERED 
+(
+	[DailyReportEmployeesInAssetFileThisWeekSoFarID] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+
+

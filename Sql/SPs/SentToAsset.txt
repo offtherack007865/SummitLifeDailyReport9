@@ -1,0 +1,13 @@
+DECLARE @currentTimestamp [datetime] = null
+SET @currentTimestamp = getdate()
+DECLARE @yyyString [nvarchar] (4) = ''
+SET @yyyString = CONVERT([nvarchar] (4),  DATEPART(year,@currentTimestamp))
+
+DECLARE @MMddyyyyString [nvarchar] (10) = ''
+SET @MMddyyyyString = '5/1/' + @yyyString
+ 
+SELECT [Ssn],[EmployeeId], count(*) AS [DupCount]
+  FROM [DS_SummitLIfe].[dbo].[SummitLifeBiometricScreeningFormSubmission]
+ WHERE [DateOfHealthScreen] >= @MMddyyyyString
+ GROUP BY [Ssn],[EmployeeId]
+ HAVING COUNT(*) > 1

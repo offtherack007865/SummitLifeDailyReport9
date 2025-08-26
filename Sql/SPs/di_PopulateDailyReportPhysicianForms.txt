@@ -1,0 +1,225 @@
+-- SQL Server Instance:  smg-sql01
+USE [Utilities];
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('sl.di_PopulateDailyReportPhysicianForms'))
+   DROP PROC [sl].[di_PopulateDailyReportPhysicianForms]
+GO
+CREATE PROCEDURE [sl].[di_PopulateDailyReportPhysicianForms]
+/* -----------------------------------------------------------------------------------------------------------
+   Procedure Name  :  sl.di_PopulateDailyReportPhysicianForms
+   Business Analyis:
+   Project/Process :   
+   Description     :  Populate the DailyReportPhysicianForms table.
+	  
+   Author          :  Philip Morrison 
+   Create Date     :  04/28/2025
+
+   ***********************************************************************************************************
+   **         Change History                                                                                **
+   ***********************************************************************************************************
+
+   Date       Version    Author             Description
+   --------   --------   -----------        ------------
+   04/28/2025 1.01.001   Philip Morrison    Created
+   6/9/2025   1.01.002   Philip Morrison    Standards Corrections
+
+*/ -----------------------------------------------------------------------------------------------------------                                   
+
+AS
+BEGIN
+
+-- This Instance Declarations
+DECLARE @CurrentYear [int] = 0
+
+SET @CurrentYear = DATEPART(year, getdate());
+
+-- Template Declarations
+DECLARE @Application            varchar(128) = 'Summit Life' 
+DECLARE @Version                varchar(25)  = '1.00.002'
+
+DECLARE @ProcessID              int          = 212
+DECLARE @Process                varchar(128) = 'DailyReports'
+
+DECLARE @BatchOutID             int
+DECLARE @BatchDescription       varchar(1000) = @@ServerName + '  - ' + @Version
+DECLARE @BatchDetailDescription varchar(1000)
+DECLARE @BatchMessage           varchar(MAX)
+DECLARE @User                   varchar(128) = SUSER_NAME()
+
+DECLARE @AnticipatedRecordCount int 
+DECLARE @ActualRecordCount      int
+
+
+SET NOCOUNT ON
+
+BEGIN TRY
+
+--  Initialize Batch
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  NULL, 'BatchStart', @BatchDescription, @ProcessID, @Process
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    SET @BatchDetailDescription = '010/020:  Truncate DailyReportPhysicianForms'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+	  SELECT @AnticipatedRecordCount = COUNT(*)
+                                       FROM [DS_SummitLife].[dbo].[DailyReportPhysicianForms];
+	  
+    -- Truncate DailyReportPhysicianForms
+    TRUNCATE TABLE [DS_SummitLife].[dbo].[DailyReportPhysicianForms];
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    SET @BatchDetailDescription = '020/020:  Insert into DailyReportPhysicianForms'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SELECT @AnticipatedRecordCount = COUNT(*)
+                                     FROM [DS_SummitLife].[dbo].[SummitLifePhysicianLabsAndBiometricsMaster] p
+                                          JOIN [DS_SummitLife].[dbo].[SL_AllEmployees] e
+	                                        ON e.[EmployeeNumber] = p.[EmployeeId]
+                                    WHERE (DATEPART(year, p.[DateOfHealthScreen]) = @CurrentYear
+                                      AND p.[SystolicBloodPressure] > 0
+                                      AND p.[DiastolicBloodPressure] > 0
+                                      AND p.[HeightInches] > 0
+                                      AND p.[Weight] > 0
+                                      AND p.[BMI] > 0
+                                      AND p.[WaistInches] > 0
+                                      AND p.[WristInches] > 0
+                                      AND p.[HipsInches] > 0
+                                      AND DATEPART(year, p.[LabDrawDate]) = @CurrentYear
+                                      AND p.[HDL] > 0
+                                      AND p.[TCOverHDL] > 0
+                                      AND p.[LDL] > 0
+                                      AND p.[Triglycerides] > 0
+                                      AND p.[FastingBloodGlucose] > 0
+                                      AND p.[HemoglobinA1C] > 0)
+
+    -- Insert into DailyReportPhysicianForms 
+    INSERT INTO [DS_SummitLife].[dbo].[DailyReportPhysicianForms]
+	                                                               (
+                                                                     [LastHireDate]
+                                                                     ,[SSN]
+                                                                     ,[EmployeeNumber]
+                                                                     ,[EmployeeEmail]
+                                                                     ,[LastName]
+                                                                     ,[FirstName]
+                                                                     ,[BirthDate]
+                                                                     ,[Gender]
+                                                                     ,[EmploymentStatus]
+                                                                     ,[FullPartTime]
+                                                                     ,[Location]
+                                                                     ,[WellnessEnrolled]
+                                                                     ,[SystolicBP]
+                                                                     ,[DiastolicBP]
+                                                                     ,[HeightInches]
+                                                                     ,[Weight]
+                                                                     ,[BMI]
+                                                                     ,[WaistInches]
+                                                                     ,[AroundWrist]
+                                                                     ,[HipsInches]
+                                                                     ,[BiometricScreenDate]
+                                                                     ,[LabDate]
+                                                                     ,[Chol]
+                                                                     ,[HDL]
+                                                                     ,[TCOverHDL]
+                                                                     ,[LDL]
+                                                                     ,[LDLCholesterolCOrD]
+                                                                     ,[Triglycerides]
+                                                                     ,[FastingBloodGlucoseMGOverDL]
+                                                                     ,[GGTIUOverL]
+                                                                     ,[HemoglobinA1CStatus]
+                                                                     ,[Status]
+                                                                     ,[PhysicianFormFilledOut]
+                                                                     ,[DataGatheredOnTimestamp]
+                                                                   )  				
+	SELECT
+	    CONVERT([varchar] (10), e.[LastHireDate], 101) AS [LastHireDate]
+		,p.[Ssn] AS [SSN]
+		,p.[EmployeeId] AS [EmployeeNumber]
+		,e.[EmployeeEmail] AS [EmployeeNumber]
+	    ,p.[LastName] AS [LastName]
+	    ,p.[FirstName] AS [FirstName]
+	    ,CONVERT([varchar] (10), p.[Dob], 101) AS [BirthDate]
+	    ,p.[Gender] AS [Gender]
+		,e.[EmploymentStatus] AS [EmploymentStatus]
+		,e.[Full/PartTime] AS [FullPartTime]
+		,e.[Location] AS [Location]
+		,e.[WellnessEnrolled] AS [WellnessEnrolled]
+	    ,CONVERT([nvarchar] (20), p.[SystolicBloodPressure]) AS [SystolicBP]
+		,CONVERT([nvarchar] (20), p.[DiastolicBloodPressure]) AS [DiastolicBP]
+	    ,CONVERT([nvarchar] (20), p.[HeightInches]) AS [HeightInches]
+	    ,CONVERT([nvarchar] (20), p.[Weight]) AS [Weight]
+	    ,CONVERT([nvarchar] (20), p.[Bmi]) AS [BMI]
+	    ,CONVERT([nvarchar] (20), p.[WaistInches]) AS [WaistInches]
+	    ,CONVERT([nvarchar] (20), p.[WristInches]) AS [AroundWrist]
+	    ,CONVERT([nvarchar] (20), p.[HipsInches]) AS [HipsInches]
+		,CONVERT([varchar] (20), p.[DateOfHealthScreen], 101) AS [BiometricScreenDate]
+		,CONVERT([varchar] (20), p.[LabDrawDate], 101) AS [LabDate]
+        ,CONVERT([nvarchar] (20), p.[TotalCholesterol]) AS [Chol]
+        ,CONVERT([nvarchar] (20), p.[Hdl]) AS [HDL]
+        ,CONVERT([nvarchar] (20), p.[TcOverHdl]) AS [TCOverHDL]
+        ,CONVERT([nvarchar] (20), p.[Ldl]) AS [LDL]
+	    ,p.[LdlCholesterolCDashD] AS [LDLCholesterolCOrD]
+        ,CONVERT([nvarchar] (20), p.[Triglycerides]) AS [Triglycerides]
+        ,CONVERT([nvarchar] (20), p.[FastingBloodGlucose]) AS [FastingBloodGlucoseMGOverDL]
+        ,CONVERT([nvarchar] (20), p.[Ggt]) AS [GGTIUOverL]
+        ,CONVERT([nvarchar] (20), p.[HemoglobinA1C]) AS [HemoglobinA1CStatus]
+		,'Both Biometric Screening Form and Labs are Complete.' AS [Status]
+		,'PhysicianFormFilledOut' AS [PhysicianFormFilledOut]
+		, CONVERT([nvarchar] (50), getdate(), 121) AS [DataGatheredOnTimestamp]
+    FROM [DS_SummitLife].[dbo].[SummitLifePhysicianLabsAndBiometricsMaster] p
+	     JOIN [DS_SummitLife].[dbo].[SL_AllEmployees] e
+	       ON e.[EmployeeNumber] = p.[EmployeeId]
+   WHERE (DATEPART(year, p.[DateOfHealthScreen]) = @CurrentYear
+          AND p.[SystolicBloodPressure] > 0
+		  AND p.[DiastolicBloodPressure] > 0
+		  AND p.[HeightInches] > 0
+		  AND p.[Weight] > 0
+	      AND p.[BMI] > 0
+	      AND p.[WaistInches] > 0
+	      AND p.[WristInches] > 0
+	      AND p.[HipsInches] > 0
+	      AND DATEPART(year, p.[LabDrawDate]) = @CurrentYear
+	      AND p.[HDL] > 0
+	      AND p.[TCOverHDL] > 0
+	      AND p.[LDL] > 0
+	      AND p.[Triglycerides] > 0
+	      AND p.[FastingBloodGlucose] > 0
+	      AND p.[HemoglobinA1C] > 0)
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--  Close batch
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd'
+
+END TRY
+
+BEGIN CATCH
+DECLARE @Err              int
+     ,  @ErrorMessage     varchar(Max)
+     ,  @ErrorLine        varchar(128)
+     ,  @Workstation      varchar(128) = @Application
+     ,  @Procedure        VARCHAR(500)
+
+    IF ERROR_NUMBER() IS NULL 
+      SET @Err =0;
+    ELSE
+      SET @Err = ERROR_NUMBER();
+
+    SET @ErrorMessage = ERROR_MESSAGE()
+	
+    SET @Procedure    = @@SERVERNAME + '.' + DB_NAME() + '.' + OBJECT_SCHEMA_NAME(@@ProcID) + '.' + OBJECT_NAME(@@ProcID) + ' - ' + @ErrorLine + ' - ' + LEFT(@BatchDetailDescription, 7)
+    EXEC Admin.Utilities.administration.di_ErrorLog  @Application ,@Process, @Version ,0, @ErrorMessage, @Procedure,  @User , @Workstation
+
+    SET @BatchMessage = 'Process Failed:  ' +  @ErrorMessage
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd', @BatchMessage
+	
+    RAISERROR(@ErrorMessage, 16,1)
+
+END CATCH
+
+
+END

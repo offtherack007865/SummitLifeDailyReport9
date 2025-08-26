@@ -1,0 +1,182 @@
+-- SQL Server Instance:  smg-sql01
+USE [Utilities];
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('sl.di_PopulateDailyReportSsnsNotListedInAllEmployeesList'))
+   DROP PROC [sl].[di_PopulateDailyReportSsnsNotListedInAllEmployeesList]
+GO
+CREATE PROCEDURE [sl].[di_PopulateDailyReportSsnsNotListedInAllEmployeesList]
+/* -----------------------------------------------------------------------------------------------------------
+   Procedure Name  :  sl.di_PopulateDailyReportSsnsNotListedInAllEmployeesList
+   Business Analyis:
+   Project/Process :   
+   Description     :  Populate the DailyReportSsnsNotListedInAllEmployeesList table.
+	  
+   Author          :  Philip Morrison 
+   Create Date     :  6/3/2025
+
+   ***********************************************************************************************************
+   **         Change History                                                                                **
+   ***********************************************************************************************************
+
+   Date       Version    Author             Description
+   --------   --------   -----------        ------------
+   6/3/2025   1.01.001   Philip Morrison    Created
+
+*/ -----------------------------------------------------------------------------------------------------------                                   
+
+AS
+BEGIN
+
+-- This Instance Declarations
+DECLARE @CurrentYear           [int] = 0
+SET @CurrentYear = DATEPART(year, getdate());
+
+-- Template Declarations
+DECLARE @Application            varchar(128) = 'Summit Life' 
+DECLARE @Version                varchar(25)  = '1.00.001'
+
+DECLARE @ProcessID              int          = 212
+DECLARE @Process                varchar(128) = 'DailyReports'
+
+DECLARE @BatchOutID             int
+DECLARE @BatchDescription       varchar(1000) = @@ServerName + '  - ' + @Version
+DECLARE @BatchDetailDescription varchar(1000)
+DECLARE @BatchMessage           varchar(MAX)
+DECLARE @User                   varchar(128) = SUSER_NAME()
+
+DECLARE @AnticipatedRecordCount int 
+DECLARE @ActualRecordCount      int
+
+
+SET NOCOUNT ON
+
+BEGIN TRY
+
+--  Initialize Batch
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  NULL, 'BatchStart', @BatchDescription, @ProcessID, @Process
+ ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    SET @BatchDetailDescription = '010/020:  Truncate DailyReportSsnsNotListedInAllEmployeesList'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+	  SELECT @AnticipatedRecordCount = COUNT(*)
+	                                   FROM [DS_SummitLife].[dbo].[DailyReportSsnsNotListedInAllEmployeesList];
+	  
+      -- Truncate DailyReportSsnsNotListedInAllEmployeesList
+      TRUNCATE TABLE [DS_SummitLife].[dbo].[DailyReportSsnsNotListedInAllEmployeesList];
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+    SET @BatchDetailDescription = '020/020:  Insert into DailyReportSsnsNotListedInAllEmployeesList'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SELECT @AnticipatedRecordCount = COUNT(*)
+                                     FROM [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission] b
+	                                 LEFT OUTER JOIN [DS_SummitLife].[dbo].[SL_AllEmployees] e
+	                                 ON e.[Ssn] = b.[Ssn]
+                                     WHERE e.[Ssn] IS NULL;
+                                     
+	  
+    -- Insert into DailyReportSsnsNotListedInAllEmployeesList 
+    INSERT INTO [DS_SummitLife].[dbo].[DailyReportSsnsNotListedInAllEmployeesList]
+	                                                                                  (
+                                                                                         [FirstName]
+                                                                                         ,[LastName]
+                                                                                         ,[Dob]
+                                                                                         ,[SSN]
+	                                                                                     ,[Gender]
+                                                                                         ,[Height]
+                                                                                         ,[HeightInches]
+                                                                                         ,[Weight]
+                                                                                         ,[BMI]
+                                                                                         ,[WristInches]
+                                                                                         ,[WaistInches]
+                                                                                         ,[HipsInches]
+                                                                                         ,[BloodPressure]
+		                                                                                 ,[SystolicBloodPressure]
+                                                                                         ,[DiastolicBloodPressure]
+                                                                                         ,[RepeatBloodPressure]
+		                                                                                 ,[RepeatSystolicBloodPressure]
+                                                                                         ,[RepeatDiastolicBloodPressure]
+                                                                                         ,[NameOfExaminer]
+	                                                                                     ,[DateOfHealthScreen]
+                                                                                         ,[ParticipantInitials]
+                                                                                         ,[EmployeeId]
+                                                                                         ,[SubmissionDate]
+                                                                                         ,[IsPregnant]
+                                                                                         ,[EmailAddress]
+		                                                                                 ,[DataGatheredOnTimestamp]
+                                                                                      ) 				
+	SELECT
+    	b.[FirstName] AS [FirstName]
+        ,b.[LastName] AS [LastName]
+	    ,CONVERT([varchar] (10), b.[Dob], 101) AS [Dob]
+        ,b.[Ssn] AS [SSN]
+	    ,b.[Gender] AS [Gender]
+        ,b.[Height] AS [Height]
+        ,b.[HeightInches] AS [HeightInches]
+        ,b.[Weight] AS [Weight]
+        ,b.[BMI] AS [BMI]
+        ,b.[WristInches] AS [WristInches]
+        ,b.[WaistInches] AS [WaistInches]
+        ,b.[HipsInches] AS [HipsInches]
+        ,b.[BloodPressure] AS [BloodPressure]
+		,b.[SystolicBloodPressure] AS [SystolicBloodPressure]
+        ,b.[DiastolicBloodPressure] AS [DiastolicBloodPressure]
+        ,b.[RepeatBloodPressure] AS [RepeatBloodPressure]
+		,b.[RepeatSystolicBloodPressure] AS [RepeatSystolicBloodPressure]
+        ,b.[RepeatDiastolicBloodPressure] AS [RepeatDiastolicBloodPressure]
+        ,b.[NameOfExaminer] AS [NameOfExaminer]
+	    ,CONVERT([varchar] (10), b.[DateOfHealthScreen], 101)   AS [DateOfHealthScreen]
+        ,b.[ParticipantInitials] AS [ParticipantInitials]
+        ,b.[EmployeeId] AS [EmployeeId]
+        ,CONVERT([varchar] (10), b.[SubmissionDate], 101)  AS [SubmissionDate]
+        ,CASE WHEN b.[IsPregnant] = 0 THEN 'N'
+              ELSE 'Y'
+         END AS [IsPregnant]
+        ,b.[EmailAddress] AS [EmailAddress]
+		,CONVERT([nvarchar] (50), GETDATE(), 121) AS [DataGatheredOnTimestamp]
+	FROM [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission] b
+	LEFT OUTER JOIN [DS_SummitLife].[dbo].[SL_AllEmployees] e
+	ON e.[Ssn] = b.[Ssn]
+    WHERE e.[Ssn] IS NULL;
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--  Close batch
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd'
+END TRY
+
+BEGIN CATCH
+DECLARE @Err              int
+     ,  @ErrorMessage     varchar(Max)
+     ,  @ErrorLine        varchar(128)
+     ,  @Workstation      varchar(128) = @Application
+     ,  @Procedure        VARCHAR(500)
+
+    IF ERROR_NUMBER() IS NULL 
+      SET @Err =0;
+    ELSE
+      SET @Err = ERROR_NUMBER();
+
+    SET @ErrorMessage = ERROR_MESSAGE()
+    SET @ErrorLine    = 'SP Line Number: ' + CAST(ERROR_LINE() as varchar(10)) 
+    
+	SET @Workstation  = HOST_NAME()
+	
+    SET @Procedure    = @@SERVERNAME + '.' + DB_NAME() + '.' + OBJECT_SCHEMA_NAME(@@ProcID) + '.' + OBJECT_NAME(@@ProcID) + ' - ' + @ErrorLine + ' - ' + LEFT(@BatchDetailDescription, 7)
+    EXEC Admin.Utilities.administration.di_ErrorLog  @Application ,@Process, @Version ,0, @ErrorMessage, @Procedure,  @User , @Workstation
+
+    SET @BatchMessage = 'Process Failed:  ' +  @ErrorMessage
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd', @BatchMessage
+	
+    RAISERROR(@ErrorMessage, 16,1)
+
+END CATCH
+
+
+END

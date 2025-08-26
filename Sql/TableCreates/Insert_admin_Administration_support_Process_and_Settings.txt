@@ -1,0 +1,248 @@
+-- SQL Service Instance:  smg-sql01
+/*	
+    [ApplicationName] [nvarchar] (200) NOT NULL
+*/
+USE [Administration];
+
+
+DECLARE @MyApplicationID [int] = 0;
+
+-- If Application ID exists, delete both the Process ID and its associated Settings.
+SELECT @MyApplicationID = [ApplicationID]
+  FROM [admin].[Application]
+  WHERE [ApplicationName] = 'Summit Life';
+  
+IF (@MyApplicationID IS NULL OR @MyApplicationID = 0) BEGIN
+  print ('Insert Application');
+  INSERT INTO [admin].[Application]
+           ([ApplicationName]
+           ,[Description]
+           ,[NotificationOnError]
+           ,[NotificationGroupID]
+           ,[Notes]
+           ,[Visible]
+           ,[ListOrder]
+           ,[Active]
+           ,[InsertedBy]
+           ,[InsertedDate]
+           ,[UpdatedBy]
+           ,[UpdatedDate])
+     VALUES
+           ('Summit Life'
+           ,'Summit Life'
+           ,0
+           ,null
+           ,null
+           ,1
+           ,550
+           ,1
+           ,'pwmorrison'
+           ,getdate()
+           ,'pwmorrison'
+           ,getdate());
+		   
+SELECT @MyApplicationID = [ApplicationID]
+  FROM [admin].[Application]
+  WHERE [ApplicationName] = 'Summit Life';
+		   
+END
+
+DECLARE @MyProcessID [int] = 0;
+
+-- If Process ID exists, delete both the Process ID and its associated Settings.
+SELECT @MyProcessID = [ProcessID]
+  FROM [support].[Process]
+  WHERE [Name] = 'DailyReports'
+    AND [ApplicationID] = @MyApplicationID;  
+  
+IF (@MyProcessID IS NOT NULL) BEGIN
+  DELETE [support].[Setting]
+   WHERE [ApplicationID] = @MyApplicationID
+     AND [ProcessID] = @MyProcessID;
+	 
+  DELETE [support].[Process]
+   WHERE [ApplicationID] = @MyApplicationID
+     AND [ProcessID] = @MyProcessID;
+	 
+END
+  
+-- Insert Process 
+INSERT INTO [support].[Process]
+           ([ApplicationID]
+           ,[Name]
+           ,[Type]
+           ,[Description]
+           ,[NotificationOnError]
+           ,[NotificationGroupID]
+           ,[Visible]
+           ,[ListOrder]
+           ,[Active])
+     VALUES
+           (@MyApplicationID
+           ,'DailyReports'
+           ,'Reporting' 
+           ,'DailyReports'
+           ,0
+           ,NULL
+           ,1
+           ,0 
+           ,1);		   
+  print 'Set process'
+
+-- Find newly inserted process ID
+SET @MyProcessID = NULL;
+SELECT @MyProcessID = [ProcessID]
+  FROM [support].[Process]
+  WHERE [Name] = 'DailyReports'
+    AND [ApplicationID] = @MyApplicationID;  
+IF (@MyProcessID IS NULL) BEGIN
+  print 'Process ID not there.'
+  RETURN;
+END 
+
+print 'ApplicationId = ' + convert([nvarchar] (20), @MyApplicationID)
+print 'ProcessId = ' + convert([nvarchar] (20), @MyProcessID)
+
+-- WriteDirectory
+INSERT INTO [support].[Setting]
+           ([ApplicationID]
+           ,[ProcessID]
+           ,[Name]
+           ,[Type]
+           ,[Description]
+           ,[Value]
+           ,[Active])
+     VALUES
+           (@MyApplicationID
+           ,@MyProcessID
+           ,'WriteDirectory'
+           ,'Default'
+           ,''
+           ,'\\appfs01\SL_Database\Monthly Load Process\HR Files\DailyReports\CurrentReport'
+           ,1);
+
+-- ArchiveDirectory
+INSERT INTO [support].[Setting]
+           ([ApplicationID]
+           ,[ProcessID]
+           ,[Name]
+           ,[Type]
+           ,[Description]
+           ,[Value]
+           ,[Active])
+     VALUES
+           (@MyApplicationID
+           ,@MyProcessID
+           ,'ArchiveDirectory'
+           ,'Default'
+           ,''
+           ,'\\appfs01\SL_Database\Monthly Load Process\HR Files\DailyReports\Archive'
+           ,1);
+
+-- ExcelTemplateFullFilename
+INSERT INTO [support].[Setting]
+           ([ApplicationID]
+           ,[ProcessID]
+           ,[Name]
+           ,[Type]
+           ,[Description]
+           ,[Value]
+           ,[Active])
+     VALUES
+           (@MyApplicationID
+           ,@MyProcessID
+           ,'ExcelTemplateFullFilename'
+           ,'Default'
+           ,''
+           ,'\\appfs01\SL_Database\Monthly Load Process\HR Files\DailyReports\ExcelTemplate\SummitLifeDailyReportsTemplate.xlsx'
+           ,1);
+
+-- DailyReportsBaseWebApiUrl
+INSERT INTO [support].[Setting]
+           ([ApplicationID]
+           ,[ProcessID]
+           ,[Name]
+           ,[Type]
+           ,[Description]
+           ,[Value]
+           ,[Active])
+     VALUES
+           (@MyApplicationID
+           ,@MyProcessID
+           ,'DailyReportsBaseWebApiUrl'
+           ,'Default'
+           ,''
+           ,'http://webservices:5572'
+           ,1);
+
+-- EmailBaseWebApiUrl
+INSERT INTO [support].[Setting]
+           ([ApplicationID]
+           ,[ProcessID]
+           ,[Name]
+           ,[Type]
+           ,[Description]
+           ,[Value]
+           ,[Active])
+     VALUES
+           (@MyApplicationID
+           ,@MyProcessID
+           ,'EmailBaseWebApiUrl'
+           ,'Default'
+           ,''
+           ,'http://webservices:8081/api/EmailWebApi/SendEmailWithHtmlStringInput'
+           ,1);
+
+-- EmailSubject
+INSERT INTO [support].[Setting]
+           ([ApplicationID]
+           ,[ProcessID]
+           ,[Name]
+           ,[Type]
+           ,[Description]
+           ,[Value]
+           ,[Active])
+     VALUES
+           (@MyApplicationID
+           ,@MyProcessID
+           ,'EmailSubject'
+           ,'Default'
+           ,''
+           ,'The Daily Reports Excel Document Has Been Created'
+           ,1);
+
+-- EmailFromAddress
+INSERT INTO [support].[Setting]
+           ([ApplicationID]
+           ,[ProcessID]
+           ,[Name]
+           ,[Type]
+           ,[Description]
+           ,[Value]
+           ,[Active])
+     VALUES
+           (@MyApplicationID
+           ,@MyProcessID
+           ,'EmailFromAddress'
+           ,'Default'
+           ,''
+           ,'smgApplications@summithealthcare.com'
+           ,1);
+
+-- Emailees
+INSERT INTO [support].[Setting]
+           ([ApplicationID]
+           ,[ProcessID]
+           ,[Name]
+           ,[Type]
+           ,[Description]
+           ,[Value]
+           ,[Active])
+     VALUES
+           (@MyApplicationID
+           ,@MyProcessID
+           ,'Emailees'
+           ,'Default'
+           ,''
+           ,'pwmorrison@summithealthcare.com'
+           ,1);

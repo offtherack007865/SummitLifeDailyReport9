@@ -1,0 +1,17 @@
+-- SQL Server Instance: smg-sql01
+USE [DS_SummitLife];
+
+-- Change the last name of EmployeeId = 000005652 FirstName = TONYA from old last name PHILLIPS to new last name LAMANCE 
+
+SELECT COUNT(*)
+FROM [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission]
+WHERE [Pk] = 5262;
+-- 1 record 
+
+BEGIN TRAN
+  UPDATE  [DS_SummitLife].[dbo].[SummitLifeBiometricScreeningFormSubmission]
+  SET [LastName] = 'LAMANCE'
+  WHERE [Pk] = 5262
+  
+-- COMMIT
+-- ROLLBACK
