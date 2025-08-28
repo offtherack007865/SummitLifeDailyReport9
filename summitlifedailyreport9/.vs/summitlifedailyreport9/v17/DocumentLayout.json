@@ -3,24 +3,40 @@
   "WorkspaceRootPath": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{ED51D400-4202-443E-BA62-168968DFB864}|summitlifedailyreport9.ConsoleApp\\summitlifedailyreport9.ConsoleApp.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.consoleapp\\dailyreportsmainops.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ED51D400-4202-443E-BA62-168968DFB864}|summitlifedailyreport9.ConsoleApp\\summitlifedailyreport9.ConsoleApp.csproj|solutionrelative:summitlifedailyreport9.consoleapp\\dailyreportsmainops.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{B50DC562-FB88-4717-B445-8BA64C12F3DF}|summitlifedailyreport9.CallWebApiLand\\summitlifedailyreport9.CallWebApiLand.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.callwebapiland\\callwebapilandclass1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{B50DC562-FB88-4717-B445-8BA64C12F3DF}|summitlifedailyreport9.CallWebApiLand\\summitlifedailyreport9.CallWebApiLand.csproj|solutionrelative:summitlifedailyreport9.callwebapiland\\callwebapilandclass1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C8655035-3B73-4961-99EC-EC3B14AA1350}|summitlifedailyreport9.WebApiLand\\summitlifedailyreport9.WebApiLand.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.webapiland\\controllers\\opscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8655035-3B73-4961-99EC-EC3B14AA1350}|summitlifedailyreport9.WebApiLand\\summitlifedailyreport9.WebApiLand.csproj|solutionrelative:summitlifedailyreport9.webapiland\\controllers\\opscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{ED51D400-4202-443E-BA62-168968DFB864}|summitlifedailyreport9.ConsoleApp\\summitlifedailyreport9.ConsoleApp.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.consoleapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{ED51D400-4202-443E-BA62-168968DFB864}|summitlifedailyreport9.ConsoleApp\\summitlifedailyreport9.ConsoleApp.csproj|solutionrelative:summitlifedailyreport9.consoleapp\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C8655035-3B73-4961-99EC-EC3B14AA1350}|summitlifedailyreport9.WebApiLand\\summitlifedailyreport9.WebApiLand.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.webapiland\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
-      "RelativeMoniker": "D:0:0:{C8655035-3B73-4961-99EC-EC3B14AA1350}|summitlifedailyreport9.WebApiLand\\summitlifedailyreport9.WebApiLand.csproj|solutionrelative:summitlifedailyreport9.webapiland\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+      "AbsoluteMoniker": "D:0:0:{ED51D400-4202-443E-BA62-168968DFB864}|summitlifedailyreport9.ConsoleApp\\summitlifedailyreport9.ConsoleApp.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.consoleapp\\excelops.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{ED51D400-4202-443E-BA62-168968DFB864}|summitlifedailyreport9.ConsoleApp\\summitlifedailyreport9.ConsoleApp.csproj|solutionrelative:summitlifedailyreport9.consoleapp\\excelops.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{669FC82A-C5A7-485B-9542-CA4B77A66701}|summitlifedailyreport9.Data\\summitlifedailyreport9.Data.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.data\\models\\qy_getdailyreportassetincentivestatuserroroutputcolumns.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{669FC82A-C5A7-485B-9542-CA4B77A66701}|summitlifedailyreport9.Data\\summitlifedailyreport9.Data.csproj|solutionrelative:summitlifedailyreport9.data\\models\\qy_getdailyreportassetincentivestatuserroroutputcolumns.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{669FC82A-C5A7-485B-9542-CA4B77A66701}|summitlifedailyreport9.Data\\summitlifedailyreport9.Data.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.data\\models\\qy_getdailyreportdupempnbrssncombosoutputcolumns.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{669FC82A-C5A7-485B-9542-CA4B77A66701}|summitlifedailyreport9.Data\\summitlifedailyreport9.Data.csproj|solutionrelative:summitlifedailyreport9.data\\models\\qy_getdailyreportdupempnbrssncombosoutputcolumns.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{669FC82A-C5A7-485B-9542-CA4B77A66701}|summitlifedailyreport9.Data\\summitlifedailyreport9.Data.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.data\\models\\qy_getdailyreportassetincentivestatuserroroutput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{669FC82A-C5A7-485B-9542-CA4B77A66701}|summitlifedailyreport9.Data\\summitlifedailyreport9.Data.csproj|solutionrelative:summitlifedailyreport9.data\\models\\qy_getdailyreportassetincentivestatuserroroutput.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{669FC82A-C5A7-485B-9542-CA4B77A66701}|summitlifedailyreport9.Data\\summitlifedailyreport9.Data.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.data\\models\\qy_getdailyreportassetincentivestatuserroroutputcolumns.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{669FC82A-C5A7-485B-9542-CA4B77A66701}|summitlifedailyreport9.Data\\summitlifedailyreport9.Data.csproj|solutionrelative:summitlifedailyreport9.data\\models\\qy_getdailyreportassetincentivestatuserroroutputcolumns.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C8655035-3B73-4961-99EC-EC3B14AA1350}|summitlifedailyreport9.WebApiLand\\summitlifedailyreport9.WebApiLand.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.webapiland\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{C8655035-3B73-4961-99EC-EC3B14AA1350}|summitlifedailyreport9.WebApiLand\\summitlifedailyreport9.WebApiLand.csproj|solutionrelative:summitlifedailyreport9.webapiland\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8655035-3B73-4961-99EC-EC3B14AA1350}|summitlifedailyreport9.WebApiLand\\summitlifedailyreport9.WebApiLand.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.webapiland\\controllers\\opscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8655035-3B73-4961-99EC-EC3B14AA1350}|summitlifedailyreport9.WebApiLand\\summitlifedailyreport9.WebApiLand.csproj|solutionrelative:summitlifedailyreport9.webapiland\\controllers\\opscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{669FC82A-C5A7-485B-9542-CA4B77A66701}|summitlifedailyreport9.Data\\summitlifedailyreport9.Data.csproj|d:\\source\\repos\\summitlifedailyreport9\\summitlifedailyreport9\\summitlifedailyreport9.data\\models\\dssummitlifecontext.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -34,7 +50,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 9,
           "Children": [
             {
               "$type": "Bookmark",
@@ -66,33 +82,85 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "CallWebApiLandClass1.cs",
-              "DocumentMoniker": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.CallWebApiLand\\CallWebApiLandClass1.cs",
-              "RelativeDocumentMoniker": "summitlifedailyreport9.CallWebApiLand\\CallWebApiLandClass1.cs",
-              "ToolTip": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.CallWebApiLand\\CallWebApiLandClass1.cs",
-              "RelativeToolTip": "summitlifedailyreport9.CallWebApiLand\\CallWebApiLandClass1.cs",
-              "ViewState": "AgIAAGcCAAAAAAAAAAAAAIkCAAANAAAAAAAAAA==",
+              "DocumentIndex": 3,
+              "Title": "ExcelOps.cs",
+              "DocumentMoniker": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.ConsoleApp\\ExcelOps.cs",
+              "RelativeDocumentMoniker": "summitlifedailyreport9.ConsoleApp\\ExcelOps.cs",
+              "ToolTip": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.ConsoleApp\\ExcelOps.cs",
+              "RelativeToolTip": "summitlifedailyreport9.ConsoleApp\\ExcelOps.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAswGIAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-26T20:38:03.34Z",
+              "WhenOpened": "2025-08-28T18:03:00.71Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "qy_GetDailyReportDupEmpNbrSsnCombosOutputColumns.cs",
+              "DocumentMoniker": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.Data\\Models\\qy_GetDailyReportDupEmpNbrSsnCombosOutputColumns.cs",
+              "RelativeDocumentMoniker": "summitlifedailyreport9.Data\\Models\\qy_GetDailyReportDupEmpNbrSsnCombosOutputColumns.cs",
+              "ToolTip": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.Data\\Models\\qy_GetDailyReportDupEmpNbrSsnCombosOutputColumns.cs",
+              "RelativeToolTip": "summitlifedailyreport9.Data\\Models\\qy_GetDailyReportDupEmpNbrSsnCombosOutputColumns.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABmAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-28T17:08:31.14Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "DailyReportsMainOps.cs",
+              "DocumentMoniker": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.ConsoleApp\\DailyReportsMainOps.cs",
+              "RelativeDocumentMoniker": "summitlifedailyreport9.ConsoleApp\\DailyReportsMainOps.cs",
+              "ToolTip": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.ConsoleApp\\DailyReportsMainOps.cs",
+              "RelativeToolTip": "summitlifedailyreport9.ConsoleApp\\DailyReportsMainOps.cs",
+              "ViewState": "AgIAALMEAAAAAAAAAAAuwNMEAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-28T16:35:05.545Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
               "Title": "appsettings.json",
+              "DocumentMoniker": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.ConsoleApp\\appsettings.json",
+              "RelativeDocumentMoniker": "summitlifedailyreport9.ConsoleApp\\appsettings.json",
+              "ToolTip": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.ConsoleApp\\appsettings.json",
+              "RelativeToolTip": "summitlifedailyreport9.ConsoleApp\\appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-08-28T16:54:34.486Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CallWebApiLandClass1.cs",
+              "DocumentMoniker": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.CallWebApiLand\\CallWebApiLandClass1.cs",
+              "RelativeDocumentMoniker": "summitlifedailyreport9.CallWebApiLand\\CallWebApiLandClass1.cs",
+              "ToolTip": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.CallWebApiLand\\CallWebApiLandClass1.cs",
+              "RelativeToolTip": "summitlifedailyreport9.CallWebApiLand\\CallWebApiLandClass1.cs",
+              "ViewState": "AgIAAGQCAAAAAAAAAAAuwH8CAAAIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-08-26T20:38:03.34Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "appsettings.json",
               "DocumentMoniker": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.WebApiLand\\appsettings.json",
               "RelativeDocumentMoniker": "summitlifedailyreport9.WebApiLand\\appsettings.json",
               "ToolTip": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.WebApiLand\\appsettings.json",
               "RelativeToolTip": "summitlifedailyreport9.WebApiLand\\appsettings.json",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAA0AAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAIAAAAyAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
               "WhenOpened": "2025-08-26T20:35:27.243Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 9,
               "Title": "DsSummitLifeContext.cs",
               "DocumentMoniker": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.Data\\Models\\DsSummitLifeContext.cs",
               "RelativeDocumentMoniker": "summitlifedailyreport9.Data\\Models\\DsSummitLifeContext.cs",
@@ -100,12 +168,11 @@
               "RelativeToolTip": "summitlifedailyreport9.Data\\Models\\DsSummitLifeContext.cs",
               "ViewState": "AgIAABgAAAAAAAAAAAAAADUAAABTAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-08-26T20:14:49.153Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-08-26T20:14:49.153Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "qy_GetDailyReportAssetIncentiveStatusErrorOutput.cs",
               "DocumentMoniker": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.Data\\Models\\qy_GetDailyReportAssetIncentiveStatusErrorOutput.cs",
               "RelativeDocumentMoniker": "summitlifedailyreport9.Data\\Models\\qy_GetDailyReportAssetIncentiveStatusErrorOutput.cs",
@@ -124,20 +191,20 @@
               "RelativeDocumentMoniker": "summitlifedailyreport9.Data\\Models\\qy_GetDailyReportAssetIncentiveStatusErrorOutputColumns.cs",
               "ToolTip": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.Data\\Models\\qy_GetDailyReportAssetIncentiveStatusErrorOutputColumns.cs",
               "RelativeToolTip": "summitlifedailyreport9.Data\\Models\\qy_GetDailyReportAssetIncentiveStatusErrorOutputColumns.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAARAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-26T20:08:21.321Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 8,
               "Title": "OpsController.cs",
               "DocumentMoniker": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.WebApiLand\\Controllers\\OpsController.cs",
               "RelativeDocumentMoniker": "summitlifedailyreport9.WebApiLand\\Controllers\\OpsController.cs",
               "ToolTip": "D:\\source\\repos\\SummitLifeDailyReport9\\summitlifedailyreport9\\summitlifedailyreport9.WebApiLand\\Controllers\\OpsController.cs",
               "RelativeToolTip": "summitlifedailyreport9.WebApiLand\\Controllers\\OpsController.cs",
-              "ViewState": "AgIAAFACAAAAAAAAAAAqwGgCAAAIAAAAAAAAAA==",
+              "ViewState": "AgIAADoCAAAAAAAAAAAkwEACAABCAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-08-26T20:05:38.033Z",
               "EditorCaption": ""

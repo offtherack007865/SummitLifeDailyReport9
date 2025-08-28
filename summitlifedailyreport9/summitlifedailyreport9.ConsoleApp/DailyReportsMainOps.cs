@@ -191,6 +191,19 @@ namespace summitlifedailyreport9.ConsoleApp
                     mydi_PopulateDailyReportPastApptScheduleEntriesWithNoLabsOutput.ErrorMessage;
                 return;
             }
+
+            // 013 - Ssns Not Listed In All Employees List
+            di_DailyReportAssetIncentiveStatusErrorOutput
+                mydi_DailyReportAssetIncentiveStatusErrorOutput =
+                    PopulateAssetIncentiveStatusError();
+            if (!mydi_DailyReportAssetIncentiveStatusErrorOutput.IsOk)
+            {
+                returnOutput.IsOk = false;
+                returnOutput.ErrorMessage =
+                    mydi_DailyReportAssetIncentiveStatusErrorOutput.ErrorMessage;
+                return;
+            }
+
         }
 
         // 001 - Populate Missing Bios
@@ -449,6 +462,27 @@ namespace summitlifedailyreport9.ConsoleApp
             return returnOutput;
         }
 
+        // 013 -  Populate Asset
+        public di_DailyReportAssetIncentiveStatusErrorOutput PopulateAssetIncentiveStatusError()
+        {
+            di_DailyReportAssetIncentiveStatusErrorOutput returnOutput =
+                new di_DailyReportAssetIncentiveStatusErrorOutput();
+
+            CallWebApiLandClass myCallWebApiLandClass =
+                new CallWebApiLandClass(this.MyFileConfigOptions.BaseWebUrl);
+            returnOutput =
+                myCallWebApiLandClass
+                .di_DailyReportAssetIncentiveStatusError();
+            if (!returnOutput.IsOk)
+            {
+                returnOutput.IsOk = false;
+                returnOutput.ErrorMessage =
+                    returnOutput.ErrorMessage;
+                return returnOutput;
+            }
+            return returnOutput;
+        }
+
 
         public void PopulateExcel(DailyReportsMainOpsOutput returnOutput)
         {
@@ -604,6 +638,18 @@ namespace summitlifedailyreport9.ConsoleApp
                 returnOutput.IsOk = false;
                 returnOutput.ErrorMessage =
                     myqy_GetDailyReportSsnsNotListedInAllEmployeesListOutput.ErrorMessage;
+                return;
+            }
+
+            // 013 -  Populate Asset Incentive Status Error Excel
+            qy_GetDailyReportAssetIncentiveStatusErrorOutput
+                myqy_GetDailyReportAssetIncentiveStatusErrorOutput =
+                    PopulateAssetIncentiveStatusErrorExcel();
+            if (!myqy_GetDailyReportAssetIncentiveStatusErrorOutput.IsOk)
+            {
+                returnOutput.IsOk = false;
+                returnOutput.ErrorMessage =
+                    myqy_GetDailyReportAssetIncentiveStatusErrorOutput.ErrorMessage;
                 return;
             }
 
@@ -1150,5 +1196,47 @@ namespace summitlifedailyreport9.ConsoleApp
 
             return returnOutput;
         }
+
+        // 013 -  Populate Ssns Not Listed In All Employees List Excel
+        public qy_GetDailyReportAssetIncentiveStatusErrorOutput PopulateAssetIncentiveStatusErrorExcel()
+        {
+            qy_GetDailyReportAssetIncentiveStatusErrorOutput returnOutput =
+                new qy_GetDailyReportAssetIncentiveStatusErrorOutput();
+
+            CallWebApiLandClass myCallWebApiLandClass =
+                new CallWebApiLandClass(this.MyFileConfigOptions.BaseWebUrl);
+            returnOutput =
+                myCallWebApiLandClass
+                .qy_GetDailyReportAssetIncentiveStatusError();
+            if (!returnOutput.IsOk)
+            {
+                returnOutput.IsOk = false;
+                returnOutput.ErrorMessage =
+                    returnOutput.ErrorMessage;
+                return returnOutput;
+            }
+
+            if (returnOutput.qy_GetDailyReportAssetIncentiveStatusErrorOutputColumnsList.Count > 0)
+            {
+                List<qy_GetDailyReportBaseOutputColumns>
+                    myqy_GetDailyReportBaseOutputColumnsList =
+                        new List<qy_GetDailyReportBaseOutputColumns>();
+                foreach (var loopRecord in returnOutput.qy_GetDailyReportAssetIncentiveStatusErrorOutputColumnsList)
+                {
+                    myqy_GetDailyReportBaseOutputColumnsList.Add(loopRecord);
+                }
+                ExcelOps myExcelOps =
+                    new ExcelOps
+                        (
+                            Myqy_GetDailyReportConfigOutputColumns
+                            , myqy_GetDailyReportBaseOutputColumnsList
+                        );
+                string populateWorksheetError =
+                    myExcelOps.PopulateWorksheet();
+            }
+
+            return returnOutput;
+        }
+
     }
 }

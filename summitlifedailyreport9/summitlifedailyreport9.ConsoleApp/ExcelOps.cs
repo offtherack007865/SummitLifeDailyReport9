@@ -96,6 +96,9 @@ namespace summitlifedailyreport9.ConsoleApp
                 case "qy_GetDailyReportSsnsNotListedInAllEmployeesListOutputColumns":
                     ExcelTabName = "012_SsnsNotListedInAllEmployees";
                     break;
+                case "qy_GetDailyReportAssetIncentiveStatusErrorOutputColumns":
+                    ExcelTabName = "013_AssetIncentiveStatusError";
+                    break;
 
             }
         }

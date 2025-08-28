@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace summitlifedailyreport9.Data.Models
 {
-    public class qy_GetDailyReportAssetIncentiveStatusErrorOutputColumns
+    public class qy_GetDailyReportAssetIncentiveStatusErrorOutputColumns : qy_GetDailyReportBaseOutputColumns
     {
         public string ErrorMessage { get; set; }
         public string DataGatheredOnTimestamp { get; set; }
