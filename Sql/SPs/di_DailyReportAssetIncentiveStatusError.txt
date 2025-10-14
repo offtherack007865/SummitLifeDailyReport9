@@ -1,14 +1,21 @@
 -- SQL Server Instance:  smg-sql01
 USE [Utilities];
-IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('sl.di_DailyReportAssetIncentiveStatusError'))
-   DROP PROC [sl].[di_DailyReportAssetIncentiveStatusError]
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('sl.di_DailyReportAssetIncentiveStatusErrorForOneEmployee'))
+   DROP PROC [sl].[di_DailyReportAssetIncentiveStatusErrorForOneEmployee]
 GO
-CREATE PROCEDURE [sl].[di_DailyReportAssetIncentiveStatusError]
+CREATE PROCEDURE [sl].[di_DailyReportAssetIncentiveStatusErrorForOneEmployee]
+(
+  @inputEmployeeNumber [nvarchar] (10)
+  ,@inputEmployeeLastName [nvarchar] (50)
+  ,@inputEmployeeFirstName [nvarchar] (50)
+  ,@inputEmployeeDob [datetime]
+)
+
 /* -----------------------------------------------------------------------------------------------------------
-   Procedure Name  :  sl.di_DailyReportAssetIncentiveStatusError
+   Procedure Name  :  sl.di_DailyReportAssetIncentiveStatusErrorForOneEmployee
    Business Analyis:
    Project/Process :   
-   Description     :  Populate the DailyReportAssetIncentiveStatusError table.
+   Description     :  Populate the DailyReportAssetIncentiveStatusError table for one Employee.
 	  
    Author          :  Philip Morrison 
    Create Date     :  08/25/2025
@@ -151,12 +158,20 @@ BEGIN TRY
       
       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
       (
-        [ErrorMessage]
+        [EmployeeNumber]
+        ,[EmployeeLastName]
+        ,[EmployeeFirstName]
+        ,[EmployeeDob]
+        ,[ErrorMessage]
         ,[DataGatheredOnTimestamp]
       )
       VALUES
       (
-        'HealthAssessmentPoints has an invalid value, ' + CONVERT([nvarchar] (10), @HealthAssessmentPoints) + '.  HealthAssessmentPoints must be either 0 or 100.'
+        @inputEmployeeNumber
+        ,@inputEmployeeLastName
+        ,@inputEmployeeFirstName
+        ,@inputEmployeeDob
+        ,'HealthAssessmentPoints has an invalid value, ' + CONVERT([nvarchar] (10), @HealthAssessmentPoints) + '.  HealthAssessmentPoints must be either 0 or 100.'
         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
       );
       
@@ -178,12 +193,20 @@ BEGIN TRY
       
       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
       (
-        [ErrorMessage]
+        [EmployeeNumber]
+        ,[EmployeeLastName]
+        ,[EmployeeFirstName]
+        ,[EmployeeDob]
+        ,[ErrorMessage]
         ,[DataGatheredOnTimestamp]
       )
       VALUES
       (
-        'BiometricSubmittedPoints has an invalid value, ' + CONVERT([nvarchar] (10), @BiometricSubmittedPoints) + '.  BiometricSubmittedPoints must be either 0 or 100.'
+        @inputEmployeeNumber
+        ,@inputEmployeeLastName
+        ,@inputEmployeeFirstName
+        ,@inputEmployeeDob
+        ,'BiometricSubmittedPoints has an invalid value, ' + CONVERT([nvarchar] (10), @BiometricSubmittedPoints) + '.  BiometricSubmittedPoints must be either 0 or 100.'
         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
       );
 
@@ -205,12 +228,20 @@ BEGIN TRY
       
       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
       (
-        [ErrorMessage]
+        [EmployeeNumber]
+        ,[EmployeeLastName]
+        ,[EmployeeFirstName]
+        ,[EmployeeDob]
+        ,[ErrorMessage]
         ,[DataGatheredOnTimestamp]
       )
       VALUES
       (
-        'BloodPressurePoints has an invalid value, ' + CONVERT([nvarchar] (10), @BloodPressurePoints) + '.  BloodPressurePoints must be either 0 or 25.'
+        @inputEmployeeNumber
+        ,@inputEmployeeLastName
+        ,@inputEmployeeFirstName
+        ,@inputEmployeeDob
+        ,'BloodPressurePoints has an invalid value, ' + CONVERT([nvarchar] (10), @BloodPressurePoints) + '.  BloodPressurePoints must be either 0 or 25.'
         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
       );
 
@@ -232,12 +263,20 @@ BEGIN TRY
       
       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
       (
-        [ErrorMessage]
+        [EmployeeNumber]
+        ,[EmployeeLastName]
+        ,[EmployeeFirstName]
+        ,[EmployeeDob]
+        ,[ErrorMessage]
         ,[DataGatheredOnTimestamp]
       )
       VALUES
       (
-        'WaistCircumferencePoints has an invalid value, ' + CONVERT([nvarchar] (10), @WaistCircumferencePoints) + '.  WaistCircumferencePoints must be either 0 or 25.'
+        @inputEmployeeNumber
+        ,@inputEmployeeLastName
+        ,@inputEmployeeFirstName
+        ,@inputEmployeeDob
+        ,'WaistCircumferencePoints has an invalid value, ' + CONVERT([nvarchar] (10), @WaistCircumferencePoints) + '.  WaistCircumferencePoints must be either 0 or 25.'
         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
       );
 
@@ -259,12 +298,20 @@ BEGIN TRY
       
       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
       (
-        [ErrorMessage]
+        [EmployeeNumber]
+        ,[EmployeeLastName]
+        ,[EmployeeFirstName]
+        ,[EmployeeDob]
+        ,[ErrorMessage]
         ,[DataGatheredOnTimestamp]
       )
       VALUES
       (
-        'CholesterolRatioPoints has an invalid value, ' + CONVERT([nvarchar] (10), @CholesterolRatioPoints) + '.  CholesterolRatioPoints must be either 0 or 25.'
+        @inputEmployeeNumber
+        ,@inputEmployeeLastName
+        ,@inputEmployeeFirstName
+        ,@inputEmployeeDob
+        ,'CholesterolRatioPoints has an invalid value, ' + CONVERT([nvarchar] (10), @CholesterolRatioPoints) + '.  CholesterolRatioPoints must be either 0 or 25.'
         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
       );
 
@@ -286,12 +333,20 @@ BEGIN TRY
       
       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
       (
-        [ErrorMessage]
+        [EmployeeNumber]
+        ,[EmployeeLastName]
+        ,[EmployeeFirstName]
+        ,[EmployeeDob]
+        ,[ErrorMessage]
         ,[DataGatheredOnTimestamp]
       )
       VALUES
       (
-        'TriglyceridePoints has an invalid value, ' + CONVERT([nvarchar] (10), @TriglyceridePoints) + '.  TriglyceridePoints must be either 0 or 25.'
+        @inputEmployeeNumber
+        ,@inputEmployeeLastName
+        ,@inputEmployeeFirstName
+        ,@inputEmployeeDob
+        ,'TriglyceridePoints has an invalid value, ' + CONVERT([nvarchar] (10), @TriglyceridePoints) + '.  TriglyceridePoints must be either 0 or 25.'
         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
       );
 
@@ -313,12 +368,20 @@ BEGIN TRY
       
       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
       (
-        [ErrorMessage]
+        [EmployeeNumber]
+        ,[EmployeeLastName]
+        ,[EmployeeFirstName]
+        ,[EmployeeDob]
+        ,[ErrorMessage]
         ,[DataGatheredOnTimestamp]
       )
       VALUES
       (
-        'Hba1cPoints has an invalid value, ' + CONVERT([nvarchar] (10), @Hba1cPoints) + '.  Hba1cPoints must be either 0 or 25.'
+        @inputEmployeeNumber
+        ,@inputEmployeeLastName
+        ,@inputEmployeeFirstName
+        ,@inputEmployeeDob
+        ,'Hba1cPoints has an invalid value, ' + CONVERT([nvarchar] (10), @Hba1cPoints) + '.  Hba1cPoints must be either 0 or 25.'
         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
       );
       
@@ -340,12 +403,20 @@ BEGIN TRY
       
       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
       (
-        [ErrorMessage]
+        [EmployeeNumber]
+        ,[EmployeeLastName]
+        ,[EmployeeFirstName]
+        ,[EmployeeDob]
+        ,[ErrorMessage]
         ,[DataGatheredOnTimestamp]
       )
       VALUES
       (
-        'TobaccoFreePoints has an invalid value, ' + CONVERT([nvarchar] (10), @TobaccoFreePoints) + '.  TobaccoFreePoints must be either 0 or 25.'
+        @inputEmployeeNumber
+        ,@inputEmployeeLastName
+        ,@inputEmployeeFirstName
+        ,@inputEmployeeDob
+        ,'TobaccoFreePoints has an invalid value, ' + CONVERT([nvarchar] (10), @TobaccoFreePoints) + '.  TobaccoFreePoints must be either 0 or 25.'
         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
       );
 
@@ -367,12 +438,20 @@ BEGIN TRY
       
          INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
          (
-            [ErrorMessage]
-            ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
          )
          VALUES
          (
-            'PreventativePoints value, ' + CONVERT([nvarchar] (10), @PreventativePoints) + ',  exceeds the maximum of 150.'
+            @inputEmployeeNumber
+            ,@inputEmployeeLastName
+            ,@inputEmployeeFirstName
+            ,@inputEmployeeDob
+            ,'PreventativePoints value, ' + CONVERT([nvarchar] (10), @PreventativePoints) + ',  exceeds the maximum of 150.'
             ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
          );
 
@@ -388,12 +467,20 @@ BEGIN TRY
       
          INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
          (
-            [ErrorMessage]
-            ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
          )
          VALUES
          (
-           'PreventativePoints has an invalid value, ' + CONVERT([nvarchar] (10), @PreventativePoints) + '.  PreventativePoints must be a multiple of 25.'
+            @inputEmployeeNumber
+            ,@inputEmployeeLastName
+            ,@inputEmployeeFirstName
+            ,@inputEmployeeDob
+            ,'PreventativePoints has an invalid value, ' + CONVERT([nvarchar] (10), @PreventativePoints) + '.  PreventativePoints must be a multiple of 25.'
             ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
          );
       
@@ -415,12 +502,20 @@ BEGIN TRY
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'CoursePoints value, ' + CONVERT([nvarchar] (10), @CoursePoints) + ',  exceeds the maximum of 150.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'CoursePoints value, ' + CONVERT([nvarchar] (10), @CoursePoints) + ',  exceeds the maximum of 150.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -435,12 +530,20 @@ BEGIN TRY
       
          INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
          (
-            [ErrorMessage]
-            ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
          )
          VALUES
          (
-           'CoursePoints has an invalid value, ' + CONVERT([nvarchar] (10), @CoursePoints) + '.  CoursePoints must be a multiple of 10.'
+            @inputEmployeeNumber
+           ,@inputEmployeeLastName
+           ,@inputEmployeeFirstName
+           ,@inputEmployeeDob
+           ,'CoursePoints has an invalid value, ' + CONVERT([nvarchar] (10), @CoursePoints) + '.  CoursePoints must be a multiple of 10.'
            ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
          );
 
@@ -462,12 +565,20 @@ BEGIN TRY
       
          INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
          (
-            [ErrorMessage]
-            ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
          )
          VALUES
          (
-            'CoachingCallPoints value, ' + CONVERT([nvarchar] (10), @CoachingCallPoints) + ',  CoachingCallPoints must be 0 or 50.'
+            @inputEmployeeNumber
+            ,@inputEmployeeLastName
+            ,@inputEmployeeFirstName
+            ,@inputEmployeeDob
+            ,'CoachingCallPoints value, ' + CONVERT([nvarchar] (10), @CoachingCallPoints) + ',  CoachingCallPoints must be 0 or 50.'
             ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
          );
 
@@ -488,12 +599,20 @@ BEGIN TRY
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'PhysicalActivityTrackingPoints value, ' + CONVERT([nvarchar] (10), @PhysicalActivityTrackingPoints) + ',  exceeds the maximum of 200.'
+         @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'PhysicalActivityTrackingPoints value, ' + CONVERT([nvarchar] (10), @PhysicalActivityTrackingPoints) + ',  exceeds the maximum of 200.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -508,12 +627,20 @@ BEGIN TRY
       
          INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
          (
-            [ErrorMessage]
-            ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
          )
          VALUES
          (
-           'PhysicalActivityTrackingPoints has an invalid value, ' + CONVERT([nvarchar] (10), @PhysicalActivityTrackingPoints) + '.  PhysicalActivityTrackingPoints must be a multiple of 100.'
+             @inputEmployeeNumber
+            ,@inputEmployeeLastName
+            ,@inputEmployeeFirstName
+            ,@inputEmployeeDob
+            ,'PhysicalActivityTrackingPoints has an invalid value, ' + CONVERT([nvarchar] (10), @PhysicalActivityTrackingPoints) + '.  PhysicalActivityTrackingPoints must be a multiple of 100.'
             ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
          );
 
@@ -535,12 +662,20 @@ BEGIN TRY
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'AssetHealthChallengePoints value, ' + CONVERT([nvarchar] (10), @AssetHealthChallengePoints) + ',  exceeds the maximum of 100.'
+         @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'AssetHealthChallengePoints value, ' + CONVERT([nvarchar] (10), @AssetHealthChallengePoints) + ',  exceeds the maximum of 100.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -555,12 +690,20 @@ BEGIN TRY
       
          INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
          (
-            [ErrorMessage]
-            ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
          )
          VALUES
          (
-           'AssetHealthChallengePoints has an invalid value, ' + CONVERT([nvarchar] (10), @AssetHealthChallengePoints) + '.  AssetHealthChallengePoints must be a multiple of 20.'
+            @inputEmployeeNumber
+            ,@inputEmployeeLastName
+            ,@inputEmployeeFirstName
+            ,@inputEmployeeDob
+            ,'AssetHealthChallengePoints has an invalid value, ' + CONVERT([nvarchar] (10), @AssetHealthChallengePoints) + '.  AssetHealthChallengePoints must be a multiple of 20.'
             ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
          );
 
@@ -582,12 +725,20 @@ BEGIN TRY
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'SummitChallengePoints value, ' + CONVERT([nvarchar] (10), @SummitChallengePoints) + ',  exceeds the maximum of 100.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'SummitChallengePoints value, ' + CONVERT([nvarchar] (10), @SummitChallengePoints) + ',  exceeds the maximum of 100.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -602,12 +753,20 @@ BEGIN TRY
       
          INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
          (
-            [ErrorMessage]
-            ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
          )
          VALUES
          (
-           'SummitChallengePoints has an invalid value, ' + CONVERT([nvarchar] (10), @SummitChallengePoints) + '.  SummitChallengePoints must be a multiple of 20.'
+             @inputEmployeeNumber
+            ,@inputEmployeeLastName
+            ,@inputEmployeeFirstName
+            ,@inputEmployeeDob
+            ,'SummitChallengePoints has an invalid value, ' + CONVERT([nvarchar] (10), @SummitChallengePoints) + '.  SummitChallengePoints must be a multiple of 20.'
             ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
          );
 
@@ -628,12 +787,20 @@ BEGIN TRY
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'VirtaHealthPoints value, ' + CONVERT([nvarchar] (10), @VirtaHealthPoints) + ',  is invalid.  VirtaHealthPoints value must be 0, 50, or 100.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'VirtaHealthPoints value, ' + CONVERT([nvarchar] (10), @VirtaHealthPoints) + ',  is invalid.  VirtaHealthPoints value must be 0, 50, or 100.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -654,12 +821,20 @@ BEGIN TRY
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'EventsPoints value, ' + CONVERT([nvarchar] (10), @EventsPoints) + ',  exceeds the maximum of 100.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'EventsPoints value, ' + CONVERT([nvarchar] (10), @EventsPoints) + ',  exceeds the maximum of 100.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -674,12 +849,20 @@ BEGIN TRY
       
          INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
          (
-            [ErrorMessage]
-            ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
          )
          VALUES
          (
-           'EventsPoints has an invalid value, ' + CONVERT([nvarchar] (10), @EventsPoints) + '.  EventsPoints must be a multiple of 20.'
+            @inputEmployeeNumber
+           ,@inputEmployeeLastName
+           ,@inputEmployeeFirstName
+           ,@inputEmployeeDob
+           ,'EventsPoints has an invalid value, ' + CONVERT([nvarchar] (10), @EventsPoints) + '.  EventsPoints must be a multiple of 20.'
            ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
          );
 
@@ -701,12 +884,20 @@ BEGIN TRY
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'HingePoints value, ' + CONVERT([nvarchar] (10), @HingePoints) + ',  is invalid.  HingePoints value must be  0, 5, 15, 20, 25, or 40.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'HingePoints value, ' + CONVERT([nvarchar] (10), @HingePoints) + ',  is invalid.  HingePoints value must be  0, 5, 15, 20, 25, or 40.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -727,12 +918,20 @@ BEGIN TRY
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'HeadspacePoints value, ' + CONVERT([nvarchar] (10), @HeadspacePoints) + ',  exceeds the maximum of 100.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'HeadspacePoints value, ' + CONVERT([nvarchar] (10), @HeadspacePoints) + ',  exceeds the maximum of 100.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -747,12 +946,20 @@ BEGIN TRY
       
          INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
          (
-            [ErrorMessage]
-            ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
          )
          VALUES
          (
-           'HeadspacePoints has an invalid value, ' + CONVERT([nvarchar] (10), @HeadspacePoints) + '.  HeadspacePoints must be a multiple of 5.'
+            @inputEmployeeNumber
+           ,@inputEmployeeLastName
+           ,@inputEmployeeFirstName
+           ,@inputEmployeeDob
+           ,'HeadspacePoints has an invalid value, ' + CONVERT([nvarchar] (10), @HeadspacePoints) + '.  HeadspacePoints must be a multiple of 5.'
            ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
          );
 
@@ -775,12 +982,20 @@ BEGIN TRY
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'SupportLincEapPoints value, ' + CONVERT([nvarchar] (10), @SupportLincEapPoints) + ',  exceeds the maximum of 100.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'SupportLincEapPoints value, ' + CONVERT([nvarchar] (10), @SupportLincEapPoints) + ',  exceeds the maximum of 100.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -795,12 +1010,20 @@ BEGIN TRY
       
          INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
          (
-            [ErrorMessage]
-            ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
          )
          VALUES
          (
-           'SupportLincEapPoints has an invalid value, ' + CONVERT([nvarchar] (10), @SupportLincEapPoints) + '.  SupportLincEapPoints must be a multiple of 5.'
+            @inputEmployeeNumber
+           ,@inputEmployeeLastName
+           ,@inputEmployeeFirstName
+           ,@inputEmployeeDob
+           ,'SupportLincEapPoints has an invalid value, ' + CONVERT([nvarchar] (10), @SupportLincEapPoints) + '.  SupportLincEapPoints must be a multiple of 5.'
            ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
          );
 
@@ -822,12 +1045,20 @@ BEGIN TRY
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'HealthyLifestylePoints value, ' + CONVERT([nvarchar] (10), @HealthyLifestylePoints) + ', is invalid.  HealthyLifestylePoints must be 0, 25, 50, or 75.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'HealthyLifestylePoints value, ' + CONVERT([nvarchar] (10), @HealthyLifestylePoints) + ', is invalid.  HealthyLifestylePoints must be 0, 25, 50, or 75.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -858,12 +1089,20 @@ IF (@BaseLevelChecksAllPassed = 1) BEGIN
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'The sum of BloodPressurePoints, WaistCircumferencePoints, CholesterolRatioPoints, TriglyceridePoints, and Hba1cPoints ' + CONVERT([nvarchar] (10), @SumOfHealthyLifestylePoints) + ' does not equal the TotalHealthyTargetPoints from the Asset Incentive Status Report, ' + CONVERT([nvarchar] (10), @TotalHealthyTargetPoints) 
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'The sum of BloodPressurePoints, WaistCircumferencePoints, CholesterolRatioPoints, TriglyceridePoints, and Hba1cPoints ' + CONVERT([nvarchar] (10), @SumOfHealthyLifestylePoints) + ' does not equal the TotalHealthyTargetPoints from the Asset Incentive Status Report, ' + CONVERT([nvarchar] (10), @TotalHealthyTargetPoints) 
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -877,12 +1116,20 @@ IF (@BaseLevelChecksAllPassed = 1) BEGIN
       
           INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
           (
-            [ErrorMessage]
+            [EmployeeNumber]
+            ,[EmployeeLastName]
+            ,[EmployeeFirstName]
+            ,[EmployeeDob]
+            ,[ErrorMessage]
             ,[DataGatheredOnTimestamp]
           )
           VALUES
           (
-            'The sum of BloodPressurePoints, WaistCircumferencePoints, CholesterolRatioPoints, TriglyceridePoints, and Hba1cPoints ' + CONVERT([nvarchar] (10), @SumOfHealthyLifestylePoints) + ' exceeds the maximum value of 125.'
+             @inputEmployeeNumber
+            ,@inputEmployeeLastName
+            ,@inputEmployeeFirstName
+            ,@inputEmployeeDob
+            ,'The sum of BloodPressurePoints, WaistCircumferencePoints, CholesterolRatioPoints, TriglyceridePoints, and Hba1cPoints ' + CONVERT([nvarchar] (10), @SumOfHealthyLifestylePoints) + ' exceeds the maximum value of 125.'
             ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
           );
 
@@ -918,12 +1165,20 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'The HealthyMeasuresAndLifestyleTargetsCategoryPoints, the sum of HealthAssessmentPoints, BiometricSubmittedPoints, BloodPressurePoints, WaistCircumferencePoints, CholesterolRatioPoints, TriglyceridePoints, Hba1cPoints, and TobaccoFreePoints, ' + CONVERT([nvarchar] (10), @HealthyMeasuresAndLifestyleTargetsCategoryPoints) + ', exceeds the maximum of 325.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'The HealthyMeasuresAndLifestyleTargetsCategoryPoints, the sum of HealthAssessmentPoints, BiometricSubmittedPoints, BloodPressurePoints, WaistCircumferencePoints, CholesterolRatioPoints, TriglyceridePoints, Hba1cPoints, and TobaccoFreePoints, ' + CONVERT([nvarchar] (10), @HealthyMeasuresAndLifestyleTargetsCategoryPoints) + ', exceeds the maximum of 325.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -950,12 +1205,20 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'PortalActivitiesCategoryPoints, the sum of CoursePoints and CoachingCallPoints, ' + CONVERT([nvarchar] (10), @PortalActivitiesCategoryPoints) + ', exceeds the maximum of 150.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'PortalActivitiesCategoryPoints, the sum of CoursePoints and CoachingCallPoints, ' + CONVERT([nvarchar] (10), @PortalActivitiesCategoryPoints) + ', exceeds the maximum of 150.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -982,12 +1245,20 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'The WellnessChallengesCategoryPoints, the sum of AssetHealthChallengePoints and SummitChallengePoints, ' + CONVERT([nvarchar] (10), @WellnessChallengesCategoryPoints) + ', exceeds the maximum of 100.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'The WellnessChallengesCategoryPoints, the sum of AssetHealthChallengePoints and SummitChallengePoints, ' + CONVERT([nvarchar] (10), @WellnessChallengesCategoryPoints) + ', exceeds the maximum of 100.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -1014,12 +1285,20 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'The SummitHealthPlanEnrolleeOfferingsCategoryPoints, the sum of VirtaHealthPoints and HingePoints, ' + CONVERT([nvarchar] (10), @SummitHealthPlanEnrolleeOfferingsCategoryPoints) + ' exceeds the maximum of 140.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'The SummitHealthPlanEnrolleeOfferingsCategoryPoints, the sum of VirtaHealthPoints and HingePoints, ' + CONVERT([nvarchar] (10), @SummitHealthPlanEnrolleeOfferingsCategoryPoints) + ' exceeds the maximum of 140.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -1046,12 +1325,20 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'The EmotionalHealthActivitiesCategoryPoints, the sum of HeadspacePoints and SupportLincEapPoints, ' + CONVERT([nvarchar] (10), @EmotionalHealthActivitiesCategoryPoints) + ' exceeds the maximum of 100.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'The EmotionalHealthActivitiesCategoryPoints, the sum of HeadspacePoints and SupportLincEapPoints, ' + CONVERT([nvarchar] (10), @EmotionalHealthActivitiesCategoryPoints) + ' exceeds the maximum of 100.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
@@ -1080,12 +1367,20 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
        (
-         [ErrorMessage]
-         ,[DataGatheredOnTimestamp]
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
        )
        VALUES
        (
-         'The sum of all points categories, ' + CONVERT([nvarchar] (10), @SumOfAllCategoriesPoints) + ' does not equal PointTotal from the Asset Incentive Points Status Report, ' + CONVERT([nvarchar] (10), @PointTotal) + '.'
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'The sum of all points categories, ' + CONVERT([nvarchar] (10), @SumOfAllCategoriesPoints) + ' does not equal PointTotal from the Asset Incentive Points Status Report, ' + CONVERT([nvarchar] (10), @PointTotal) + '.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 

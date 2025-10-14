@@ -28,9 +28,13 @@ GO
 
 
 CREATE TABLE [dbo].[DailyReportAssetIncentiveStatusError](
-	[DailyReportAssetIncentiveStatusErrorID] [int] IDENTITY(1,1) NOT NULL,
-	[ErrorMessage] [nvarchar](1000) NOT NULL,    
-	[DataGatheredOnTimestamp] [nvarchar](100) NOT NULL
+	[DailyReportAssetIncentiveStatusErrorID] [int] IDENTITY(1,1) NOT NULL
+    ,[EmployeeNumber] [nvarchar] (10) NOT NULL
+    ,[EmployeeLastName] [nvarchar] (50) NOT NULL
+    ,[EmployeeFirstName] [nvarchar] (50) NOT NULL
+    ,[EmployeeDob] [datetime] NOT NULL
+	,[ErrorMessage] [nvarchar](1000) NOT NULL    
+	,[DataGatheredOnTimestamp] [nvarchar](100) NOT NULL
  CONSTRAINT [pk_dboDailyReportAssetIncentiveStatusError] PRIMARY KEY CLUSTERED 
 (
 	[DailyReportAssetIncentiveStatusErrorID] ASC

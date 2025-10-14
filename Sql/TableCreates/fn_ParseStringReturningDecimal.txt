@@ -1,0 +1,53 @@
+-- SQL Instance Name:  smg-sql01
+if (@@SERVERNAME != 'smg-dsdev05')
+begin
+print 'Invalid SQL Server Connection'
+return
+end
+
+USE [SUPPORT];
+
+IF EXISTS (
+    SELECT * FROM sysobjects WHERE id = object_id(N'sl.fn_ParseStringReturningDecimal') 
+    AND xtype IN (N'FN', N'IF', N'TF')
+)
+DROP FUNCTION [sl].[fn_ParseStringReturningDecimal]
+GO
+-- create function scalar-valued 
+CREATE FUNCTION [sl].[fn_ParseStringReturningDecimal] 
+(
+    @inputString [nvarchar] (30) 
+)
+RETURNS [decimal] (10, 4)
+AS
+BEGIN
+  DECLARE @returnDecimal [decimal] (10, 4)  = 0;
+  DECLARE @numeratorString [nvarchar] (30) = '';
+  DECLARE @denominatorString [nvarchar] (30) = '';
+  DECLARE @numeratorInt [int] = 0;
+  DECLARE @denominatorInt [int] = 0;
+  
+  IF (CHARINDEX('.', @inputString) > 1) BEGIN
+    SET @numeratorString = SUBSTRING (@inputString, 1, CHARINDEX('.', @inputString) - 1);
+    IF (ISNUMERIC (@numeratorString) = 0) BEGIN
+      RETURN @returnDecimal;
+    END
+    SET @denominatorString = SUBSTRING (@inputString, CHARINDEX('.', @inputString) + 1, LEN(@inputString) - CHARINDEX('.', @inputString));
+    IF (ISNUMERIC (@denominatorString) = 0) BEGIN
+      RETURN @returnDecimal;
+    END
+    SET @numeratorInt = CONVERT ([int] ,@numeratorString);
+    print '@numeratorInt = ' + CONVERT ([nvarchar] (30), @numeratorInt);
+    SET @denominatorInt = CONVERT ([int] ,@denominatorInt);
+    print '@denominatorInt = ' + CONVERT ([nvarchar] (30), @denominatorInt);
+    SET @returnDecimal = CONVERT([decimal] (10, 4), @numeratorInt + (@denominatorInt / 100));
+    print '@returnDecimal = ' + CONVERT ([nvarchar] (30), @returnDecimal);
+    
+  END
+  ELSE BEGIN
+    SET @returnDecimal = CONVERT([decimal] (10, 4), @numeratorString);
+  END
+
+  RETURN @returnDecimal;
+
+END
