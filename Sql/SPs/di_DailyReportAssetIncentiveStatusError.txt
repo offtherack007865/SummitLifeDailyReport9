@@ -74,6 +74,20 @@ DECLARE @EmotionalHealthActivitiesCategoryPoints [int] = 0;
 DECLARE @SumOfHealthyLifestylePoints [int] = 0; 
 DECLARE @SumOfAllCategoriesPoints [int] = 0; 
 
+DECLARE @Gender [nvarchar] (30) = '';
+DECLARE @SystolicBloodPressure [decimal] (10,4) = 0
+DECLARE @DiastolicBloodPressure [decimal] (10,4) = 0
+DECLARE @WaistInches [decimal] (10,4) = 0
+DECLARE @TcOverHdl [decimal] (10,4) = 0
+DECLARE @Triglycerides [decimal] (10,4) = 0
+DECLARE @HemoglobinA1C [decimal] (10,4) = 0
+DECLARE @BloodPressurePointsShouldHaveBeenEarned [bit] = 0;
+DECLARE @WaistCircumferencePointsShouldHaveBeenEarned [bit] = 0;
+DECLARE @CholesterolRatioPointsShouldHaveBeenEarned [bit] = 0;
+DECLARE @TriglyceridePointsShouldHaveBeenEarned [bit] = 0;
+DECLARE @A1cPointsShouldHaveBeenEarned [bit] = 0;
+
+
 
 -- Template Declarations
 DECLARE @Application            varchar(128) = 'Summit Life' 
@@ -1392,7 +1406,106 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-         
+-- Blood Pressure: less than or equal to 130/85
+-- Waist Circumference: Male: less than or equal to 40"; Female: less than or equal to 35"
+-- Cholesterol ratio: less than 5.0 
+-- Triglycerides: less than 150
+-- A1c: less than 5.7      
+
+    SET @BatchDetailDescription = '300/290:  Get "Healthy Target" Measurements from Bio in order to validate the Asset Points were earned.'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    -- Get Healthy Target Measurements sent to Asset so we can calculate whether the employee's measurement values merit the points Asset
+    -- rewards them.
+    SELECT @AnticipatedRecordCount = COUNT(*)
+    FROM [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster]
+    WHERE [EmployeeID] = @inputEmployeeNumber;
+    
+    SET @SystolicBloodPressure = 0;
+    SET @DiastolicBloodPressure = 0;
+    SET @WaistInches = 0;
+    SET @TcOverHdl = 0;
+    SET @Triglycerides = 0;
+    SET @HemoglobinA1C = 0;
+      
+    SELECT
+          @Gender = ISNULL([Gender],'')
+	     ,@SystolicBloodPressure = CONVERT([decimal] (10, 4), [SystolicBloodPressure])
+	     ,@DiastolicBloodPressure = CONVERT([decimal] (10, 4), [DiastolicBloodPressure])
+ 	     ,@WaistInches = CONVERT([decimal] (10, 4), [WaistInches])
+	     ,@TcOverHdl = CONVERT([decimal] (10, 4), [TcOverHdl])
+	     ,@Triglycerides = CONVERT([decimal] (10, 4), [Triglycerides])
+         ,@HemoglobinA1C = CONVERT([decimal] (10, 4), [HemoglobinA1C])
+    FROM [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster]
+    WHERE [EmployeeID] = @inputEmployeeNumber;
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+  -- Blood Pressure: less than or equal to 130/85
+
+    SET @BatchDetailDescription = '310/290:  If the Blood Pressure is less than 130/85, the employee deserves the points for Blood Pressure'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SET @BloodPressurePointsShouldHaveBeenEarned = 0;
+    IF (@SystolicBloodPressure IS NOT NULL AND @SystolicBloodPressure <= 130 AND @DiastolicBloodPressure IS NULL AND @DiastolicBloodPressure <= 85) BEGIN
+      SET @BloodPressurePointsShouldHaveBeenEarned = 1;
+    END
+    
+    IF (@BloodPressurePointsShouldHaveBeenEarned = 0 AND @BloodPressurePoints > 0) BEGIN
+    
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee earned ' + CONVERT([nvarchar] (10), @BloodPressurePoints) + ' blood pressure points.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure)
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    ELSE IF (@BloodPressurePointsShouldHaveBeenEarned = 0 AND @BloodPressurePoints > 0) BEGIN
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee did not earn Blood Pressure Points, but the Employee should have earned 25 points for Blood Pressure.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure)
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
     END
 END
 END
