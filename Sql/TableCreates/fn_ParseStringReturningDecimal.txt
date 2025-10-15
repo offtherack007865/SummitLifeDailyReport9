@@ -20,12 +20,12 @@ CREATE FUNCTION [sl].[fn_ParseStringReturningDecimal]
 )
 RETURNS [decimal] (10, 4)
 AS
-BEGIN
+BEGIN  
   DECLARE @returnDecimal [decimal] (10, 4)  = 0;
   DECLARE @numeratorString [nvarchar] (30) = '';
   DECLARE @denominatorString [nvarchar] (30) = '';
-  DECLARE @numeratorInt [int] = 0;
-  DECLARE @denominatorInt [int] = 0;
+  DECLARE @numeratorDecimal [decimal] (10,4) = 0;
+  DECLARE @denominatorDecimal [decimal] (10,4) = 0;
   
   IF (CHARINDEX('.', @inputString) > 1) BEGIN
     SET @numeratorString = SUBSTRING (@inputString, 1, CHARINDEX('.', @inputString) - 1);
@@ -34,18 +34,30 @@ BEGIN
     END
     SET @denominatorString = SUBSTRING (@inputString, CHARINDEX('.', @inputString) + 1, LEN(@inputString) - CHARINDEX('.', @inputString));
     IF (ISNUMERIC (@denominatorString) = 0) BEGIN
-      RETURN @returnDecimal;
+      RETURN @returnDecimal
     END
-    SET @numeratorInt = CONVERT ([int] ,@numeratorString);
-    print '@numeratorInt = ' + CONVERT ([nvarchar] (30), @numeratorInt);
-    SET @denominatorInt = CONVERT ([int] ,@denominatorInt);
-    print '@denominatorInt = ' + CONVERT ([nvarchar] (30), @denominatorInt);
-    SET @returnDecimal = CONVERT([decimal] (10, 4), @numeratorInt + (@denominatorInt / 100));
-    print '@returnDecimal = ' + CONVERT ([nvarchar] (30), @returnDecimal);
+    
+    -- Get Decimal part of string; Account for the decimal's being to four places.
+	SET @denominatorString = @denominatorString + REPLICATE('0', 4 - LEN(@denominatorString)); 
+
+
+    -- Convert the whole part of the string to a decimal.
+    SET @numeratorDecimal = CONVERT ([decimal] (10, 4), @numeratorString);
+    
+    -- Convert the Decimal part of the string to a decimal.
+    SET @denominatorDecimal = CONVERT ([decimal] (10, 4), @denominatorString);
+    
+    -- Account for the decimal's being to four places.
+	SET @denominatorDecimal = (@denominatorDecimal/10000);
+    
+    -- Add the Whole Part of the string to the decimal portion of the string.
+    SET @returnDecimal = @numeratorDecimal + @denominatorDecimal;
     
   END
+  
+  -- If the input string represents a whole number
   ELSE BEGIN
-    SET @returnDecimal = CONVERT([decimal] (10, 4), @numeratorString);
+    SET @returnDecimal = CONVERT([decimal] (10, 4), @inputString);
   END
 
   RETURN @returnDecimal;
