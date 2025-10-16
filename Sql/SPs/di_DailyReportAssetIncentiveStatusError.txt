@@ -1448,7 +1448,7 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     SET @BloodPressurePointsShouldHaveBeenEarned = 0;
-    IF (@SystolicBloodPressure IS NOT NULL AND @SystolicBloodPressure <= 130 AND @DiastolicBloodPressure IS NULL AND @DiastolicBloodPressure <= 85) BEGIN
+    IF (@SystolicBloodPressure <= 130 AND @DiastolicBloodPressure <= 85) BEGIN
       SET @BloodPressurePointsShouldHaveBeenEarned = 1;
     END
     
@@ -1471,12 +1471,12 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
          ,@inputEmployeeLastName
          ,@inputEmployeeFirstName
          ,@inputEmployeeDob
-         ,'Asset says the employee earned ' + CONVERT([nvarchar] (10), @BloodPressurePoints) + ' blood pressure points.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure)
+         ,'Asset says the employee has earned blood pressure points that the employee should not have earned.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure) + '.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
     END
-    ELSE IF (@BloodPressurePointsShouldHaveBeenEarned = 0 AND @BloodPressurePoints > 0) BEGIN
+    ELSE IF (@BloodPressurePointsShouldHaveBeenEarned = 1 AND @BloodPressurePoints = 0) BEGIN
        SELECT @AnticipatedRecordCount = 1;
       
        INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
@@ -1494,7 +1494,248 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
          ,@inputEmployeeLastName
          ,@inputEmployeeFirstName
          ,@inputEmployeeDob
-         ,'Asset says the employee did not earn Blood Pressure Points, but the Employee should have earned 25 points for Blood Pressure.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure)
+         ,'Asset says the employee did not earn Blood Pressure Points that the Employee should have earned.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure)
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    -- Waist Circumference: Male: less than or equal to 40"; Female: less than or equal to 35"
+    
+    SET @BatchDetailDescription = '320/290:  Waist Circumference: Male: less than or equal to 40 inches; Female: less than or equal to 35 inches'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SET @WaistCircumferencePointsShouldHaveBeenEarned = 0;
+    IF ((@Gender in ('Male', 'M') AND @WaistInches <= 40) OR (@Gender in ('Female', 'F') AND @WaistInches <= 35)) BEGIN
+      SET @WaistCircumferencePointsShouldHaveBeenEarned = 1;
+    END
+    
+    IF (@WaistCircumferencePointsShouldHaveBeenEarned = 0 AND @WaistCircumferencePoints > 0) BEGIN
+    
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has earned Waist Circumference Points that the employee should not have earned.  To earn the Waist Circumference Points a male employee must have a waist circumference of less than or equal to 40 inches and a female employee must have a waist circumference less than or equal to 35 inches.  This Employee is ' +  @Gender + ' and has a waist circumference of ' + CONVERT([nvarchar] (10), @WaistInches) + ' inches.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    ELSE IF (@WaistCircumferencePointsShouldHaveBeenEarned = 1 AND @WaistCircumferencePoints = 0) BEGIN
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has not earned Waist Circumference Points that the Employee should have earned.  To earn the Waist Circumference Points a male employee must have a waist circumference of less than or equal to 40 inches and a female employee must have a waist circumference less than or equal to 35 inches.  This Employee is ' +  @Gender + ' and has a waist circumference of ' + CONVERT([nvarchar] (10), @WaistInches) + ' inches.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    -- Cholesterol ratio: less than 5.0    
+    SET @BatchDetailDescription = '330/290:  Cholesterol ratio: less than 5.0'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SET @CholesterolRatioPointsShouldHaveBeenEarned = 0;
+    IF (@TcOverHdl < 5) BEGIN
+      SET @CholesterolRatioPointsShouldHaveBeenEarned = 1;
+    END
+    
+    IF (@CholesterolRatioPointsShouldHaveBeenEarned = 0 AND @CholesterolRatioPoints > 0) BEGIN
+    
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has earned cholesterol ratio points that the employee should not have earned.  To earn the cholesterol ratio points an employee must have a cholesterol ratio level of less than 5.0.  This employee has a cholesterol ratio level of ' + CONVERT([nvarchar] (10), @TcOverHdl) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    ELSE IF (@CholesterolRatioPointsShouldHaveBeenEarned = 1 AND @CholesterolRatioPoints = 0) BEGIN
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has NOT earned cholesterol ratio points that the employee should have earned.  To earn the cholesterol ratio points an employee must have a cholesterol ratio level of less than 5.0.  This employee has a cholesterol ratio level of ' + CONVERT([nvarchar] (10), @TcOverHdl) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    -- Triglycerides: less than 150
+    SET @BatchDetailDescription = '340/290:  Triglycerides: less than 150'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SET @TriglyceridePointsShouldHaveBeenEarned = 0;
+    IF (@Triglycerides < 150) BEGIN
+      SET @TriglyceridePointsShouldHaveBeenEarned = 1;
+    END
+    
+    IF (@TriglyceridePointsShouldHaveBeenEarned = 0 AND @TriglyceridePoints > 0) BEGIN
+    
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has earned triglyceride points that the employee should not have earned.  To earn the Triglyceride Points an Employee must have Triglycerides level less than 150.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @Triglycerides) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    ELSE IF (@TriglyceridePointsShouldHaveBeenEarned = 1 AND @TriglyceridePoints = 0) BEGIN
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has NOT earned triglyceride points that the employee should have earned.  To earn the Triglyceride Points an Employee must have Triglycerides level less than 150.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @Triglycerides) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    -- A1c: less than 5.7
+    SET @BatchDetailDescription = '350/290:  A1c: less than 5.7'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SET @A1cPointsShouldHaveBeenEarned = 0;
+    IF (@HemoglobinA1C < 5.7) BEGIN
+      SET @A1cPointsShouldHaveBeenEarned = 1;
+    END
+    
+    IF (@A1cPointsShouldHaveBeenEarned = 0 AND @Hba1cPoints > 0) BEGIN
+    
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has earned A1C points that the employee should not have earned.  To earn the A1C Points an Employee must have A1C level less than 5.7.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @HemoglobinA1C) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    ELSE IF (@A1cPointsShouldHaveBeenEarned = 1 AND @Hba1cPoints = 0) BEGIN
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has NOT earned A1C points that the employee should have earned.  To earn the A1C Points an Employee must have A1C level less than 5.7.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @HemoglobinA1C) + '.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
