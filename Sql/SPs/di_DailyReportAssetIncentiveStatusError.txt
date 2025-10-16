@@ -114,7 +114,7 @@ BEGIN TRY
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  NULL, 'BatchStart', @BatchDescription, @ProcessID, @Process
  ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-    SET @BatchDetailDescription = '010/290:  Truncate DailyReportAssetIncentiveStatusError'
+    SET @BatchDetailDescription = '010/340:  Truncate DailyReportAssetIncentiveStatusError'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
 	  SELECT @AnticipatedRecordCount = COUNT(*)
@@ -127,7 +127,7 @@ BEGIN TRY
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-    SET @BatchDetailDescription = '020/290:  Get base-level field values from AssetIncentivePointsStatus'
+    SET @BatchDetailDescription = '020/340:  Get base-level field values from AssetIncentivePointsStatus'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     
@@ -162,7 +162,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '030/290:  Base-Level Check:  HealthAssessmentPoints - 0 or 100'
+    SET @BatchDetailDescription = '030/340:  Base-Level Check:  HealthAssessmentPoints - 0 or 100'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check:  HealthAssessmentPoints - 0 or 100
@@ -197,7 +197,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '040/290:  Base-Level Check:  BiometricSubmittedPoints - 0 or 100'
+    SET @BatchDetailDescription = '040/340:  Base-Level Check:  BiometricSubmittedPoints - 0 or 100'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check:  BiometricSubmittedPoints - 0 or 100
@@ -232,7 +232,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '050/290:  Base-Level Check:  BloodPressurePoints - 0 or 25'
+    SET @BatchDetailDescription = '050/340:  Base-Level Check:  BloodPressurePoints - 0 or 25'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check:  BloodPressurePoints - 0 or 25
@@ -267,7 +267,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '060/290:  Base-Level Check:  WaistCircumferencePoints - 0 or 25'
+    SET @BatchDetailDescription = '060/340:  Base-Level Check:  WaistCircumferencePoints - 0 or 25'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check:  WaistCircumferencePoints - 0 or 25
@@ -302,7 +302,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '070/290:  Base-Level Check:  CholesterolRatioPoints - 0 or 25'
+    SET @BatchDetailDescription = '070/340:  Base-Level Check:  CholesterolRatioPoints - 0 or 25'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check:  CholesterolRatioPoints - 0 or 25
@@ -337,7 +337,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '080/290:  Base-Level Check:  TriglyceridePoints - 0 or 25'
+    SET @BatchDetailDescription = '080/340:  Base-Level Check:  TriglyceridePoints - 0 or 25'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check:  TriglyceridePoints - 0 or 25
@@ -372,7 +372,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '090/290:  Base-Level Check: Hba1cPoints - 0 or 25'
+    SET @BatchDetailDescription = '090/340:  Base-Level Check: Hba1cPoints - 0 or 25'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check:  Hba1cPoints - 0 or 25
@@ -407,7 +407,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '100/290:  Base-Level Check: TobaccoFreePoints - 0 or 25'
+    SET @BatchDetailDescription = '100/340:  Base-Level Check: TobaccoFreePoints - 0 or 25'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check: TobaccoFreePoints - 0 or 25
@@ -442,7 +442,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '110/290:  Base-Level Check PreventativePoints - multiple of 25, max of 150'
+    SET @BatchDetailDescription = '110/340:  Base-Level Check PreventativePoints - multiple of 25, max of 150'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check PreventativePoints - multiple of 25, max of 150
@@ -507,7 +507,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '120/290:  Base-Level Check CoursePoints - multiple of 10, max of 150'
+    SET @BatchDetailDescription = '120/340:  Base-Level Check CoursePoints - multiple of 10, max of 150'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check CoursePoints - multiple of 10, max of 150
@@ -570,7 +570,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '130/290:  Base-Level CoachingCallPoints - 0 or 50 '
+    SET @BatchDetailDescription = '130/340:  Base-Level CoachingCallPoints - 0 or 50 '
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check CoachingCallPoints - 0 or 50 
@@ -604,7 +604,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '140/290:  Base-Level PhysicalActivityTrackingPoints - multiple of 100, max of 200'
+    SET @BatchDetailDescription = '140/340:  Base-Level PhysicalActivityTrackingPoints - multiple of 100, max of 200'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
    -- Base-Level Check PhysicalActivityTrackingPoints - multiple of 100, max of 200
@@ -667,7 +667,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '150/290:  Base-Level AssetHealthChallengePoints - multiple of 20, max of 100'
+    SET @BatchDetailDescription = '150/340:  Base-Level AssetHealthChallengePoints - multiple of 20, max of 100'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
    -- Base-Level Check AssetHealthChallengePoints - multiple of 20, max of 100
@@ -730,7 +730,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '160/290:  Base-Level Check SummitChallengePoints - multiple of 20, max of 100'
+    SET @BatchDetailDescription = '160/340:  Base-Level Check SummitChallengePoints - multiple of 20, max of 100'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
    -- Base-Level Check SummitChallengePoints - multiple of 20, max of 100
@@ -792,7 +792,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '170/290:  Base-Level Check VirtaHealthPoints - 0, 50, or 100'
+    SET @BatchDetailDescription = '170/340:  Base-Level Check VirtaHealthPoints - 0, 50, or 100'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check VirtaHealthPoints - 0, 50, or 100
@@ -826,7 +826,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '180/290:  Base-Level Check EventsPoints - multiple of 20, max of 100'
+    SET @BatchDetailDescription = '180/340:  Base-Level Check EventsPoints - multiple of 20, max of 100'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
    -- Base-Level Check EventsPoints - multiple of 20, max of 100
@@ -889,7 +889,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '190/290:  Base-Level Check HingePoints - 0, 5, 15, 20, 25, or 40'
+    SET @BatchDetailDescription = '190/340:  Base-Level Check HingePoints - 0, 5, 15, 20, 25, or 40'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check HingePoints - 0, 5, 15, 20, 25, or 40
@@ -923,7 +923,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '200/290:  Base-Level Check HeadspacePoints - multiple of 5, max 100'
+    SET @BatchDetailDescription = '200/340:  Base-Level Check HeadspacePoints - multiple of 5, max 100'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check HeadspacePoints - multiple of 5, max of 100
@@ -987,7 +987,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '210/290:  SupportLincEapPoints - multiple of 5, max 100'
+    SET @BatchDetailDescription = '210/340:  SupportLincEapPoints - multiple of 5, max 100'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check SupportLincEapPoints - multiple of 5, max 100
@@ -1050,7 +1050,7 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '220/290:  Base-Level Check HealthyLifestylePoints - 0, 25, 50, or 75'
+    SET @BatchDetailDescription = '220/340:  Base-Level Check HealthyLifestylePoints - 0, 25, 50, or 75'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- Base-Level Check HealthyLifestylePoints - 0, 25, 50, or 75
@@ -1084,6 +1084,375 @@ BEGIN TRY
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+-- Blood Pressure: less than or equal to 130/85
+-- Waist Circumference: Male: less than or equal to 40"; Female: less than or equal to 35"
+-- Cholesterol ratio: less than 5.0 
+-- Triglycerides: less than 150
+-- A1c: less than 5.7      
+
+    SET @BatchDetailDescription = '230/340:  Base-Level Check Get "Healthy Target" Measurements from Bio in order to validate the Asset Points were earned.'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    -- Get Healthy Target Measurements sent to Asset so we can calculate whether the employee's measurement values merit the points Asset
+    -- rewards them.
+    SELECT @AnticipatedRecordCount = COUNT(*)
+    FROM [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster]
+    WHERE [EmployeeID] = @inputEmployeeNumber;
+    
+    SET @SystolicBloodPressure = 0;
+    SET @DiastolicBloodPressure = 0;
+    SET @WaistInches = 0;
+    SET @TcOverHdl = 0;
+    SET @Triglycerides = 0;
+    SET @HemoglobinA1C = 0;
+      
+    SELECT
+          @Gender = ISNULL([Gender],'')
+	     ,@SystolicBloodPressure = CONVERT([decimal] (10, 4), [SystolicBloodPressure])
+	     ,@DiastolicBloodPressure = CONVERT([decimal] (10, 4), [DiastolicBloodPressure])
+ 	     ,@WaistInches = CONVERT([decimal] (10, 4), [WaistInches])
+	     ,@TcOverHdl = CONVERT([decimal] (10, 4), [TcOverHdl])
+	     ,@Triglycerides = CONVERT([decimal] (10, 4), [Triglycerides])
+         ,@HemoglobinA1C = CONVERT([decimal] (10, 4), [HemoglobinA1C])
+    FROM [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster]
+    WHERE [EmployeeID] = @inputEmployeeNumber;
+
+    -- BaseLevel Check Failure
+    SET @BaseLevelChecksAllPassed = 0;
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+  -- Blood Pressure: less than or equal to 130/85
+
+    SET @BatchDetailDescription = '240/340:  Base-Level Check If the Blood Pressure is less than 130/85, the employee deserves the points for Blood Pressure'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SET @BloodPressurePointsShouldHaveBeenEarned = 0;
+    IF (@SystolicBloodPressure <= 130 AND @DiastolicBloodPressure <= 85) BEGIN
+      SET @BloodPressurePointsShouldHaveBeenEarned = 1;
+    END
+    
+    IF (@BloodPressurePointsShouldHaveBeenEarned = 0 AND @BloodPressurePoints > 0) BEGIN
+    
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has earned blood pressure points that the employee should not have earned.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    ELSE IF (@BloodPressurePointsShouldHaveBeenEarned = 1 AND @BloodPressurePoints = 0) BEGIN
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee did not earn Blood Pressure Points that the Employee should have earned.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure)
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    
+    -- BaseLevel Check Failure
+    SET @BaseLevelChecksAllPassed = 0;
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    -- Waist Circumference: Male: less than or equal to 40"; Female: less than or equal to 35"
+    
+    SET @BatchDetailDescription = '240/340:  Base-Level Check Waist Circumference: Male: less than or equal to 40 inches; Female: less than or equal to 35 inches'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SET @WaistCircumferencePointsShouldHaveBeenEarned = 0;
+    IF ((@Gender in ('Male', 'M') AND @WaistInches <= 40) OR (@Gender in ('Female', 'F') AND @WaistInches <= 35)) BEGIN
+      SET @WaistCircumferencePointsShouldHaveBeenEarned = 1;
+    END
+    
+    IF (@WaistCircumferencePointsShouldHaveBeenEarned = 0 AND @WaistCircumferencePoints > 0) BEGIN
+    
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has earned Waist Circumference Points that the employee should not have earned.  To earn the Waist Circumference Points a male employee must have a waist circumference of less than or equal to 40 inches and a female employee must have a waist circumference less than or equal to 35 inches.  This Employee is ' +  @Gender + ' and has a waist circumference of ' + CONVERT([nvarchar] (10), @WaistInches) + ' inches.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    ELSE IF (@WaistCircumferencePointsShouldHaveBeenEarned = 1 AND @WaistCircumferencePoints = 0) BEGIN
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has not earned Waist Circumference Points that the Employee should have earned.  To earn the Waist Circumference Points a male employee must have a waist circumference of less than or equal to 40 inches and a female employee must have a waist circumference less than or equal to 35 inches.  This Employee is ' +  @Gender + ' and has a waist circumference of ' + CONVERT([nvarchar] (10), @WaistInches) + ' inches.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    
+    -- BaseLevel Check Failure
+    SET @BaseLevelChecksAllPassed = 0;
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    -- Cholesterol ratio: less than 5.0    
+    SET @BatchDetailDescription = '250/340:  Base-Level Check Cholesterol ratio: less than 5.0'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SET @CholesterolRatioPointsShouldHaveBeenEarned = 0;
+    IF (@TcOverHdl < 5) BEGIN
+      SET @CholesterolRatioPointsShouldHaveBeenEarned = 1;
+    END
+    
+    IF (@CholesterolRatioPointsShouldHaveBeenEarned = 0 AND @CholesterolRatioPoints > 0) BEGIN
+    
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has earned cholesterol ratio points that the employee should not have earned.  To earn the cholesterol ratio points an employee must have a cholesterol ratio level of less than 5.0.  This employee has a cholesterol ratio level of ' + CONVERT([nvarchar] (10), @TcOverHdl) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    ELSE IF (@CholesterolRatioPointsShouldHaveBeenEarned = 1 AND @CholesterolRatioPoints = 0) BEGIN
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has NOT earned cholesterol ratio points that the employee should have earned.  To earn the cholesterol ratio points an employee must have a cholesterol ratio level of less than 5.0.  This employee has a cholesterol ratio level of ' + CONVERT([nvarchar] (10), @TcOverHdl) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    
+    -- BaseLevel Check Failure
+    SET @BaseLevelChecksAllPassed = 0;
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    -- Triglycerides: less than 150
+    SET @BatchDetailDescription = '260/340:  Base-Level Check Triglycerides: less than 150'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SET @TriglyceridePointsShouldHaveBeenEarned = 0;
+    IF (@Triglycerides < 150) BEGIN
+      SET @TriglyceridePointsShouldHaveBeenEarned = 1;
+    END
+    
+    IF (@TriglyceridePointsShouldHaveBeenEarned = 0 AND @TriglyceridePoints > 0) BEGIN
+    
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has earned triglyceride points that the employee should not have earned.  To earn the Triglyceride Points an Employee must have Triglycerides level less than 150.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @Triglycerides) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    ELSE IF (@TriglyceridePointsShouldHaveBeenEarned = 1 AND @TriglyceridePoints = 0) BEGIN
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has NOT earned triglyceride points that the employee should have earned.  To earn the Triglyceride Points an Employee must have Triglycerides level less than 150.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @Triglycerides) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    
+    -- BaseLevel Check Failure
+    SET @BaseLevelChecksAllPassed = 0;
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    -- A1c: less than 5.7
+    SET @BatchDetailDescription = '270/340:  Base-Level Check A1c: less than 5.7'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    SET @A1cPointsShouldHaveBeenEarned = 0;
+    IF (@HemoglobinA1C < 5.7) BEGIN
+      SET @A1cPointsShouldHaveBeenEarned = 1;
+    END
+    
+    IF (@A1cPointsShouldHaveBeenEarned = 0 AND @Hba1cPoints > 0) BEGIN
+    
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has earned A1C points that the employee should not have earned.  To earn the A1C Points an Employee must have A1C level less than 5.7.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @HemoglobinA1C) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    ELSE IF (@A1cPointsShouldHaveBeenEarned = 1 AND @Hba1cPoints = 0) BEGIN
+       SELECT @AnticipatedRecordCount = 1;
+      
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Asset says the employee has NOT earned A1C points that the employee should have earned.  To earn the A1C Points an Employee must have A1C level less than 5.7.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @HemoglobinA1C) + '.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+
+    END
+    
+    -- BaseLevel Check Failure
+    SET @BaseLevelChecksAllPassed = 0;
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
 IF (@BaseLevelChecksAllPassed = 1) BEGIN
 
   SET @NonCategoryGroupLevelChecksPassed = 1;
@@ -1094,7 +1463,7 @@ IF (@BaseLevelChecksAllPassed = 1) BEGIN
      @TriglyceridePoints +
      @Hba1cPoints;
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '230/290:  NonCategoryGroupLevelCheck @SumOfHealthyLifestylePoints <> @TotalHealthyTargetPoints'
+    SET @BatchDetailDescription = '280/340:  NonCategoryGroupLevelCheck @SumOfHealthyLifestylePoints <> @TotalHealthyTargetPoints'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- NonCategoryGroupLevelCheck @SumOfHealthyLifestylePoints <> @TotalHealthyTargetPoints'
@@ -1170,7 +1539,7 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
        @Hba1cPoints +
        @TobaccoFreePoints;
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '240/290:  CategoryGroupLevelCheck HealthyMeasuresAndLifestyleTargetsCategoryPoints > 325'
+    SET @BatchDetailDescription = '290/340:  CategoryGroupLevelCheck HealthyMeasuresAndLifestyleTargetsCategoryPoints > 325'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- CategoryGroupLevelCheck HealthyMeasuresAndLifestyleTargetsCategoryPoints > 325
@@ -1210,7 +1579,7 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
        @CoachingCallPoints;
        
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '250/290:  CategoryGroupLevelCheck PortalActivitiesCategoryPoints > 150'
+    SET @BatchDetailDescription = '300/340:  CategoryGroupLevelCheck PortalActivitiesCategoryPoints > 150'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- CategoryGroupLevelCheck PortalActivitiesCategoryPoints > 150
@@ -1250,7 +1619,7 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
       @SummitChallengePoints;
 
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '260/290:  CategoryGroupLevelCheck WellnessChallengesCategoryPoints > 100'
+    SET @BatchDetailDescription = '310/340:  CategoryGroupLevelCheck WellnessChallengesCategoryPoints > 100'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- CategoryGroupLevelCheck WellnessChallengesCategoryPoints > 100
@@ -1290,7 +1659,7 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
        @VirtaHealthPoints +
        @HingePoints;
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '270/290:  CategoryGroupLevelCheck SummitHealthPlanEnrolleeOfferingsCategoryPoints > 140'
+    SET @BatchDetailDescription = '320/340:  CategoryGroupLevelCheck SummitHealthPlanEnrolleeOfferingsCategoryPoints > 140'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- CategoryGroupLevelCheck SummitHealthPlanEnrolleeOfferingsCategoryPoints > 140
@@ -1330,7 +1699,7 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
       @SupportLincEapPoints;    
        
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '280/290:  CategoryGroupLevelCheck EmotionalHealthActivitiesCategoryPoints > 100'
+    SET @BatchDetailDescription = '330/340:  CategoryGroupLevelCheck EmotionalHealthActivitiesCategoryPoints > 100'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- CategoryGroupLevelCheck EmotionalHealthActivitiesCategoryPoints > 100
@@ -1372,7 +1741,7 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
          @SummitHealthPlanEnrolleeOfferingsCategoryPoints +
          @EmotionalHealthActivitiesCategoryPoints;       
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-    SET @BatchDetailDescription = '290/290:  SumOfAllCategoriesPoints <> PointTotal'
+    SET @BatchDetailDescription = '340/340:  SumOfAllCategoriesPoints <> PointTotal'
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
 	
     -- CategoryGroupLevelCheck SumOfAllCategoriesPoints <> PointTotal
@@ -1406,346 +1775,6 @@ IF (@NonCategoryGroupLevelChecksPassed = 1) BEGIN
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
 ----------------------------------------------------------------------------------------------------------------------------------------------------
--- Blood Pressure: less than or equal to 130/85
--- Waist Circumference: Male: less than or equal to 40"; Female: less than or equal to 35"
--- Cholesterol ratio: less than 5.0 
--- Triglycerides: less than 150
--- A1c: less than 5.7      
-
-    SET @BatchDetailDescription = '300/290:  Get "Healthy Target" Measurements from Bio in order to validate the Asset Points were earned.'
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
-	
-    -- Get Healthy Target Measurements sent to Asset so we can calculate whether the employee's measurement values merit the points Asset
-    -- rewards them.
-    SELECT @AnticipatedRecordCount = COUNT(*)
-    FROM [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster]
-    WHERE [EmployeeID] = @inputEmployeeNumber;
-    
-    SET @SystolicBloodPressure = 0;
-    SET @DiastolicBloodPressure = 0;
-    SET @WaistInches = 0;
-    SET @TcOverHdl = 0;
-    SET @Triglycerides = 0;
-    SET @HemoglobinA1C = 0;
-      
-    SELECT
-          @Gender = ISNULL([Gender],'')
-	     ,@SystolicBloodPressure = CONVERT([decimal] (10, 4), [SystolicBloodPressure])
-	     ,@DiastolicBloodPressure = CONVERT([decimal] (10, 4), [DiastolicBloodPressure])
- 	     ,@WaistInches = CONVERT([decimal] (10, 4), [WaistInches])
-	     ,@TcOverHdl = CONVERT([decimal] (10, 4), [TcOverHdl])
-	     ,@Triglycerides = CONVERT([decimal] (10, 4), [Triglycerides])
-         ,@HemoglobinA1C = CONVERT([decimal] (10, 4), [HemoglobinA1C])
-    FROM [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster]
-    WHERE [EmployeeID] = @inputEmployeeNumber;
-    
-    SET @ActualRecordCount = @@ROWCOUNT
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
-----------------------------------------------------------------------------------------------------------------------------------------------------
-  -- Blood Pressure: less than or equal to 130/85
-
-    SET @BatchDetailDescription = '310/290:  If the Blood Pressure is less than 130/85, the employee deserves the points for Blood Pressure'
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
-	
-    SET @BloodPressurePointsShouldHaveBeenEarned = 0;
-    IF (@SystolicBloodPressure <= 130 AND @DiastolicBloodPressure <= 85) BEGIN
-      SET @BloodPressurePointsShouldHaveBeenEarned = 1;
-    END
-    
-    IF (@BloodPressurePointsShouldHaveBeenEarned = 0 AND @BloodPressurePoints > 0) BEGIN
-    
-       SELECT @AnticipatedRecordCount = 1;
-      
-       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
-       (
-           [EmployeeNumber]
-           ,[EmployeeLastName]
-           ,[EmployeeFirstName]
-           ,[EmployeeDob]
-           ,[ErrorMessage]
-           ,[DataGatheredOnTimestamp]
-       )
-       VALUES
-       (
-          @inputEmployeeNumber
-         ,@inputEmployeeLastName
-         ,@inputEmployeeFirstName
-         ,@inputEmployeeDob
-         ,'Asset says the employee has earned blood pressure points that the employee should not have earned.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure) + '.'
-         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
-       );
-
-    END
-    ELSE IF (@BloodPressurePointsShouldHaveBeenEarned = 1 AND @BloodPressurePoints = 0) BEGIN
-       SELECT @AnticipatedRecordCount = 1;
-      
-       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
-       (
-           [EmployeeNumber]
-           ,[EmployeeLastName]
-           ,[EmployeeFirstName]
-           ,[EmployeeDob]
-           ,[ErrorMessage]
-           ,[DataGatheredOnTimestamp]
-       )
-       VALUES
-       (
-          @inputEmployeeNumber
-         ,@inputEmployeeLastName
-         ,@inputEmployeeFirstName
-         ,@inputEmployeeDob
-         ,'Asset says the employee did not earn Blood Pressure Points that the Employee should have earned.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure)
-         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
-       );
-
-    END
-    
-    SET @ActualRecordCount = @@ROWCOUNT
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
-----------------------------------------------------------------------------------------------------------------------------------------------------
-    -- Waist Circumference: Male: less than or equal to 40"; Female: less than or equal to 35"
-    
-    SET @BatchDetailDescription = '320/290:  Waist Circumference: Male: less than or equal to 40 inches; Female: less than or equal to 35 inches'
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
-	
-    SET @WaistCircumferencePointsShouldHaveBeenEarned = 0;
-    IF ((@Gender in ('Male', 'M') AND @WaistInches <= 40) OR (@Gender in ('Female', 'F') AND @WaistInches <= 35)) BEGIN
-      SET @WaistCircumferencePointsShouldHaveBeenEarned = 1;
-    END
-    
-    IF (@WaistCircumferencePointsShouldHaveBeenEarned = 0 AND @WaistCircumferencePoints > 0) BEGIN
-    
-       SELECT @AnticipatedRecordCount = 1;
-      
-       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
-       (
-           [EmployeeNumber]
-           ,[EmployeeLastName]
-           ,[EmployeeFirstName]
-           ,[EmployeeDob]
-           ,[ErrorMessage]
-           ,[DataGatheredOnTimestamp]
-       )
-       VALUES
-       (
-          @inputEmployeeNumber
-         ,@inputEmployeeLastName
-         ,@inputEmployeeFirstName
-         ,@inputEmployeeDob
-         ,'Asset says the employee has earned Waist Circumference Points that the employee should not have earned.  To earn the Waist Circumference Points a male employee must have a waist circumference of less than or equal to 40 inches and a female employee must have a waist circumference less than or equal to 35 inches.  This Employee is ' +  @Gender + ' and has a waist circumference of ' + CONVERT([nvarchar] (10), @WaistInches) + ' inches.'
-         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
-       );
-
-    END
-    ELSE IF (@WaistCircumferencePointsShouldHaveBeenEarned = 1 AND @WaistCircumferencePoints = 0) BEGIN
-       SELECT @AnticipatedRecordCount = 1;
-      
-       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
-       (
-           [EmployeeNumber]
-           ,[EmployeeLastName]
-           ,[EmployeeFirstName]
-           ,[EmployeeDob]
-           ,[ErrorMessage]
-           ,[DataGatheredOnTimestamp]
-       )
-       VALUES
-       (
-          @inputEmployeeNumber
-         ,@inputEmployeeLastName
-         ,@inputEmployeeFirstName
-         ,@inputEmployeeDob
-         ,'Asset says the employee has not earned Waist Circumference Points that the Employee should have earned.  To earn the Waist Circumference Points a male employee must have a waist circumference of less than or equal to 40 inches and a female employee must have a waist circumference less than or equal to 35 inches.  This Employee is ' +  @Gender + ' and has a waist circumference of ' + CONVERT([nvarchar] (10), @WaistInches) + ' inches.'
-         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
-       );
-
-    END
-    
-    SET @ActualRecordCount = @@ROWCOUNT
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
-----------------------------------------------------------------------------------------------------------------------------------------------------
-    -- Cholesterol ratio: less than 5.0    
-    SET @BatchDetailDescription = '330/290:  Cholesterol ratio: less than 5.0'
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
-	
-    SET @CholesterolRatioPointsShouldHaveBeenEarned = 0;
-    IF (@TcOverHdl < 5) BEGIN
-      SET @CholesterolRatioPointsShouldHaveBeenEarned = 1;
-    END
-    
-    IF (@CholesterolRatioPointsShouldHaveBeenEarned = 0 AND @CholesterolRatioPoints > 0) BEGIN
-    
-       SELECT @AnticipatedRecordCount = 1;
-      
-       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
-       (
-           [EmployeeNumber]
-           ,[EmployeeLastName]
-           ,[EmployeeFirstName]
-           ,[EmployeeDob]
-           ,[ErrorMessage]
-           ,[DataGatheredOnTimestamp]
-       )
-       VALUES
-       (
-          @inputEmployeeNumber
-         ,@inputEmployeeLastName
-         ,@inputEmployeeFirstName
-         ,@inputEmployeeDob
-         ,'Asset says the employee has earned cholesterol ratio points that the employee should not have earned.  To earn the cholesterol ratio points an employee must have a cholesterol ratio level of less than 5.0.  This employee has a cholesterol ratio level of ' + CONVERT([nvarchar] (10), @TcOverHdl) + '.'
-         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
-       );
-
-    END
-    ELSE IF (@CholesterolRatioPointsShouldHaveBeenEarned = 1 AND @CholesterolRatioPoints = 0) BEGIN
-       SELECT @AnticipatedRecordCount = 1;
-      
-       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
-       (
-           [EmployeeNumber]
-           ,[EmployeeLastName]
-           ,[EmployeeFirstName]
-           ,[EmployeeDob]
-           ,[ErrorMessage]
-           ,[DataGatheredOnTimestamp]
-       )
-       VALUES
-       (
-          @inputEmployeeNumber
-         ,@inputEmployeeLastName
-         ,@inputEmployeeFirstName
-         ,@inputEmployeeDob
-         ,'Asset says the employee has NOT earned cholesterol ratio points that the employee should have earned.  To earn the cholesterol ratio points an employee must have a cholesterol ratio level of less than 5.0.  This employee has a cholesterol ratio level of ' + CONVERT([nvarchar] (10), @TcOverHdl) + '.'
-         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
-       );
-
-    END
-    
-    SET @ActualRecordCount = @@ROWCOUNT
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
-----------------------------------------------------------------------------------------------------------------------------------------------------
-    -- Triglycerides: less than 150
-    SET @BatchDetailDescription = '340/290:  Triglycerides: less than 150'
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
-	
-    SET @TriglyceridePointsShouldHaveBeenEarned = 0;
-    IF (@Triglycerides < 150) BEGIN
-      SET @TriglyceridePointsShouldHaveBeenEarned = 1;
-    END
-    
-    IF (@TriglyceridePointsShouldHaveBeenEarned = 0 AND @TriglyceridePoints > 0) BEGIN
-    
-       SELECT @AnticipatedRecordCount = 1;
-      
-       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
-       (
-           [EmployeeNumber]
-           ,[EmployeeLastName]
-           ,[EmployeeFirstName]
-           ,[EmployeeDob]
-           ,[ErrorMessage]
-           ,[DataGatheredOnTimestamp]
-       )
-       VALUES
-       (
-          @inputEmployeeNumber
-         ,@inputEmployeeLastName
-         ,@inputEmployeeFirstName
-         ,@inputEmployeeDob
-         ,'Asset says the employee has earned triglyceride points that the employee should not have earned.  To earn the Triglyceride Points an Employee must have Triglycerides level less than 150.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @Triglycerides) + '.'
-         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
-       );
-
-    END
-    ELSE IF (@TriglyceridePointsShouldHaveBeenEarned = 1 AND @TriglyceridePoints = 0) BEGIN
-       SELECT @AnticipatedRecordCount = 1;
-      
-       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
-       (
-           [EmployeeNumber]
-           ,[EmployeeLastName]
-           ,[EmployeeFirstName]
-           ,[EmployeeDob]
-           ,[ErrorMessage]
-           ,[DataGatheredOnTimestamp]
-       )
-       VALUES
-       (
-          @inputEmployeeNumber
-         ,@inputEmployeeLastName
-         ,@inputEmployeeFirstName
-         ,@inputEmployeeDob
-         ,'Asset says the employee has NOT earned triglyceride points that the employee should have earned.  To earn the Triglyceride Points an Employee must have Triglycerides level less than 150.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @Triglycerides) + '.'
-         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
-       );
-
-    END
-    
-    SET @ActualRecordCount = @@ROWCOUNT
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
-----------------------------------------------------------------------------------------------------------------------------------------------------
-    -- A1c: less than 5.7
-    SET @BatchDetailDescription = '350/290:  A1c: less than 5.7'
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
-	
-    SET @A1cPointsShouldHaveBeenEarned = 0;
-    IF (@HemoglobinA1C < 5.7) BEGIN
-      SET @A1cPointsShouldHaveBeenEarned = 1;
-    END
-    
-    IF (@A1cPointsShouldHaveBeenEarned = 0 AND @Hba1cPoints > 0) BEGIN
-    
-       SELECT @AnticipatedRecordCount = 1;
-      
-       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
-       (
-           [EmployeeNumber]
-           ,[EmployeeLastName]
-           ,[EmployeeFirstName]
-           ,[EmployeeDob]
-           ,[ErrorMessage]
-           ,[DataGatheredOnTimestamp]
-       )
-       VALUES
-       (
-          @inputEmployeeNumber
-         ,@inputEmployeeLastName
-         ,@inputEmployeeFirstName
-         ,@inputEmployeeDob
-         ,'Asset says the employee has earned A1C points that the employee should not have earned.  To earn the A1C Points an Employee must have A1C level less than 5.7.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @HemoglobinA1C) + '.'
-         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
-       );
-
-    END
-    ELSE IF (@A1cPointsShouldHaveBeenEarned = 1 AND @Hba1cPoints = 0) BEGIN
-       SELECT @AnticipatedRecordCount = 1;
-      
-       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
-       (
-           [EmployeeNumber]
-           ,[EmployeeLastName]
-           ,[EmployeeFirstName]
-           ,[EmployeeDob]
-           ,[ErrorMessage]
-           ,[DataGatheredOnTimestamp]
-       )
-       VALUES
-       (
-          @inputEmployeeNumber
-         ,@inputEmployeeLastName
-         ,@inputEmployeeFirstName
-         ,@inputEmployeeDob
-         ,'Asset says the employee has NOT earned A1C points that the employee should have earned.  To earn the A1C Points an Employee must have A1C level less than 5.7.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @HemoglobinA1C) + '.'
-         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
-       );
-
-    END
-    
-    SET @ActualRecordCount = @@ROWCOUNT
-    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
-----------------------------------------------------------------------------------------------------------------------------------------------------
-
-
 
     END
 END
