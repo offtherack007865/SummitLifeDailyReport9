@@ -1,4 +1,10 @@
 -- SQL Server Instance:  smg-sql01
+IF (@@SERVERNAME <> 'smg-dsdev05')
+BEGIN
+PRINT 'Invalid SQL Server Connection'
+RETURN
+END
+
 USE [Utilities];
 IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('sl.di_DailyReportAssetIncentiveStatusErrorForOneEmployee'))
    DROP PROC [sl].[di_DailyReportAssetIncentiveStatusErrorForOneEmployee]
@@ -40,6 +46,19 @@ SET @currentTimestamp = getdate();
 DECLARE @CurrentYear           [int] = 0;
 SET @CurrentYear = DATEPART(year, getdate());
 
+DECLARE @CharCtr [int] = 0;
+DECLARE @inputEmployeeNumberStrippedOfLeadingZeroes [nvarchar] (10) = ''
+SET @inputEmployeeNumberStrippedOfLeadingZeroes = @inputEmployeeNumber;
+SET @CharCtr = 1;
+WHILE (@CharCtr <= LEN(@inputEmployeeNumber)) BEGIN
+  IF (SUBSTRING(@inputEmployeeNumber, @CharCtr, 1) <> '0') BEGIN
+     SET @inputEmployeeNumberStrippedOfLeadingZeroes = SUBSTRING(@inputEmployeeNumber, @CharCtr, LEN(@inputEmployeeNumber) - @CharCtr + 1);
+     BREAK;
+  END
+  SET @CharCtr = @CharCtr + 1;
+END
+
+print '@inputEmployeeNumberStrippedOfLeadingZeroes = ' + @inputEmployeeNumberStrippedOfLeadingZeroes;
 DECLARE @BaseLevelChecksAllPassed [bit] = 1;
 DECLARE @NonCategoryGroupLevelChecksPassed [bit] = 1;
 DECLARE @CategoryGroupLevelChecksPassed [bit] = 1;
@@ -157,7 +176,31 @@ BEGIN TRY
          ,@HealthyLifestylePoints = [HealthyLifestylePoints]
          ,@TotalHealthyTargetPoints = [TotalHealthyTargetPoints]
          ,@PointTotal = [PointTotal]
-      FROM [DS_SummitLife].[dbo].[AssetIncentivePointsStatus];
+      FROM [DS_SummitLife].[dbo].[AssetIncentivePointsStatus]
+      WHERE [EmployeeID] = @inputEmployeeNumberStrippedOfLeadingZeroes;
+      
+      print '@HealthAssessmentPoints = ' + convert (nvarchar(10), @HealthAssessmentPoints);
+      print '@BiometricSubmittedPoints = ' + convert (nvarchar(10), @BiometricSubmittedPoints);
+      print '@BloodPressurePoints = ' + convert (nvarchar(10), @BloodPressurePoints);
+      print '@WaistCircumferencePoints = ' + convert (nvarchar(10), @WaistCircumferencePoints);
+      print '@CholesterolRatioPoints = ' + convert (nvarchar(10), @CholesterolRatioPoints);
+      print '@TriglyceridePoints = ' + convert (nvarchar(10), @TriglyceridePoints);
+      print '@Hba1cPoints = ' + convert (nvarchar(10), @Hba1cPoints);
+      print '@TobaccoFreePoints = ' + convert (nvarchar(10), @TobaccoFreePoints);
+      print '@PreventativePoints = ' + convert (nvarchar(10), @PreventativePoints);
+      print '@CoursePoints = ' + convert (nvarchar(10), @CoursePoints);
+      print '@CoachingCallPoints = ' + convert (nvarchar(10), @CoachingCallPoints);
+      print '@PhysicalActivityTrackingPoints = ' + convert (nvarchar(10), @PhysicalActivityTrackingPoints);
+      print '@AssetHealthChallengePoints = ' + convert (nvarchar(10), @AssetHealthChallengePoints);
+      print '@SummitChallengePoints = ' + convert (nvarchar(10), @SummitChallengePoints);
+      print '@VirtaHealthPoints = ' + convert (nvarchar(10), @VirtaHealthPoints);
+      print '@EventsPoints = ' + convert (nvarchar(10), @EventsPoints);
+      print '@HingePoints = ' + convert (nvarchar(10), @HingePoints);
+      print '@HeadspacePoints = ' + convert (nvarchar(10), @HeadspacePoints);
+      print '@SupportLincEapPoints = ' + convert (nvarchar(10), @SupportLincEapPoints);
+      print '@HealthyLifestylePoints = ' + convert (nvarchar(10), @HealthyLifestylePoints);
+      print '@TotalHealthyTargetPoints = ' + convert (nvarchar(10), @TotalHealthyTargetPoints);
+      print '@PointTotal = ' + convert (nvarchar(10), @PointTotal);
 	
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
@@ -1127,9 +1170,14 @@ BEGIN TRY
          ,@HemoglobinA1C = CONVERT([decimal] (10, 4), [HemoglobinA1C])
     FROM [DS_SummitLife].[dbo].[SummitLifeBiometricsAndLabsSentToAssetMaster]
     WHERE [EmployeeID] = @inputEmployeeNumber;
-
-    -- BaseLevel Check Failure
-    SET @BaseLevelChecksAllPassed = 0;
+    
+    print '@Gender = ' + @Gender;
+    print '@SystolicBloodPressure = ' + convert([nvarchar] (10), @SystolicBloodPressure);
+    print '@DiastolicBloodPressure = ' + convert([nvarchar] (10), @DiastolicBloodPressure);
+    print '@WaistInches = ' + convert([nvarchar] (10), @WaistInches);
+    print '@TcOverHdl = ' + convert([nvarchar] (10), @TcOverHdl);
+    print '@Triglycerides =  ' + convert([nvarchar] (10), @Triglycerides);
+    print '@HemoglobinA1C =  ' + convert([nvarchar] (10), @HemoglobinA1C);
     
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
@@ -1166,6 +1214,9 @@ BEGIN TRY
          ,'Asset says the employee has earned blood pressure points that the employee should not have earned.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure) + '.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
+       
+       -- BaseLevel Check Failure
+       SET @BaseLevelChecksAllPassed = 0;
 
     END
     ELSE IF (@BloodPressurePointsShouldHaveBeenEarned = 1 AND @BloodPressurePoints = 0) BEGIN
@@ -1186,14 +1237,14 @@ BEGIN TRY
          ,@inputEmployeeLastName
          ,@inputEmployeeFirstName
          ,@inputEmployeeDob
-         ,'Asset says the employee did not earn Blood Pressure Points that the Employee should have earned.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure)
+         ,'Asset says the employee has NOT earned Blood Pressure Points that the Employee should have earned.  To earn the Blood Pressure Points an employee must have blood pressure <= 130/85.  This Employee has blood pressure of ' + CONVERT([nvarchar] (10), @SystolicBloodPressure) + '/' + CONVERT([nvarchar] (10), @DiastolicBloodPressure)
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
-
+       
+       -- BaseLevel Check Failure
+       SET @BaseLevelChecksAllPassed = 0;
     END
     
-    -- BaseLevel Check Failure
-    SET @BaseLevelChecksAllPassed = 0;
     
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
@@ -1230,6 +1281,9 @@ BEGIN TRY
          ,'Asset says the employee has earned Waist Circumference Points that the employee should not have earned.  To earn the Waist Circumference Points a male employee must have a waist circumference of less than or equal to 40 inches and a female employee must have a waist circumference less than or equal to 35 inches.  This Employee is ' +  @Gender + ' and has a waist circumference of ' + CONVERT([nvarchar] (10), @WaistInches) + ' inches.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
+       
+       -- BaseLevel Check Failure
+       SET @BaseLevelChecksAllPassed = 0;
 
     END
     ELSE IF (@WaistCircumferencePointsShouldHaveBeenEarned = 1 AND @WaistCircumferencePoints = 0) BEGIN
@@ -1250,14 +1304,14 @@ BEGIN TRY
          ,@inputEmployeeLastName
          ,@inputEmployeeFirstName
          ,@inputEmployeeDob
-         ,'Asset says the employee has not earned Waist Circumference Points that the Employee should have earned.  To earn the Waist Circumference Points a male employee must have a waist circumference of less than or equal to 40 inches and a female employee must have a waist circumference less than or equal to 35 inches.  This Employee is ' +  @Gender + ' and has a waist circumference of ' + CONVERT([nvarchar] (10), @WaistInches) + ' inches.'
+         ,'Asset says the employee has NOT earned Waist Circumference Points that the Employee should have earned.  To earn the Waist Circumference Points a male employee must have a waist circumference of less than or equal to 40 inches and a female employee must have a waist circumference less than or equal to 35 inches.  This Employee is ' +  @Gender + ' and has a waist circumference of ' + CONVERT([nvarchar] (10), @WaistInches) + ' inches.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
+       
+       -- BaseLevel Check Failure
+       SET @BaseLevelChecksAllPassed = 0;
 
     END
-    
-    -- BaseLevel Check Failure
-    SET @BaseLevelChecksAllPassed = 0;
     
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
@@ -1293,6 +1347,9 @@ BEGIN TRY
          ,'Asset says the employee has earned cholesterol ratio points that the employee should not have earned.  To earn the cholesterol ratio points an employee must have a cholesterol ratio level of less than 5.0.  This employee has a cholesterol ratio level of ' + CONVERT([nvarchar] (10), @TcOverHdl) + '.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
+       
+       -- BaseLevel Check Failure
+       SET @BaseLevelChecksAllPassed = 0;
 
     END
     ELSE IF (@CholesterolRatioPointsShouldHaveBeenEarned = 1 AND @CholesterolRatioPoints = 0) BEGIN
@@ -1316,11 +1373,12 @@ BEGIN TRY
          ,'Asset says the employee has NOT earned cholesterol ratio points that the employee should have earned.  To earn the cholesterol ratio points an employee must have a cholesterol ratio level of less than 5.0.  This employee has a cholesterol ratio level of ' + CONVERT([nvarchar] (10), @TcOverHdl) + '.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
+       
+       -- BaseLevel Check Failure
+       SET @BaseLevelChecksAllPassed = 0;
 
     END
     
-    -- BaseLevel Check Failure
-    SET @BaseLevelChecksAllPassed = 0;
     
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
@@ -1356,6 +1414,9 @@ BEGIN TRY
          ,'Asset says the employee has earned triglyceride points that the employee should not have earned.  To earn the Triglyceride Points an Employee must have Triglycerides level less than 150.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @Triglycerides) + '.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
+       
+       -- BaseLevel Check Failure
+       SET @BaseLevelChecksAllPassed = 0;
 
     END
     ELSE IF (@TriglyceridePointsShouldHaveBeenEarned = 1 AND @TriglyceridePoints = 0) BEGIN
@@ -1379,11 +1440,11 @@ BEGIN TRY
          ,'Asset says the employee has NOT earned triglyceride points that the employee should have earned.  To earn the Triglyceride Points an Employee must have Triglycerides level less than 150.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @Triglycerides) + '.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
+       
+       -- BaseLevel Check Failure
+       SET @BaseLevelChecksAllPassed = 0;
 
     END
-    
-    -- BaseLevel Check Failure
-    SET @BaseLevelChecksAllPassed = 0;
     
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
@@ -1416,9 +1477,12 @@ BEGIN TRY
          ,@inputEmployeeLastName
          ,@inputEmployeeFirstName
          ,@inputEmployeeDob
-         ,'Asset says the employee has earned A1C points that the employee should not have earned.  To earn the A1C Points an Employee must have A1C level less than 5.7.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @HemoglobinA1C) + '.'
+         ,'Asset says the employee has earned A1C points that the employee should not have earned.  To earn the A1C Points an Employee must have A1C level less than 5.7.  This employee has a A1C level of ' + CONVERT([nvarchar] (10), @HemoglobinA1C) + '.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
+       
+       -- BaseLevel Check Failure
+       SET @BaseLevelChecksAllPassed = 0;
 
     END
     ELSE IF (@A1cPointsShouldHaveBeenEarned = 1 AND @Hba1cPoints = 0) BEGIN
@@ -1439,14 +1503,15 @@ BEGIN TRY
          ,@inputEmployeeLastName
          ,@inputEmployeeFirstName
          ,@inputEmployeeDob
-         ,'Asset says the employee has NOT earned A1C points that the employee should have earned.  To earn the A1C Points an Employee must have A1C level less than 5.7.  This employee has a Triglycerides level of ' + CONVERT([nvarchar] (10), @HemoglobinA1C) + '.'
+         ,'Asset says the employee has NOT earned A1C points that the employee should have earned.  To earn the A1C Points an Employee must have A1C level less than 5.7.  This employee has a A1C level of ' + CONVERT([nvarchar] (10), @HemoglobinA1C) + '.'
          ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
        );
 
+       -- BaseLevel Check Failure
+       SET @BaseLevelChecksAllPassed = 0;
+
     END
     
-    -- BaseLevel Check Failure
-    SET @BaseLevelChecksAllPassed = 0;
     
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
