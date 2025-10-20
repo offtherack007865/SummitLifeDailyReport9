@@ -44,7 +44,6 @@ DECLARE @IncentiveStatusEmployeeIdentityInfoTable TABLE
 
 DECLARE @maxIncentiveStatusEmployeeIdentityInfoID [int]  = 0;
 DECLARE @ctrIncentiveStatusEmployeeIdentityInfoID [int]  = 0;
-
 DECLARE @loopEmployeeID [nvarchar] (30) = '';
 DECLARE @loopLastName [nvarchar] (300) = '';
 DECLARE @loopFirstName [nvarchar] (300) = '';
@@ -122,9 +121,6 @@ BEGIN TRY
        GROUP BY [EmployeeID]) unqemp
        JOIN [DS_SummitLife].[dbo].[AssetIncentivePointsStatus] idinfo
        ON idinfo.[EmployeeID] = unqemp.[EmployeeID]
-	SELECT *
-    FROM @IncentiveStatusEmployeeIdentityInfoTable;
-    
     
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
@@ -157,7 +153,7 @@ BEGIN TRY
           
           
           -- For looped Employee create records for errors found in the employee's Asset Incentive Points Status Record
-          EXEC [sl].[di_DailyReportAssetIncentiveStatusErrorForOneEmployee] 
+          EXEC [Utilities].[sl].[di_DailyReportAssetIncentiveStatusErrorForOneEmployee] 
                @inputEmployeeNumber = @loopEmployeeID
                ,@inputEmployeeLastName = @loopLastName
                ,@inputEmployeeFirstName = @loopFirstName  

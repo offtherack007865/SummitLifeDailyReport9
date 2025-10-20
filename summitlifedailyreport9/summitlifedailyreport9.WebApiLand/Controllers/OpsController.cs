@@ -532,27 +532,27 @@ namespace summitlifedailyreport9.WebApiLand.Controllers
             return returnOutput;
         }
 
-        // GET /api/Ops/di_DailyReportAssetIncentiveStatusError
+        // GET /api/Ops/di_DailyReportAssetIncentiveStatusErrorForAllEmployees
         [HttpGet]
-        public di_DailyReportAssetIncentiveStatusErrorOutput
-                    di_DailyReportAssetIncentiveStatusError
+        public di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
+                    di_DailyReportAssetIncentiveStatusErrorForAllEmployees
                     (
                     )
         {
-            di_DailyReportAssetIncentiveStatusErrorOutput
+            di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
                 returnOutput =
-                    new di_DailyReportAssetIncentiveStatusErrorOutput();
+                    new di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput();
 
-            string sql = $"sl.di_DailyReportAssetIncentiveStatusError";
+            string sql = $"sl.di_DailyReportAssetIncentiveStatusErrorForAllEmployees";
 
             List<SqlParameter> parms = new List<SqlParameter>();
 
             try
             {
-                returnOutput.di_DailyReportAssetIncentiveStatusErrorOutputColumnsList =
+                returnOutput.di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumnsList =
                     MyContext
-                    .di_DailyReportAssetIncentiveStatusErrorOutputColumnsList
-                    .FromSqlRaw<di_DailyReportAssetIncentiveStatusErrorOutputColumns>
+                    .di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumnsList
+                    .FromSqlRaw<di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumns>
                     (
                           sql
                         , parms.ToArray()
@@ -574,27 +574,27 @@ namespace summitlifedailyreport9.WebApiLand.Controllers
             return returnOutput;
         }
 
-        // GET /api/Ops/qy_GetDailyReportAssetIncentiveStatusError
+        // GET /api/Ops/qy_DailyReportAssetIncentiveStatusErrorForAllEmployees
         [HttpGet]
-        public qy_GetDailyReportAssetIncentiveStatusErrorOutput
-                    qy_GetDailyReportAssetIncentiveStatusError
+        public qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
+                    qy_DailyReportAssetIncentiveStatusErrorForAllEmployees
                     (
                     )
         {
-            qy_GetDailyReportAssetIncentiveStatusErrorOutput
+            qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
                 returnOutput =
-                    new qy_GetDailyReportAssetIncentiveStatusErrorOutput();
+                    new qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput();
 
-            string sql = $"sl.qy_GetDailyReportAssetIncentiveStatusError";
+            string sql = $"sl.qy_DailyReportAssetIncentiveStatusErrorForAllEmployees";
 
             List<SqlParameter> parms = new List<SqlParameter>();
 
             try
             {
-                returnOutput.qy_GetDailyReportAssetIncentiveStatusErrorOutputColumnsList =
+                returnOutput.qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumnsList =
                     MyContext
-                    .qy_GetDailyReportAssetIncentiveStatusErrorOutputColumnsList
-                    .FromSqlRaw<qy_GetDailyReportAssetIncentiveStatusErrorOutputColumns>
+                    .qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumnsList
+                    .FromSqlRaw<qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumns>
                     (
                           sql
                         , parms.ToArray()

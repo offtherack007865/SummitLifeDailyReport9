@@ -58,6 +58,7 @@ WHILE (@CharCtr <= LEN(@inputEmployeeNumber)) BEGIN
   SET @CharCtr = @CharCtr + 1;
 END
 
+DECLARE @ExistsEmployeeID [nvarchar] (30) = '';
 DECLARE @BaseLevelChecksAllPassed [bit] = 1;
 DECLARE @NonCategoryGroupLevelChecksPassed [bit] = 1;
 DECLARE @CategoryGroupLevelChecksPassed [bit] = 1;
@@ -1122,9 +1123,11 @@ BEGIN TRY
     SET @TcOverHdl = 0;
     SET @Triglycerides = 0;
     SET @HemoglobinA1C = 0;
-      
+    SET @ExistsEmployeeID = NULL;
+    
     SELECT
-          @Gender = ISNULL([Gender],'')
+          @ExistsEmployeeID = [EmployeeID]
+         ,@Gender = ISNULL([Gender],'')
 	     ,@SystolicBloodPressure = CONVERT([decimal] (10, 4), [SystolicBloodPressure])
 	     ,@DiastolicBloodPressure = CONVERT([decimal] (10, 4), [DiastolicBloodPressure])
  	     ,@WaistInches = CONVERT([decimal] (10, 4), [WaistInches])
@@ -1136,6 +1139,231 @@ BEGIN TRY
     
     SET @ActualRecordCount = @@ROWCOUNT
     EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+IF (@ExistsEmployeeID IS NULL) BEGIN
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    SET @BatchDetailDescription = '220/340:  Get "Healthy Target" values from Physicians form'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    -- Get "Healthy Target" values from Physicians form
+    SELECT @AnticipatedRecordCount = COUNT(*)
+    FROM  [DS_SummitLIfe].[dbo].[SummitLifePhysicianLabsAndBiometricsMaster]
+    WHERE [EmployeeID] = @inputEmployeeNumber;
+    
+    SET @SystolicBloodPressure = 0;
+    SET @DiastolicBloodPressure = 0;
+    SET @WaistInches = 0;
+    SET @TcOverHdl = 0;
+    SET @Triglycerides = 0;
+    SET @HemoglobinA1C = 0;
+    SET @ExistsEmployeeID = NULL;
+    
+    SELECT
+          @ExistsEmployeeID = [EmployeeID]
+         ,@Gender = ISNULL([Gender],'')
+	     ,@SystolicBloodPressure = CONVERT([decimal] (10, 4), [SystolicBloodPressure])
+	     ,@DiastolicBloodPressure = CONVERT([decimal] (10, 4), [DiastolicBloodPressure])
+ 	     ,@WaistInches = CONVERT([decimal] (10, 4), [WaistInches])
+	     ,@TcOverHdl = CONVERT([decimal] (10, 4), [TcOverHdl])
+	     ,@Triglycerides = CONVERT([decimal] (10, 4), [Triglycerides])
+         ,@HemoglobinA1C = CONVERT([decimal] (10, 4), [HemoglobinA1C])
+    FROM [DS_SummitLIfe].[dbo].[SummitLifePhysicianLabsAndBiometricsMaster]
+    WHERE [EmployeeID] = @inputEmployeeNumber;
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+END
+
+-- If Employee number cannot be found in either the "Sent to Asset" or the "Physicians Form", write error.
+IF (@ExistsEmployeeID IS NULL) BEGIN
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    SET @BatchDetailDescription = '220/340:  Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+    -- Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Employee Number not found on either the "Sent to Asset" or the "Physicians Form" table.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+  --  Since the employee is on neither "Sent to Asset" or the "Physicians Form" table they should have no blood pressure poinrs
+  IF (@BloodPressurePoints > 0) BEGIN
+----------------------------------------------------------------------------------------------------------------------------------------------------
+       SET @BatchDetailDescription = '220/340:  Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"; Should not have blood pressure points'
+       EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+       -- Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form; they should have no blood pressure poinrs"
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Employee Number not found on either the "Sent to Asset" or the "Physicians Form" table; The employee should have no blood pressure points.  Employee has ' + CONVERT([nvarchar] (30), @BloodPressurePoints) + ' blood pressure points.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+    
+      SET @ActualRecordCount = @@ROWCOUNT
+      EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+  END
+  
+  --  Since the employee is on neither "Sent to Asset" or the "Physicians Form" table they should have no waist circumference poinrs
+  IF (@WaistCircumferencePoints > 0) BEGIN
+----------------------------------------------------------------------------------------------------------------------------------------------------
+       SET @BatchDetailDescription = '220/340:  Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"; Should not have Waist Circumference points'
+       EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+       -- Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"; Should not have Waist Circumference points"
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Employee Number not found on either the "Sent to Asset" or the "Physicians Form" table; The employee should have no waist circumference points.  Employee has ' + CONVERT([nvarchar] (30), @WaistCircumferencePoints) + ' waist circumference points.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+    
+      SET @ActualRecordCount = @@ROWCOUNT
+      EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+  END
+  
+  --  Since the employee is on neither "Sent to Asset" or the "Physicians Form" table they should have no Cholesterol Ratio points
+  IF (@WaistCircumferencePoints > 0) BEGIN
+----------------------------------------------------------------------------------------------------------------------------------------------------
+       SET @BatchDetailDescription = '220/340:  Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"; Should not have Waist Circumference points'
+       EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+       -- Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"; Should not have Cholesterol Ratio points"
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Employee Number not found on either the "Sent to Asset" or the "Physicians Form" table; The employee should have no Cholesterol Ratio points.  Employee has ' + CONVERT([nvarchar] (30), @CholesterolRatioPoints) + ' Cholesterol Ratio points.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+    
+      SET @ActualRecordCount = @@ROWCOUNT
+      EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+  END
+
+  --  Since the employee is on neither "Sent to Asset" or the "Physicians Form" table they should have no Triglyceride points
+  IF (@TriglyceridePoints > 0) BEGIN
+----------------------------------------------------------------------------------------------------------------------------------------------------
+       SET @BatchDetailDescription = '220/340:  Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"; Should not have Triglyceride points'
+       EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+       -- Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"; Should not have Triglyceride points"
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Employee Number not found on either the "Sent to Asset" or the "Physicians Form" table; The employee should have no Triglyceride points.  Employee has ' + CONVERT([nvarchar] (30), @TriglyceridePoints) + ' Triglyceride points.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+    
+      SET @ActualRecordCount = @@ROWCOUNT
+      EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+  END
+
+  --  Since the employee is on neither "Sent to Asset" or the "Physicians Form" table they should have no Hba1c points
+  IF (@TriglyceridePoints > 0) BEGIN
+----------------------------------------------------------------------------------------------------------------------------------------------------
+       SET @BatchDetailDescription = '220/340:  Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"; Should not have Hba1c points'
+       EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+       -- Issue Error Message:  Employee Number not found on either "Sent to Asset" or "Physicians Form"; Should not have Hba1c points"
+       INSERT INTO [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError]
+       (
+           [EmployeeNumber]
+           ,[EmployeeLastName]
+           ,[EmployeeFirstName]
+           ,[EmployeeDob]
+           ,[ErrorMessage]
+           ,[DataGatheredOnTimestamp]
+       )
+       VALUES
+       (
+          @inputEmployeeNumber
+         ,@inputEmployeeLastName
+         ,@inputEmployeeFirstName
+         ,@inputEmployeeDob
+         ,'Employee Number not found on either the "Sent to Asset" or the "Physicians Form" table; The employee should have no Hba1c points.  Employee has ' + CONVERT([nvarchar] (30), @Hba1cPoints) + ' Hba1c points.'
+         ,CONVERT([nvarchar] (50), @currentTimestamp, 121)
+       );
+    
+      SET @ActualRecordCount = @@ROWCOUNT
+      EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+  END
+
+  
+  RETURN;
+END
 ----------------------------------------------------------------------------------------------------------------------------------------------------
   -- Blood Pressure: less than or equal to 130/85
 
@@ -1803,8 +2031,6 @@ END
 --  Close batch
     EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd'
     
-DECLARE @IsOk [bit] = 1;
-SELECT @IsOk AS [IsOk];    
 END TRY
 
 BEGIN CATCH
@@ -1833,6 +2059,5 @@ DECLARE @Err              int
     RAISERROR(@ErrorMessage, 16,1)
 
 END CATCH
-
 
 END

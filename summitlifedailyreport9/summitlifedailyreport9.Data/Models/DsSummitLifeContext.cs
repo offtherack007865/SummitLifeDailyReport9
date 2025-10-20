@@ -47,19 +47,20 @@ public partial class DsSummitLifeContext : DbContext
     public virtual DbSet<qy_GetDailyReportEmployeesInAssetFileThisWeekSoFarOutputColumns> qy_GetDailyReportEmployeesInAssetFileThisWeekSoFarOutputColumnsList { get; set; }
     public virtual DbSet<qy_GetDailyReportSsnNameDobDifferencesOutputColumns> qy_GetDailyReportSsnNameDobDifferencesOutputColumnsList { get; set; }
     public virtual DbSet<qy_GetDailyReportSsnsNotListedInAllEmployeesListOutputColumns> qy_GetDailyReportSsnsNotListedInAllEmployeesListOutputColumnsList { get; set; }
-    public virtual DbSet<di_DailyReportAssetIncentiveStatusErrorOutputColumns> di_DailyReportAssetIncentiveStatusErrorOutputColumnsList { get; set; }
-    public virtual DbSet<qy_GetDailyReportAssetIncentiveStatusErrorOutputColumns> qy_GetDailyReportAssetIncentiveStatusErrorOutputColumnsList { get; set;  }
+    public virtual DbSet<di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumns> di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumnsList { get; set; }
+    public virtual DbSet<qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumns> qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumnsList { get; set; }
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<qy_GetDailyReportAssetIncentiveStatusErrorOutputColumns>(entity =>
+        modelBuilder.Entity<qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumns>(entity =>
         {
             entity.HasNoKey();
         });
 
-        modelBuilder.Entity<di_DailyReportAssetIncentiveStatusErrorOutputColumns>(entity =>
+        modelBuilder.Entity<di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumns>(entity =>
         {
             entity.HasNoKey();
         });
+
 
         modelBuilder.Entity<qy_GetDailyReportSsnsNotListedInAllEmployeesListOutputColumns>(entity =>
         {

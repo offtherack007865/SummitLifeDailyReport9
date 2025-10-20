@@ -11,8 +11,8 @@
   DTS:LocaleID="1033"
   DTS:ObjectName="Package2"
   DTS:PackageType="5"
-  DTS:VersionBuild="40"
-  DTS:VersionGUID="{BD00DFEF-04BE-4F0F-93AA-2BE29228AEAB}">
+  DTS:VersionBuild="42"
+  DTS:VersionGUID="{46F342E1-9AD6-4FF6-A24A-DBA142947EA0}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
@@ -222,7 +222,7 @@
       <DTS:ObjectData>
         <SQLTask:SqlTaskData
           SQLTask:Connection="{5882F9ED-7AA0-42BD-A38A-68051618F521}"
-          SQLTask:SqlStatementSource="truncate table SummitLifePhysicianLabsAndBiometricsMaster;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+          SQLTask:SqlStatementSource="truncate table SummitLifeProgramWaiver;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
       </DTS:ObjectData>
     </DTS:Executable>
     <DTS:Executable
@@ -10254,13 +10254,85 @@
       <GraphLayout
         Capacity="64" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
+          Size="259,42"
+          Id="Package\Truncate AssetIncentivePointsStatus"
+          TopLeft="163,469" />
+        <NodeLayout
+          Size="259,42"
+          Id="Package\Truncate CombineLabAndBiometrics"
+          TopLeft="553,84" />
+        <NodeLayout
+          Size="259,42"
+          Id="Package\Truncate EmployeeLifeEventsMaster"
+          TopLeft="429,254" />
+        <NodeLayout
           Size="212,42"
           Id="Package\Truncate SL_AllEmployees"
           TopLeft="171,91" />
         <NodeLayout
+          Size="185,42"
+          Id="Package\Truncate SL_Benefits"
+          TopLeft="163,277" />
+        <NodeLayout
+          Size="372,42"
+          Id="Package\Truncate SummitLifeBiometricsAndLabsSentToAssetMaster"
+          TopLeft="883,80" />
+        <NodeLayout
+          Size="359,42"
+          Id="Package\Truncate SummitLifeBiometricScreeningFormSubmission"
+          TopLeft="853,235" />
+        <NodeLayout
+          Size="375,42"
+          Id="Package\Truncate SummitLifeEmployeeStatusChangeFullTimeMaster"
+          TopLeft="456,456" />
+        <NodeLayout
+          Size="356,42"
+          Id="Package\Truncate SummitLifePhysicianLabsAndBiometricsMaster"
+          TopLeft="840,422" />
+        <NodeLayout
+          Size="257,42"
+          Id="Package\Truncate SummitLifeProgramWaiver"
+          TopLeft="872,573" />
+        <NodeLayout
+          Size="229,42"
+          Id="Package\Xfr AssetIncentivePointsStatus"
+          TopLeft="213,547" />
+        <NodeLayout
+          Size="235,42"
+          Id="Package\Xfr CombineLabsAndBiometrics"
+          TopLeft="445,187" />
+        <NodeLayout
+          Size="230,48"
+          Id="Package\Xfr EmployeeLifeEventsMaster"
+          TopLeft="423,356" />
+        <NodeLayout
           Size="182,42"
           Id="Package\Xfr SL_AllEmployees"
           TopLeft="171,193" />
+        <NodeLayout
+          Size="155,42"
+          Id="Package\Xfr SL_Benefits"
+          TopLeft="174,367" />
+        <NodeLayout
+          Size="343,42"
+          Id="Package\Xfr SummitLifeBiometricsAndLabsSentToAssetMaster"
+          TopLeft="863,155" />
+        <NodeLayout
+          Size="329,42"
+          Id="Package\Xfr SummitLifeBiometricScreeningFormSubmission"
+          TopLeft="851,348" />
+        <NodeLayout
+          Size="346,42"
+          Id="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster"
+          TopLeft="497,535" />
+        <NodeLayout
+          Size="327,42"
+          Id="Package\Xfr SummitLifePhysicianLabsAndBiometricsMaster"
+          TopLeft="865,487" />
+        <NodeLayout
+          Size="228,42"
+          Id="Package\Xfr SummitLifeProgramWaiver"
+          TopLeft="863,650" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint]"
           TopLeft="277,133">
@@ -10295,10 +10367,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="185,42"
-          Id="Package\Truncate SL_Benefits"
-          TopLeft="163,277" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 1]"
           TopLeft="258.75,235">
@@ -10321,278 +10389,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="155,42"
-          Id="Package\Xfr SL_Benefits"
-          TopLeft="174,367" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 2]"
-          TopLeft="253.5,319">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,48"
-              Start="0,0"
-              End="0,40.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,40.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="259,42"
-          Id="Package\Truncate AssetIncentivePointsStatus"
-          TopLeft="163,469" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 3]"
-          TopLeft="251.5,409">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="41,60"
-              Start="0,0"
-              End="41,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26"
-                    Point2="0,30"
-                    Point3="4,30" />
-                  <mssgle:LineSegment
-                    End="37,30" />
-                  <mssgle:CubicBezierSegment
-                    Point1="37,30"
-                    Point2="41,30"
-                    Point3="41,34" />
-                  <mssgle:LineSegment
-                    End="41,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="229,42"
-          Id="Package\Xfr AssetIncentivePointsStatus"
-          TopLeft="213,547" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 4]"
-          TopLeft="291.583333333333,511">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,36"
-              Start="0,0"
-              End="0,28.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,28.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="259,42"
-          Id="Package\Truncate CombineLabAndBiometrics"
-          TopLeft="553,84" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 5]"
-          TopLeft="364.333333333333,547">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="276.333333333333,-421"
-              Start="0,0"
-              End="276.333333333333,-413.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,-206.709497901704" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,-206.709497901704"
-                    Point2="0,-210.709497901704"
-                    Point3="4,-210.709497901704" />
-                  <mssgle:LineSegment
-                    End="272.333333333333,-210.709497901704" />
-                  <mssgle:CubicBezierSegment
-                    Point1="272.333333333333,-210.709497901704"
-                    Point2="276.333333333333,-210.709497901704"
-                    Point3="276.333333333333,-214.709497901704" />
-                  <mssgle:LineSegment
-                    End="276.333333333333,-413.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="235,42"
-          Id="Package\Xfr CombineLabsAndBiometrics"
-          TopLeft="445,187" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 6]"
-          TopLeft="724.333333333333,126">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-161.833333333333,61"
-              Start="0,0"
-              End="-161.833333333333,53.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,20.6247122026094" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,20.6247122026094"
-                    Point2="0,24.6247122026094"
-                    Point3="-4,24.6247122026094" />
-                  <mssgle:LineSegment
-                    End="-157.833333333333,24.6247122026094" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-157.833333333333,24.6247122026094"
-                    Point2="-161.833333333333,24.6247122026094"
-                    Point3="-161.833333333333,28.6247122026094" />
-                  <mssgle:LineSegment
-                    End="-161.833333333333,53.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="259,42"
-          Id="Package\Truncate EmployeeLifeEventsMaster"
-          TopLeft="429,254" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 7]"
-          TopLeft="560.5,229">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,25"
-              Start="0,0"
-              End="0,17.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,17.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="230,48"
-          Id="Package\Xfr EmployeeLifeEventsMaster"
-          TopLeft="423,356" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 8]"
-          TopLeft="558.5,296">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="-20.5,60"
-              Start="0,0"
-              End="-20.5,52.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,26" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,26"
-                    Point2="0,30"
-                    Point3="-4,30" />
-                  <mssgle:LineSegment
-                    End="-16.5,30" />
-                  <mssgle:CubicBezierSegment
-                    Point1="-16.5,30"
-                    Point2="-20.5,30"
-                    Point3="-20.5,34" />
-                  <mssgle:LineSegment
-                    End="-20.5,52.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="375,42"
-          Id="Package\Truncate SummitLifeEmployeeStatusChangeFullTimeMaster"
-          TopLeft="456,456" />
-        <EdgeLayout
-          Id="Package.PrecedenceConstraints[Constraint 9]"
-          TopLeft="538,404">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="105.5,52"
-              Start="0,0"
-              End="105.5,44.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,22" />
-                  <mssgle:CubicBezierSegment
-                    Point1="0,22"
-                    Point2="0,26"
-                    Point3="4,26" />
-                  <mssgle:LineSegment
-                    End="101.5,26" />
-                  <mssgle:CubicBezierSegment
-                    Point1="101.5,26"
-                    Point2="105.5,26"
-                    Point3="105.5,30" />
-                  <mssgle:LineSegment
-                    End="105.5,44.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-        <NodeLayout
-          Size="346,42"
-          Id="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster"
-          TopLeft="497,535" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 10]"
           TopLeft="643.5,498">
@@ -10627,10 +10423,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="372,42"
-          Id="Package\Truncate SummitLifeBiometricsAndLabsSentToAssetMaster"
-          TopLeft="883,80" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 11]"
           TopLeft="726.333333333333,535">
@@ -10665,10 +10457,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="343,42"
-          Id="Package\Xfr SummitLifeBiometricsAndLabsSentToAssetMaster"
-          TopLeft="863,155" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 12]"
           TopLeft="1129.66666666667,122">
@@ -10703,10 +10491,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="359,42"
-          Id="Package\Truncate SummitLifeBiometricScreeningFormSubmission"
-          TopLeft="853,235" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 13]"
           TopLeft="1033.5,197">
@@ -10729,10 +10513,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="329,42"
-          Id="Package\Xfr SummitLifeBiometricScreeningFormSubmission"
-          TopLeft="851,348" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 14]"
           TopLeft="1032.5,277">
@@ -10767,10 +10547,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="356,42"
-          Id="Package\Truncate SummitLifePhysicianLabsAndBiometricsMaster"
-          TopLeft="840,422" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 15]"
           TopLeft="1016.75,390">
@@ -10793,10 +10569,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="327,42"
-          Id="Package\Xfr SummitLifePhysicianLabsAndBiometricsMaster"
-          TopLeft="865,487" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 16]"
           TopLeft="1018,464">
@@ -10831,10 +10603,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="257,42"
-          Id="Package\Truncate SummitLifeProgramWaiver"
-          TopLeft="872,573" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 17]"
           TopLeft="1028.5,529">
@@ -10869,10 +10637,6 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
-        <NodeLayout
-          Size="228,42"
-          Id="Package\Xfr SummitLifeProgramWaiver"
-          TopLeft="863,650" />
         <EdgeLayout
           Id="Package.PrecedenceConstraints[Constraint 18]"
           TopLeft="1000.5,615">
@@ -10907,9 +10671,443 @@
             <EdgeLabelCollection />
           </EdgeLayout.Labels>
         </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="253.5,319">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,48"
+              Start="0,0"
+              End="0,40.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,40.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="251.5,409">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="41,60"
+              Start="0,0"
+              End="41,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="4,30" />
+                  <mssgle:LineSegment
+                    End="37,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="37,30"
+                    Point2="41,30"
+                    Point3="41,34" />
+                  <mssgle:LineSegment
+                    End="41,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 4]"
+          TopLeft="291.583333333333,511">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,36"
+              Start="0,0"
+              End="0,28.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,28.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 5]"
+          TopLeft="364.333333333333,547">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="276.333333333333,-421"
+              Start="0,0"
+              End="276.333333333333,-413.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,-206.709497901704" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,-206.709497901704"
+                    Point2="0,-210.709497901704"
+                    Point3="4,-210.709497901704" />
+                  <mssgle:LineSegment
+                    End="272.333333333333,-210.709497901704" />
+                  <mssgle:CubicBezierSegment
+                    Point1="272.333333333333,-210.709497901704"
+                    Point2="276.333333333333,-210.709497901704"
+                    Point3="276.333333333333,-214.709497901704" />
+                  <mssgle:LineSegment
+                    End="276.333333333333,-413.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 6]"
+          TopLeft="724.333333333333,126">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-161.833333333333,61"
+              Start="0,0"
+              End="-161.833333333333,53.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,20.6247122026094" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,20.6247122026094"
+                    Point2="0,24.6247122026094"
+                    Point3="-4,24.6247122026094" />
+                  <mssgle:LineSegment
+                    End="-157.833333333333,24.6247122026094" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-157.833333333333,24.6247122026094"
+                    Point2="-161.833333333333,24.6247122026094"
+                    Point3="-161.833333333333,28.6247122026094" />
+                  <mssgle:LineSegment
+                    End="-161.833333333333,53.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 7]"
+          TopLeft="560.5,229">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,25"
+              Start="0,0"
+              End="0,17.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,17.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 8]"
+          TopLeft="558.5,296">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-20.5,60"
+              Start="0,0"
+              End="-20.5,52.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,26"
+                    Point2="0,30"
+                    Point3="-4,30" />
+                  <mssgle:LineSegment
+                    End="-16.5,30" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-16.5,30"
+                    Point2="-20.5,30"
+                    Point3="-20.5,34" />
+                  <mssgle:LineSegment
+                    End="-20.5,52.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 9]"
+          TopLeft="538,404">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="105.5,52"
+              Start="0,0"
+              End="105.5,44.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,22" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,22"
+                    Point2="0,26"
+                    Point3="4,26" />
+                  <mssgle:LineSegment
+                    End="101.5,26" />
+                  <mssgle:CubicBezierSegment
+                    Point1="101.5,26"
+                    Point2="105.5,26"
+                    Point3="105.5,30" />
+                  <mssgle:LineSegment
+                    End="105.5,44.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
+  <TaskHost
+    design-time-name="Package\Xfr AssetIncentivePointsStatus">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Xfr AssetIncentivePointsStatus\OLE DB Source"
+          TopLeft="315,112" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Xfr AssetIncentivePointsStatus\OLE DB Destination"
+          TopLeft="306,203" />
+        <EdgeLayout
+          Id="Package\Xfr AssetIncentivePointsStatus.Paths[OLE DB Source Output]"
+          TopLeft="394,154">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Xfr AssetIncentivePointsStatus\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Xfr AssetIncentivePointsStatus\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Xfr CombineLabsAndBiometrics">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Xfr CombineLabsAndBiometrics\OLE DB Source"
+          TopLeft="315,112" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Xfr CombineLabsAndBiometrics\OLE DB Destination"
+          TopLeft="306,203" />
+        <EdgeLayout
+          Id="Package\Xfr CombineLabsAndBiometrics.Paths[OLE DB Source Output]"
+          TopLeft="394,154">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Xfr CombineLabsAndBiometrics\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Xfr CombineLabsAndBiometrics\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
+    design-time-name="Package\Xfr EmployeeLifeEventsMaster">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Xfr EmployeeLifeEventsMaster\OLE DB Source"
+          TopLeft="315,112" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Xfr EmployeeLifeEventsMaster\OLE DB Destination"
+          TopLeft="306,203" />
+        <EdgeLayout
+          Id="Package\Xfr EmployeeLifeEventsMaster.Paths[OLE DB Source Output]"
+          TopLeft="394,154">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Xfr EmployeeLifeEventsMaster\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Xfr EmployeeLifeEventsMaster\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
   <TaskHost
     design-time-name="Package\Xfr SL_AllEmployees">
     <LayoutInfo>
@@ -10992,15 +11190,15 @@
     design-time-name="Package\Xfr SL_Benefits">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="177,42"
-          Id="Package\Xfr SL_Benefits\OLE DB Destination"
-          TopLeft="306,203" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="157,42"
           Id="Package\Xfr SL_Benefits\OLE DB Source"
           TopLeft="278,116" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Xfr SL_Benefits\OLE DB Destination"
+          TopLeft="306,203" />
         <EdgeLayout
           Id="Package\Xfr SL_Benefits.Paths[OLE DB Source Output]"
           TopLeft="356.5,158">
@@ -11032,7 +11230,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11065,274 +11265,18 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
-    design-time-name="Package\Xfr AssetIncentivePointsStatus">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="177,42"
-          Id="Package\Xfr AssetIncentivePointsStatus\OLE DB Destination"
-          TopLeft="306,203" />
-        <NodeLayout
-          Size="157,42"
-          Id="Package\Xfr AssetIncentivePointsStatus\OLE DB Source"
-          TopLeft="315,112" />
-        <EdgeLayout
-          Id="Package\Xfr AssetIncentivePointsStatus.Paths[OLE DB Source Output]"
-          TopLeft="394,154">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,49"
-              Start="0,0"
-              End="0,41.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,41.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Xfr AssetIncentivePointsStatus\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Xfr AssetIncentivePointsStatus\OLE DB Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Xfr CombineLabsAndBiometrics">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="177,42"
-          Id="Package\Xfr CombineLabsAndBiometrics\OLE DB Destination"
-          TopLeft="306,203" />
-        <NodeLayout
-          Size="157,42"
-          Id="Package\Xfr CombineLabsAndBiometrics\OLE DB Source"
-          TopLeft="315,112" />
-        <EdgeLayout
-          Id="Package\Xfr CombineLabsAndBiometrics.Paths[OLE DB Source Output]"
-          TopLeft="394,154">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,49"
-              Start="0,0"
-              End="0,41.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,41.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Xfr CombineLabsAndBiometrics\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Xfr CombineLabsAndBiometrics\OLE DB Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Xfr EmployeeLifeEventsMaster">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="177,42"
-          Id="Package\Xfr EmployeeLifeEventsMaster\OLE DB Destination"
-          TopLeft="306,203" />
-        <NodeLayout
-          Size="157,42"
-          Id="Package\Xfr EmployeeLifeEventsMaster\OLE DB Source"
-          TopLeft="315,112" />
-        <EdgeLayout
-          Id="Package\Xfr EmployeeLifeEventsMaster.Paths[OLE DB Source Output]"
-          TopLeft="394,154">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,49"
-              Start="0,0"
-              End="0,41.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,41.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Xfr EmployeeLifeEventsMaster\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Xfr EmployeeLifeEventsMaster\OLE DB Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
-    design-time-name="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster">
-    <LayoutInfo>
-      <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="177,42"
-          Id="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster\OLE DB Destination"
-          TopLeft="306,203" />
-        <NodeLayout
-          Size="157,42"
-          Id="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster\OLE DB Source"
-          TopLeft="315,112" />
-        <EdgeLayout
-          Id="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster.Paths[OLE DB Source Output]"
-          TopLeft="394,154">
-          <EdgeLayout.Curve>
-            <mssgle:Curve
-              StartConnector="{assembly:Null}"
-              EndConnector="0,49"
-              Start="0,0"
-              End="0,41.5">
-              <mssgle:Curve.Segments>
-                <mssgle:SegmentCollection
-                  Capacity="5">
-                  <mssgle:LineSegment
-                    End="0,41.5" />
-                </mssgle:SegmentCollection>
-              </mssgle:Curve.Segments>
-            </mssgle:Curve>
-          </EdgeLayout.Curve>
-          <EdgeLayout.Labels>
-            <EdgeLabelCollection />
-          </EdgeLayout.Labels>
-        </EdgeLayout>
-      </GraphLayout>
-    </LayoutInfo>
-  </TaskHost>
-  <PipelineComponentMetadata
-    design-time-name="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster\OLE DB Destination">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <PipelineComponentMetadata
-    design-time-name="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster\OLE DB Source">
-    <Properties>
-      <Property>
-        <Name>DataSourceViewID</Name>
-      </Property>
-      <Property>
-        <Name>TableInfoObjectType</Name>
-        <Value
-          type="q2:string">Table</Value>
-      </Property>
-    </Properties>
-  </PipelineComponentMetadata>
-  <TaskHost
     design-time-name="Package\Xfr SummitLifeBiometricsAndLabsSentToAssetMaster">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="177,42"
-          Id="Package\Xfr SummitLifeBiometricsAndLabsSentToAssetMaster\OLE DB Destination"
-          TopLeft="306,203" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="157,42"
           Id="Package\Xfr SummitLifeBiometricsAndLabsSentToAssetMaster\OLE DB Source"
           TopLeft="315,112" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Xfr SummitLifeBiometricsAndLabsSentToAssetMaster\OLE DB Destination"
+          TopLeft="306,203" />
         <EdgeLayout
           Id="Package\Xfr SummitLifeBiometricsAndLabsSentToAssetMaster.Paths[OLE DB Source Output]"
           TopLeft="394,154">
@@ -11352,7 +11296,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11388,15 +11334,15 @@
     design-time-name="Package\Xfr SummitLifeBiometricScreeningFormSubmission">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
-        <NodeLayout
-          Size="177,42"
-          Id="Package\Xfr SummitLifeBiometricScreeningFormSubmission\OLE DB Destination"
-          TopLeft="306,203" />
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
         <NodeLayout
           Size="157,42"
           Id="Package\Xfr SummitLifeBiometricScreeningFormSubmission\OLE DB Source"
           TopLeft="315,112" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Xfr SummitLifeBiometricScreeningFormSubmission\OLE DB Destination"
+          TopLeft="306,203" />
         <EdgeLayout
           Id="Package\Xfr SummitLifeBiometricScreeningFormSubmission.Paths[OLE DB Source Output]"
           TopLeft="394,154">
@@ -11416,7 +11362,9 @@
             </mssgle:Curve>
           </EdgeLayout.Curve>
           <EdgeLayout.Labels>
-            <EdgeLabelCollection />
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
           </EdgeLayout.Labels>
         </EdgeLayout>
       </GraphLayout>
@@ -11449,18 +11397,84 @@
     </Properties>
   </PipelineComponentMetadata>
   <TaskHost
+    design-time-name="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="157,42"
+          Id="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster\OLE DB Source"
+          TopLeft="315,112" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster\OLE DB Destination"
+          TopLeft="306,203" />
+        <EdgeLayout
+          Id="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster.Paths[OLE DB Source Output]"
+          TopLeft="394,154">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,49"
+              Start="0,0"
+              End="0,41.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Xfr SummitLifeEmployeeStatusChangeFullTimeMaster\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <TaskHost
     design-time-name="Package\Xfr SummitLifePhysicianLabsAndBiometricsMaster">
     <LayoutInfo>
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="177,42"
-          Id="Package\Xfr SummitLifePhysicianLabsAndBiometricsMaster\OLE DB Destination"
-          TopLeft="306,203" />
-        <NodeLayout
           Size="157,42"
           Id="Package\Xfr SummitLifePhysicianLabsAndBiometricsMaster\OLE DB Source"
           TopLeft="315,112" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Xfr SummitLifePhysicianLabsAndBiometricsMaster\OLE DB Destination"
+          TopLeft="306,203" />
         <EdgeLayout
           Id="Package\Xfr SummitLifePhysicianLabsAndBiometricsMaster.Paths[OLE DB Source Output]"
           TopLeft="394,154">
@@ -11518,13 +11532,13 @@
       <GraphLayout
         Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
         <NodeLayout
-          Size="177,42"
-          Id="Package\Xfr SummitLifeProgramWaiver\OLE DB Destination"
-          TopLeft="306,203" />
-        <NodeLayout
           Size="157,42"
           Id="Package\Xfr SummitLifeProgramWaiver\OLE DB Source"
           TopLeft="315,112" />
+        <NodeLayout
+          Size="177,42"
+          Id="Package\Xfr SummitLifeProgramWaiver\OLE DB Destination"
+          TopLeft="306,203" />
         <EdgeLayout
           Id="Package\Xfr SummitLifeProgramWaiver.Paths[OLE DB Source Output]"
           TopLeft="394,154">

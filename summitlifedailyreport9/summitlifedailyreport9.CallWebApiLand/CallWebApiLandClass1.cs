@@ -22,26 +22,26 @@ namespace summitlifedailyreport9.CallWebApiLand
             }
             public string MyBaseWebApiUrl { get; set; }
 
-        // GET /api/Ops/di_DailyReportAssetIncentiveStatusError
-        public di_DailyReportAssetIncentiveStatusErrorOutput
-                        di_DailyReportAssetIncentiveStatusError
+        // GET /api/Ops//api/Ops/di_DailyReportAssetIncentiveStatusErrorForAllEmployees
+        public di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
+                        di_DailyReportAssetIncentiveStatusErrorForAllEmployees
                         ()
         {
-            di_DailyReportAssetIncentiveStatusErrorOutput
+            di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
                 returnOutput =
-                        di_DailyReportAssetIncentiveStatusErrorAsync()
+                        di_DailyReportAssetIncentiveStatusErrorForAllEmployeesAsync()
                         .Result;
 
             return returnOutput;
         }
-        public async Task<di_DailyReportAssetIncentiveStatusErrorOutput>
-                        di_DailyReportAssetIncentiveStatusErrorAsync()
+        public async Task<di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput>
+                        di_DailyReportAssetIncentiveStatusErrorForAllEmployeesAsync()
         {
-            di_DailyReportAssetIncentiveStatusErrorOutput
+            di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
                 returnOutput =
-                        new di_DailyReportAssetIncentiveStatusErrorOutput();
+                        new di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput();
 
-            string myCompleteUrl = $"{MyBaseWebApiUrl}/api/Ops/di_DailyReportAssetIncentiveStatusError";
+            string myCompleteUrl = $"{MyBaseWebApiUrl}/api/Ops/di_DailyReportAssetIncentiveStatusErrorForAllEmployees";
             try
             {
                 using (var client = new HttpClient())
@@ -50,7 +50,7 @@ namespace summitlifedailyreport9.CallWebApiLand
 
                     var result = await client.GetAsync(myCompleteUrl);
                     var response = await result.Content.ReadAsStringAsync();
-                    returnOutput = JsonConvert.DeserializeObject<di_DailyReportAssetIncentiveStatusErrorOutput>(response);
+                    returnOutput = JsonConvert.DeserializeObject<di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput>(response);
                 }
             }
             catch (Exception ex)
@@ -626,26 +626,26 @@ namespace summitlifedailyreport9.CallWebApiLand
 
 
 
-        // GET /api/Ops/qy_GetDailyReportAssetIncentiveStatusError
-        public qy_GetDailyReportAssetIncentiveStatusErrorOutput
-                        qy_GetDailyReportAssetIncentiveStatusError
+        // GET /api/Ops/qy_DailyReportAssetIncentiveStatusErrorForAllEmployees
+        public qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
+                        qy_DailyReportAssetIncentiveStatusErrorForAllEmployees
                         ()
         {
-            qy_GetDailyReportAssetIncentiveStatusErrorOutput
+            qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
                 returnOutput =
-                        qy_GetDailyReportAssetIncentiveStatusErrorAsync()
+                        qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesAsync()
                         .Result;
 
             return returnOutput;
         }
-        public async Task<qy_GetDailyReportAssetIncentiveStatusErrorOutput>
-                        qy_GetDailyReportAssetIncentiveStatusErrorAsync()
+        public async Task<qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput>
+                        qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesAsync()
         {
-            qy_GetDailyReportAssetIncentiveStatusErrorOutput
+            qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
                 returnOutput =
-                        new qy_GetDailyReportAssetIncentiveStatusErrorOutput();
+                        new qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput();
 
-            string myCompleteUrl = $"{MyBaseWebApiUrl}/api/Ops/qy_GetDailyReportAssetIncentiveStatusError";
+            string myCompleteUrl = $"{MyBaseWebApiUrl}/api/Ops/qy_DailyReportAssetIncentiveStatusErrorForAllEmployees";
             try
             {
                 using (var client = new HttpClient())
@@ -654,7 +654,7 @@ namespace summitlifedailyreport9.CallWebApiLand
 
                     var result = await client.GetAsync(myCompleteUrl);
                     var response = await result.Content.ReadAsStringAsync();
-                    returnOutput = JsonConvert.DeserializeObject<qy_GetDailyReportAssetIncentiveStatusErrorOutput>(response);
+                    returnOutput = JsonConvert.DeserializeObject<qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput>(response);
                 }
             }
             catch (Exception ex)

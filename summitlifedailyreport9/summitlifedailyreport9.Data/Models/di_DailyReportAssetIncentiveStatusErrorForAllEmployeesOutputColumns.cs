@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace summitlifedailyreport9.Data.Models
 {
-    public class di_DailyReportAssetIncentiveStatusErrorOutputColumns
-    { 
+    public class di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumns
+    {
         public bool IsOk { get; set; }
     }
 }
