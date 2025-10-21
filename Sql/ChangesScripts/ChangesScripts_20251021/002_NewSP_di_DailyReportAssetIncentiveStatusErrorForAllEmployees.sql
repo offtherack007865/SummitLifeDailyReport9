@@ -1,0 +1,209 @@
+-- SQL Server Instance:  smg-sql01
+
+USE [Utilities];
+
+IF (@@SERVERNAME <> 'smg-sql01')
+BEGIN
+PRINT 'Invalid SQL Server Connection'
+RETURN
+END
+
+IF EXISTS (SELECT * FROM sys.objects WHERE type = 'P' AND OBJECT_ID = OBJECT_ID('sl.di_DailyReportAssetIncentiveStatusErrorForAllEmployees'))
+   DROP PROC [sl].[di_DailyReportAssetIncentiveStatusErrorForAllEmployees]
+GO
+
+CREATE PROCEDURE [sl].[di_DailyReportAssetIncentiveStatusErrorForAllEmployees]
+
+/* -----------------------------------------------------------------------------------------------------------
+   Procedure Name  :  sl.di_DailyReportAssetIncentiveStatusErrorForAllEmployees
+   Business Analyis:
+   Project/Process :   
+   Description     :  Populate the DailyReportAssetIncentiveStatusError table for all Employees.
+	  
+   Author          :  Philip Morrison 
+   Create Date     :  10/18/2025
+
+   ***********************************************************************************************************
+   **         Change History                                                                                **
+   ***********************************************************************************************************
+
+   Date       Version    Author             Description
+   --------   --------   -----------        ------------
+   10/18/2025 1.01.001   Philip Morrison    Created
+
+*/ -----------------------------------------------------------------------------------------------------------                                   
+
+AS
+BEGIN
+
+DECLARE @IncentiveStatusEmployeeIdentityInfoTable TABLE
+(
+  [IncentiveStatusEmployeeIdentityInfoTableID] [int] IDENTITY(1, 1) NOT NULL
+  ,[EmployeeID] [nvarchar] (30) NOT NULL
+  ,[LastName] [nvarchar] (300) NOT NULL
+  ,[FirstName] [nvarchar] (300) NOT NULL
+  ,[DOB] [datetime] NOT NULL
+);
+
+DECLARE @maxIncentiveStatusEmployeeIdentityInfoID [int]  = 0;
+DECLARE @ctrIncentiveStatusEmployeeIdentityInfoID [int]  = 0;
+DECLARE @loopEmployeeID [nvarchar] (30) = '';
+DECLARE @loopLastName [nvarchar] (300) = '';
+DECLARE @loopFirstName [nvarchar] (300) = '';
+DECLARE @loopDOB [datetime] = '';
+
+
+-- This Instance Declarations
+
+-- Template Declarations
+DECLARE @Application            varchar(128) = 'Summit Life' 
+DECLARE @Version                varchar(25)  = '1.01.001'
+
+DECLARE @ProcessID              int          = 212
+DECLARE @Process                varchar(128) = 'DailyReports'
+
+DECLARE @BatchOutID             int
+DECLARE @BatchDescription       varchar(1000) = @@ServerName + '  - ' + @Version
+DECLARE @BatchDetailDescription varchar(1000)
+DECLARE @BatchMessage           varchar(MAX)
+DECLARE @User                   varchar(128) = SUSER_NAME()
+
+DECLARE @AnticipatedRecordCount int 
+DECLARE @ActualRecordCount      int
+
+
+SET NOCOUNT ON
+
+BEGIN TRY
+
+--  Initialize Batch
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  NULL, 'BatchStart', @BatchDescription, @ProcessID, @Process
+    
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+    SET @BatchDetailDescription = '010/030:  Truncate DailyReportAssetIncentiveStatusError'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+	  SELECT @AnticipatedRecordCount = COUNT(*)
+	                                   FROM [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError];
+	  
+      -- Truncate DailyReportAssetIncentiveStatusError
+      TRUNCATE TABLE [DS_SummitLife].[dbo].[DailyReportAssetIncentiveStatusError];
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    SET @BatchDetailDescription = '020/030:  Get Unique Employee records from AssetIncentivePointsStatus'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+	  SELECT @AnticipatedRecordCount = COUNT(*)
+                                       FROM
+                                       (SELECT [EmployeeID]
+                                        FROM [DS_SummitLife].[dbo].[AssetIncentivePointsStatus]
+                                        GROUP BY [EmployeeID]) unqemp
+                                        JOIN [DS_SummitLife].[dbo].[AssetIncentivePointsStatus] idinfo
+                                        ON idinfo.[EmployeeID] = unqemp.[EmployeeID];
+	
+
+
+      INSERT INTO @IncentiveStatusEmployeeIdentityInfoTable
+      (
+         [EmployeeID]
+         ,[LastName]
+         ,[FirstName]
+         ,[DOB]
+      )    
+      SELECT 
+        idinfo.[EmployeeID]
+        ,idinfo.[LastName] 
+        ,idinfo.[FirstName] 
+        ,idinfo.[DateOfBirth]
+      FROM
+      (SELECT [EmployeeID]
+       FROM [DS_SummitLife].[dbo].[AssetIncentivePointsStatus]
+       GROUP BY [EmployeeID]) unqemp
+       JOIN [DS_SummitLife].[dbo].[AssetIncentivePointsStatus] idinfo
+       ON idinfo.[EmployeeID] = unqemp.[EmployeeID]
+    
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+    SET @BatchDetailDescription = '030/030:  For each Employee, create any errors found in the Asset Incentive Points Status Record'
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailStart', @BatchDetailDescription
+	
+	   SELECT @AnticipatedRecordCount = COUNT(*)
+       FROM @IncentiveStatusEmployeeIdentityInfoTable;
+	
+       -- Set maximum ID to the number of records in 
+       SET @maxIncentiveStatusEmployeeIdentityInfoID = @AnticipatedRecordCount;        
+
+       -- Set table variable ctr to 1 to loop through the table variable.
+       SET @ctrIncentiveStatusEmployeeIdentityInfoID = 1;
+       
+       -- Loop through all Employees listed in the Asset Employee Incentives Status table, calling the single Employee SP to create errors in that Employee's
+       -- Asset Incentive Points Status Record
+       WHILE (@ctrIncentiveStatusEmployeeIdentityInfoID <= @maxIncentiveStatusEmployeeIdentityInfoID) BEGIN
+          SELECT 
+              @loopEmployeeID = REPLICATE('0', 9 - LEN([EmployeeID])) + [EmployeeID]
+              ,@loopLastName = [LastName]
+              ,@loopFirstName = [FirstName]
+              ,@loopDOB = [DOB]
+          FROM @IncentiveStatusEmployeeIdentityInfoTable  
+          WHERE [IncentiveStatusEmployeeIdentityInfoTableID] = @ctrIncentiveStatusEmployeeIdentityInfoID;
+          
+          print '@loopEmployeeID = ' + @loopEmployeeID;
+          
+          
+          
+          -- For looped Employee create records for errors found in the employee's Asset Incentive Points Status Record
+          EXEC [Utilities].[sl].[di_DailyReportAssetIncentiveStatusErrorForOneEmployee] 
+               @inputEmployeeNumber = @loopEmployeeID
+               ,@inputEmployeeLastName = @loopLastName
+               ,@inputEmployeeFirstName = @loopFirstName  
+               ,@inputEmployeeDob = @loopDOB;
+
+          
+          SET @ctrIncentiveStatusEmployeeIdentityInfoID = @ctrIncentiveStatusEmployeeIdentityInfoID + 1;
+       END
+      
+	
+    SET @ActualRecordCount = @@ROWCOUNT
+    EXEC Admin.Utilities.logs.di_Batch @BatchOutID OUTPUT,  @BatchOutID, 'DetailEnd', NULL, NULL, NULL, @AnticipatedRecordCount, @ActualRecordCount
+----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+--  Close batch
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd'
+    
+DECLARE @IsOk [bit] = 1;
+SELECT @IsOk AS [IsOk];    
+END TRY
+
+BEGIN CATCH
+DECLARE @Err              int
+     ,  @ErrorMessage     varchar(Max)
+     ,  @ErrorLine        varchar(128)
+     ,  @Workstation      varchar(128) = @Application
+     ,  @Procedure        VARCHAR(500)
+
+    IF ERROR_NUMBER() IS NULL 
+      SET @Err =0;
+    ELSE
+      SET @Err = ERROR_NUMBER();
+
+    SET @ErrorMessage = ERROR_MESSAGE()
+    SET @ErrorLine    = 'SP Line Number: ' + CAST(ERROR_LINE() as varchar(10)) 
+    
+	SET @Workstation  = HOST_NAME()
+	
+    SET @Procedure    = @@SERVERNAME + '.' + DB_NAME() + '.' + OBJECT_SCHEMA_NAME(@@ProcID) + '.' + OBJECT_NAME(@@ProcID) + ' - ' + @ErrorLine + ' - ' + LEFT(@BatchDetailDescription, 7)
+    EXEC Admin.Utilities.administration.di_ErrorLog  @Application ,@Process, @Version ,0, @ErrorMessage, @Procedure,  @User , @Workstation
+
+    SET @BatchMessage = 'Process Failed:  ' +  @ErrorMessage
+    EXEC Admin.Utilities.logs.di_batch @BatchOutID OUTPUT, @BatchOutID, 'BatchEnd', @BatchMessage
+	
+    RAISERROR(@ErrorMessage, 16,1)
+
+END CATCH
+
+END
