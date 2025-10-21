@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace summitlifedailyreport9.Data.Models
 {
-    public class qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumns
+    public class qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumns : qy_GetDailyReportBaseOutputColumns
     {
         public string EmployeeNumber {  get; set; }
         public string EmployeeLastName { get; set; }

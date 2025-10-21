@@ -192,18 +192,17 @@ namespace summitlifedailyreport9.ConsoleApp
                 return;
             }
 
-            // 013 - Ssns Not Listed In All Employees List
-            di_DailyReportAssetIncentiveStatusErrorOutput
-                mydi_DailyReportAssetIncentiveStatusErrorOutput =
+            // 013 - Asset Employee Incentive Status Report
+            di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
+                mydi_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput =
                     PopulateAssetIncentiveStatusError();
-            if (!mydi_DailyReportAssetIncentiveStatusErrorOutput.IsOk)
+            if (!mydi_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput.IsOk)
             {
                 returnOutput.IsOk = false;
                 returnOutput.ErrorMessage =
-                    mydi_DailyReportAssetIncentiveStatusErrorOutput.ErrorMessage;
+                    mydi_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput.ErrorMessage;
                 return;
             }
-
         }
 
         // 001 - Populate Missing Bios
@@ -462,17 +461,17 @@ namespace summitlifedailyreport9.ConsoleApp
             return returnOutput;
         }
 
-        // 013 -  Populate Asset
-        public di_DailyReportAssetIncentiveStatusErrorOutput PopulateAssetIncentiveStatusError()
+        // 013 -  Populate Asset Incentive Status Error Excel
+        public di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput PopulateAssetIncentiveStatusError()
         {
-            di_DailyReportAssetIncentiveStatusErrorOutput returnOutput =
-                new di_DailyReportAssetIncentiveStatusErrorOutput();
+            di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput returnOutput =
+                new di_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput();
 
             CallWebApiLandClass myCallWebApiLandClass =
                 new CallWebApiLandClass(this.MyFileConfigOptions.BaseWebUrl);
             returnOutput =
                 myCallWebApiLandClass
-                .di_DailyReportAssetIncentiveStatusError();
+                .di_DailyReportAssetIncentiveStatusErrorForAllEmployees();
             if (!returnOutput.IsOk)
             {
                 returnOutput.IsOk = false;
@@ -642,14 +641,14 @@ namespace summitlifedailyreport9.ConsoleApp
             }
 
             // 013 -  Populate Asset Incentive Status Error Excel
-            qy_GetDailyReportAssetIncentiveStatusErrorOutput
-                myqy_GetDailyReportAssetIncentiveStatusErrorOutput =
+            qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput
+                myqy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput =
                     PopulateAssetIncentiveStatusErrorExcel();
-            if (!myqy_GetDailyReportAssetIncentiveStatusErrorOutput.IsOk)
+            if (!myqy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput.IsOk)
             {
                 returnOutput.IsOk = false;
                 returnOutput.ErrorMessage =
-                    myqy_GetDailyReportAssetIncentiveStatusErrorOutput.ErrorMessage;
+                    myqy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput.ErrorMessage;
                 return;
             }
 
@@ -1198,16 +1197,16 @@ namespace summitlifedailyreport9.ConsoleApp
         }
 
         // 013 -  Populate Ssns Not Listed In All Employees List Excel
-        public qy_GetDailyReportAssetIncentiveStatusErrorOutput PopulateAssetIncentiveStatusErrorExcel()
+        public qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput PopulateAssetIncentiveStatusErrorExcel()
         {
-            qy_GetDailyReportAssetIncentiveStatusErrorOutput returnOutput =
-                new qy_GetDailyReportAssetIncentiveStatusErrorOutput();
+            qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput returnOutput =
+                new qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutput();
 
             CallWebApiLandClass myCallWebApiLandClass =
                 new CallWebApiLandClass(this.MyFileConfigOptions.BaseWebUrl);
             returnOutput =
                 myCallWebApiLandClass
-                .qy_GetDailyReportAssetIncentiveStatusError();
+                .qy_DailyReportAssetIncentiveStatusErrorForAllEmployees();
             if (!returnOutput.IsOk)
             {
                 returnOutput.IsOk = false;
@@ -1216,12 +1215,12 @@ namespace summitlifedailyreport9.ConsoleApp
                 return returnOutput;
             }
 
-            if (returnOutput.qy_GetDailyReportAssetIncentiveStatusErrorOutputColumnsList.Count > 0)
+            if (returnOutput.qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumnsList.Count > 0)
             {
                 List<qy_GetDailyReportBaseOutputColumns>
                     myqy_GetDailyReportBaseOutputColumnsList =
                         new List<qy_GetDailyReportBaseOutputColumns>();
-                foreach (var loopRecord in returnOutput.qy_GetDailyReportAssetIncentiveStatusErrorOutputColumnsList)
+                foreach (var loopRecord in returnOutput.qy_DailyReportAssetIncentiveStatusErrorForAllEmployeesOutputColumnsList)
                 {
                     myqy_GetDailyReportBaseOutputColumnsList.Add(loopRecord);
                 }
